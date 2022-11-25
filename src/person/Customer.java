@@ -14,13 +14,8 @@ public class Customer extends Person {
         this.account = account;
     }
 
-    public List<Account> getAccountNumber() {
+    public List<Account> getAccount() {
         return this.account;
     }
-    /*
-    public String toString() {
-        String message = "You have " + account.size() + " accounts.";
-        return message;
-    }*/
 
 }

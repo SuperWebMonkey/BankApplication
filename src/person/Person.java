@@ -1,10 +1,15 @@
 package person;
 
-import account.Account;
+import Interfaces.IPerson;
 
-public abstract class Person {
+public abstract class Person implements IPerson {
     private String name;
     private String emailAddress;
+    private static int countPerson = 0;
+
+    static {
+        countPerson++;
+    }
 
     public Person(String name, String accountNumber) {
         setName(name);
@@ -40,7 +45,7 @@ public abstract class Person {
         return emailAddressEquals && balanceEquals;
     }
 
-    public final int hashCode() {
+    public int hashCode() {
         int result = 17;
         if (name != null) {
             result = 31 * result + name.hashCode();
