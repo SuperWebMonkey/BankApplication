@@ -25,12 +25,12 @@ public class Loan implements ILoan {
         loan -= amount;
     }
 
-    public double calculateMonthlyLoan(double principle, int termInYears, double annualInterestRate){
+    public double calculateMonthlyLoan(int termInYears, double annualInterestRate){
         double interestDecimal = annualInterestRate / 100;
         double monthlyInterestRate = interestDecimal/MONTHS_IN_A_YEAR;
-        int numPayments = termInYears * 12;
+        int numPayments = termInYears * MONTHS_IN_A_YEAR;
 
-        double monthlyPayment = principle * (monthlyInterestRate *(Math.pow(1 + monthlyInterestRate, numPayments))) /
+        double monthlyPayment = this.loan * (monthlyInterestRate *(Math.pow(1 + monthlyInterestRate, numPayments))) /
                 ((Math.pow(1 + monthlyInterestRate, numPayments) - 1));
 
         return monthlyPayment;

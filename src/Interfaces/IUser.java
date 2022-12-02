@@ -1,6 +1,6 @@
 package Interfaces;
 
-public interface IPerson {
+public interface IUser {
     public void setName(String name);
     public void setEmailAddress(String emailAddress);
     public String getName();

@@ -1,8 +1,8 @@
 package person;
 
-import Interfaces.IPerson;
+import Interfaces.IUser;
 
-public abstract class Person implements IPerson {
+public abstract class Person implements IUser {
     private String name;
     private String emailAddress;
     private static int countPerson = 0;
@@ -30,6 +30,10 @@ public abstract class Person implements IPerson {
 
     public String getEmailAddress() {
         return this.emailAddress;
+    }
+
+    public static int getCountPerson(){
+        return countPerson;
     }
 
     public boolean equals(Object o){

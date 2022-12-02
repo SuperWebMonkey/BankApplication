@@ -1,7 +1,10 @@
 import creditcard.*;
 import person.*;
 import account.*;
+
+import java.text.NumberFormat;
 import java.util.*;
+import Interfaces.*;
 
 public class Main {
 
@@ -45,6 +48,7 @@ public class Main {
         System.out.println("4) Transfer between accounts");
         System.out.println("5) Show accounts and their balance");
         System.out.println("6) Go to card menu");
+        System.out.println("7) Get a loan");
     }
 
     public static void menu(ArrayList<Account> arrayList, ArrayList<Card> cardList) {
@@ -105,7 +109,15 @@ public class Main {
                     printAccounts(arrayList);
                     break;
                 case 6:
+                    while(cardList.size() < 1){
+                        System.out.println("You need at least 1 card to use the menu:");
+                        createCard(cardList);
+                    }
                     cardMenu(cardList);
+                    break;
+                case 7:
+                    getLoan();
+                    break;
                 default:
                     System.out.println("You have chosen an invalid option");
                     break;
@@ -252,5 +264,24 @@ public class Main {
         for (int i = 0; i < cardList.size(); i++){
             System.out.println("Card " + i + " has a debt of " + cardList.get(i).getDebt());
         }
+    }
+
+    public static void getLoan(){
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("Enter the principle:");
+        double principle = input.nextDouble();
+
+        System.out.println("Enter term in years:");
+        int years = input.nextInt();
+
+        System.out.println("Enter the annual interest rate");
+        double annualInterestRate = input.nextInt();
+
+        Loan loan = new Loan(principle);
+
+        double monthlyLoan = loan.calculateMonthlyLoan(years, annualInterestRate);
+
+        System.out.println("Your payment for each month is " + NumberFormat.getCurrencyInstance().format(monthlyLoan) + "\n");
     }
 }

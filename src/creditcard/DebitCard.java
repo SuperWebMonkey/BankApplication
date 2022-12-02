@@ -2,7 +2,7 @@ package creditcard;
 import account.Account;
 
 public class DebitCard extends Card{
-    private static double balance = 0;
+    private static double balance;
 
     public DebitCard(String cardNumber, String expirationDate, String name, double debt, double balance, String type){
         super(cardNumber, expirationDate, name, type, debt);
@@ -19,7 +19,9 @@ public class DebitCard extends Card{
 
     public void use(double amount){
         this.balance -= amount;
-        if (balance >= amount) {
+
+        if (this.balance >= 0) {
+            System.out.println("Balance is " + this.balance);
             System.out.println("Debit card debt is " + 0);
         } else {
             System.out.println("Debit card debt is " + this.balance);
