@@ -1,0 +1,11 @@
+
+2022-12-06 09:10:07,819 INFO Main [main] This is the menu: 
+2022-12-06 09:10:07,830 INFO Main [main] 0) to quit the program
+2022-12-06 09:10:07,830 INFO Main [main] 1) to withdraw
+2022-12-06 09:10:07,831 INFO Main [main] 2) to deposit
+2022-12-06 09:10:07,831 INFO Main [main] 3) Create an account
+2022-12-06 09:10:07,831 INFO Main [main] 4) Transfer between accounts
+2022-12-06 09:10:07,832 INFO Main [main] 5) Show accounts and their balance
+2022-12-06 09:10:07,832 INFO Main [main] 6) Go to card menu
+2022-12-06 09:10:07,833 INFO Main [main] 7) Get a loan
+2022-12-06 09:10:13,759 INFO Main [main] You have chosen an invalid option
