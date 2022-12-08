@@ -17,8 +17,8 @@ public class Main {
     {
 
         // Testing accounts
-        ArrayList<Account> accountList = new ArrayList<Account>();
-        ArrayList<Card> cardList = new ArrayList<Card>();
+        List<Account> accountList = new ArrayList<Account>();
+        List<Card> cardList = new LinkedList<Card>();
 
         Account account = new Account(5000, "123456");
         accountList.add(account);
@@ -50,7 +50,7 @@ public class Main {
         logger.info("7) Get a loan");
     }
 
-    public static void menu(ArrayList<Account> arrayList, ArrayList<Card> cardList) throws NegativeCardException,
+    public static void menu(List<Account> arrayList, List<Card> cardList) throws NegativeCardException,
             NegativeValueException, InvalidMenuException
     {
         Transaction transaction = new Transaction(arrayList);
@@ -129,7 +129,7 @@ public class Main {
         }
     }
 
-    public static void createAccount(ArrayList arrayList) {
+    public static void createAccount(List arrayList) {
         Scanner scan = new Scanner(System.in);
         try {
             Account account;
@@ -152,7 +152,7 @@ public class Main {
         }
     }
 
-    public static void printAccounts(ArrayList<Account> arrayList) {
+    public static void printAccounts(List<Account> arrayList) {
         if (arrayList.size() != 0) {
             logger.info("Your current accounts:");
 
@@ -174,7 +174,7 @@ public class Main {
         logger.info("3) Show total debt");
     }
 
-    public static void cardMenu(ArrayList<Card> cardList) throws NegativeCardException {
+    public static void cardMenu(List<Card> cardList) throws NegativeCardException {
         Scanner input = new Scanner(System.in);
         int choice;
 
@@ -223,7 +223,7 @@ public class Main {
         } while (choice != 0);
     }
 
-    public static void createCard(ArrayList<Card> cardList) throws NegativeCardException {
+    public static void createCard(List<Card> cardList) throws NegativeCardException {
         Scanner input = new Scanner(System.in);
 
         logger.info("Which type of card do you want to create:\n" +
@@ -265,20 +265,20 @@ public class Main {
         }
     }
 
-    public static boolean hasCard(ArrayList<Card> card) {
+    public static boolean hasCard(List<Card> card) {
         if (card.size() == 0) {
             return false;
         }
         return true;
     }
 
-    public static void printCard(ArrayList<Card> cardList) {
+    public static void printCard(List<Card> cardList) {
         for (int i = 0; i < cardList.size(); i++) {
             logger.info("Card " + i + " is a " + cardList.get(i).getType());
         }
     }
 
-    public static void showCardDebt(ArrayList<Card> cardList) {
+    public static void showCardDebt(List<Card> cardList) {
         for (int i = 0; i < cardList.size(); i++) {
             logger.info("Card " + i + " has a debt of " + cardList.get(i).getDebt());
         }

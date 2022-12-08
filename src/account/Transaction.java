@@ -3,12 +3,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class Transaction {
-    private ArrayList<Account> accountsList = new ArrayList<Account>();
+    private List<Account> accountsList = new ArrayList<Account>();
     private static Logger logger = LogManager.getLogger(Transaction.class);
 
-    public Transaction(ArrayList<Account> accountsList){
+    public Transaction(List<Account> accountsList){
         this.accountsList = accountsList;
     }
 
