@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 public class CreditCard extends Card{
     private static double credit;
     private static final double CREDIT_LIMIT;
-    private static Logger logger = LogManager.getLogger(CreditCard.class);
+    private final static Logger LOGGER = LogManager.getLogger(CreditCard.class);
 
     static {
         CREDIT_LIMIT = 12945;
@@ -31,7 +31,7 @@ public class CreditCard extends Card{
 
     public void use(double debt){
         this.credit += debt;
-        logger.info("Credit card debt is " + this.credit);
+        LOGGER.info("Credit card debt is " + this.credit);
     }
 
     public double getDebt(){
@@ -40,7 +40,7 @@ public class CreditCard extends Card{
     }
     public void increaseCredit(double amount){
         if ((credit + amount) > CREDIT_LIMIT){
-            logger.info("You have reached your credit limit");
+            LOGGER.info("You have reached your credit limit");
         } else {
             credit += amount;
         }
@@ -50,7 +50,7 @@ public class CreditCard extends Card{
         if (credit < CREDIT_LIMIT){
             return true;
         }
-        logger.info("You've reached your credit limit");
+        LOGGER.info("You've reached your credit limit");
         return false;
     }
 }

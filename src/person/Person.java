@@ -11,9 +11,9 @@ public abstract class Person implements IUser {
         countPerson++;
     }
 
-    public Person(String name, String accountNumber) {
+    public Person(String name, String emailAddress) {
         setName(name);
-        setEmailAddress(accountNumber);
+        setEmailAddress(emailAddress);
     }
 
     public void setName(String name) {

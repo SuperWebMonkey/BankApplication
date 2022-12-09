@@ -7,7 +7,7 @@ import java.util.*;
 public class Bank {
     private ArrayList<Account> accountList = new ArrayList<Account>();
     private final int MAX_ACCOUNTS = 7;
-    private static Logger logger = LogManager.getLogger(Bank.class);
+    private final static Logger LOGGER = LogManager.getLogger(Bank.class);
 
     public Bank(ArrayList<Account> accountList){
         this.accountList = accountList;
@@ -16,11 +16,11 @@ public class Bank {
     public void openAccount(){
         Scanner input = new Scanner(System.in);
 
-        logger.info("Opening an account");
-        logger.info("Please enter your balance:");
+        LOGGER.info("Opening an account");
+        LOGGER.info("Please enter your balance:");
         double balance = input.nextDouble();
 
-        logger.info("Please enter your account number:");
+        LOGGER.info("Please enter your account number:");
         String accountNumber = input.nextLine();
 
         Account account = new Account(balance, accountNumber);
@@ -28,7 +28,7 @@ public class Bank {
     }
 
     public void closeAccount(int index){
-        logger.info("You are closing account " + index);
+        LOGGER.info("You are closing account " + index);
         accountList.remove(index);
     }
 

@@ -9,7 +9,7 @@ public abstract class Card implements ICard {
     private String name;
     private static int countCards = 0;
     protected double debt;
-    private static Logger logger = LogManager.getLogger(Card.class);
+    private final static Logger LOGGER = LogManager.getLogger(Card.class);
 
     private String type;
 
@@ -63,7 +63,7 @@ public abstract class Card implements ICard {
 
     public void use(double amount){
         this.debt += amount;
-        logger.info("Card debt is " + this.debt);
+        LOGGER.info("Card debt is " + this.debt);
     }
 
     public double getDebt(){

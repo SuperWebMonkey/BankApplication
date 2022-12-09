@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 public class DebitCard extends Card{
     private static double balance;
-    private static Logger logger = LogManager.getLogger(DebitCard.class);
+    private final static Logger LOGGER = LogManager.getLogger(DebitCard.class);
 
     public DebitCard(String cardNumber, String expirationDate, String name, double debt, double balance, String type){
         super(cardNumber, expirationDate, name, type, debt);
@@ -24,10 +24,10 @@ public class DebitCard extends Card{
         this.balance -= amount;
 
         if (this.balance >= 0) {
-            logger.info("Balance is " + this.balance);
-            logger.info("Debit card debt is " + 0);
+            LOGGER.info("Balance is " + this.balance);
+            LOGGER.info("Debit card debt is " + 0);
         } else {
-            logger.info("Debit card debt is " + this.balance);
+            LOGGER.info("Debit card debt is " + this.balance);
         }
     }
 
@@ -43,7 +43,7 @@ public class DebitCard extends Card{
 
     public void increaseBalance(double amount){
         if (amount < 0){
-            logger.info("You entered a negative value. Please choose again.");
+            LOGGER.info("You entered a negative value. Please choose again.");
         } else {
             balance += amount;
         }

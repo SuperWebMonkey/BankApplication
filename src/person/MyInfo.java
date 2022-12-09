@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 public class MyInfo implements IMyInfo {
     private Customer customer;
-    private static Logger logger = LogManager.getLogger(MyInfo.class);
+    private final static Logger LOGGER = LogManager.getLogger(MyInfo.class);
 
     public MyInfo(Customer customer){
         this.customer = customer;
@@ -20,13 +20,13 @@ public class MyInfo implements IMyInfo {
     }
 
     public void myInfo() {
-        logger.info("Your Information");
-        logger.info("Name: " + customer.getName());
-        logger.info("Email Address" + customer.getEmailAddress());
+        LOGGER.info("Your Information");
+        LOGGER.info("Name: " + customer.getName());
+        LOGGER.info("Email Address" + customer.getEmailAddress());
         if(customer.getAccount().size() == 0){
-            logger.info("You have 0 accounts.");
+            LOGGER.info("You have 0 accounts.");
         } else {
-            logger.info("YOu have " + customer.getAccount().size() + " accounts.");
+            LOGGER.info("YOu have " + customer.getAccount().size() + " accounts.");
         }
     }
 }

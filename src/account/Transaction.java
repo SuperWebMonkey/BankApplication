@@ -7,7 +7,7 @@ import java.util.List;
 
 public final class Transaction {
     private List<Account> accountsList = new ArrayList<Account>();
-    private static Logger logger = LogManager.getLogger(Transaction.class);
+    private final static Logger LOGGER = LogManager.getLogger(Transaction.class);
 
     public Transaction(List<Account> accountsList){
         this.accountsList = accountsList;
@@ -15,17 +15,17 @@ public final class Transaction {
 
     public void transact(Account a, Account b, double cash){
         a.withdraw(cash);
-        logger.info("\nYour balance is the first account is " + a.getBalance());
+        LOGGER.info("\nYour balance is the first account is " + a.getBalance());
         b.deposit(cash);
-        logger.info("Your balance for the second account is " + b.getBalance() + "\n");
+        LOGGER.info("Your balance for the second account is " + b.getBalance() + "\n");
     }
 
     public void printAccounts(){
         if(accountsList.size() == 0){
-            logger.info("You have no accounts");
+            LOGGER.info("You have no accounts");
         } else {
             for (int i = 0; i < accountsList.size(); i++){
-                logger.info("Account " + i);
+                LOGGER.info("Account " + i);
             }
         }
     }

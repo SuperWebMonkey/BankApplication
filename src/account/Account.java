@@ -8,7 +8,7 @@ public class Account implements IAccount {
     private String accountNumber;
     private static int count = 0;
     private String accountType;
-    private static Logger logger = LogManager.getLogger(Account.class);
+    private final static Logger LOGGER = LogManager.getLogger(Account.class);
 
 
     public Account(double balance, String accountNumber){
@@ -43,13 +43,13 @@ public class Account implements IAccount {
         if (transfer < balance) {
             balance = balance - transfer;
         } else {
-            logger.info("The transfer is greater than the balance.");
+            LOGGER.info("The transfer is greater than the balance.");
         }
     }
 
     public void deposit(double transfer) {
         if (transfer < 0) {
-            logger.info("invalid amount");
+            LOGGER.info("invalid amount");
         } else {
             balance = balance + transfer;
         }
@@ -60,7 +60,7 @@ public class Account implements IAccount {
     }
 
     public void printTotalAccounts(){
-        logger.info("You have " + count + " accounts.");
+        LOGGER.info("You have " + count + " accounts.");
     }
 
     public boolean equals(Object o){
