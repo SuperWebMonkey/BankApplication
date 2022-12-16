@@ -1,9 +1,13 @@
 import creditcard.*;
 import org.apache.logging.log4j.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import person.*;
 import account.*;
 import exceptions.*;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.util.*;
 
@@ -43,6 +47,8 @@ public class Main {
         LOGGER.info(customerVector);
         customerVector = removeDuplicates(customerVector);
         LOGGER.info(customerVector);
+
+        wordFrequency();
 
         menu(accountList, cardList);
 
@@ -305,6 +311,7 @@ public class Main {
 
     public static void getLoan() throws NegativeValueException {
         Scanner input = new Scanner(System.in);
+
         LOGGER.info("Enter the principle:");
         double principle = input.nextDouble();
 
@@ -332,7 +339,28 @@ public class Main {
         List<Customer> customerList2 = new Vector<Customer>(customerSet);
         return customerList2;
     }
-    public static void storeInfo(){
+    public static void wordFrequency(){
+        try {
+            File file = new File("src/main/java/lorem-ipsum.txt");
+            String outPath = "src/main/java/output.txt";
+            Set<String> wordCount = new HashSet<>();
+            List<String> lines = FileUtils.readLines(file, "UTF-8");
+            String[] words = StringUtils.split(lines.get(0));
 
+            for (int i = 0; i < words.length; i++){
+                // System.out.println("index " + i + ":" + lines.get(i));
+                String word = words[i].toLowerCase()
+                              .replace(",","")
+                              .replace(".","")
+                              .replace(":", "");
+                wordCount.add(word);
+            }
+
+            String message = "The total number of unique words is ";
+            LOGGER.info(message + wordCount.size());
+            FileUtils.write(new File(outPath), message + wordCount.size(), "UTF-8");
+        } catch(Exception e){
+            LOGGER.error(e);
+        }
     }
 }
