@@ -1,4 +1,5 @@
 package lambda;
+
 import org.apache.logging.log4j.*;
 import person.*;
 
@@ -9,7 +10,7 @@ public class LambdaMain {
 
     private final static Logger LOGGER = LogManager.getLogger(LambdaMain.class);
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         List<Employee> employeeList = new ArrayList<>();
 
         Employee bob = new Employee("Bob", "bob@gmail.com", 20.0);
@@ -31,7 +32,7 @@ public class LambdaMain {
 
         ISummable sum = (a) -> {
             double total = 0;
-            for (int i = 0; i < a.length; i++){
+            for (int i = 0; i < a.length; i++) {
                 total += a[i].getSalary();
             }
             LOGGER.info("Total salary of employees is " + total);

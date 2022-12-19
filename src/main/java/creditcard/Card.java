@@ -1,4 +1,5 @@
 package creditcard;
+
 import interfaces.ICard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,11 +38,11 @@ public abstract class Card implements ICard {
         this.name = name;
     }
 
-    public void setType(String type){
+    public void setType(String type) {
         this.type = type;
     }
 
-    public void setDebt(double debt){
+    public void setDebt(double debt) {
         this.debt = debt;
     }
 
@@ -57,29 +58,29 @@ public abstract class Card implements ICard {
         return this.name;
     }
 
-    public static final int getCount(){
+    public static final int getCount() {
         return countCards;
     }
 
-    public void use(double amount){
+    public void use(double amount) {
         this.debt += amount;
         LOGGER.info("Card debt is " + this.debt);
     }
 
-    public double getDebt(){
+    public double getDebt() {
         return debt;
     }
 
-    public String getType(){
+    public String getType() {
         return type;
     }
 
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (o == this)
             return true;
         if (!(o instanceof Card))
             return false;
-        Card other = (Card)o;
+        Card other = (Card) o;
         boolean cardNumberEquals = (this.cardNumber == null && other.cardNumber == null)
                 || (this.cardNumber != null && this.cardNumber.equals(other.cardNumber));
         boolean expirationDateEquals = (this.expirationDate == null && other.expirationDate == null)
@@ -91,10 +92,10 @@ public abstract class Card implements ICard {
 
     public int hashCode() {
         int result = 17;
-        if (cardNumber != null){
+        if (cardNumber != null) {
             result = 31 * result + cardNumber.hashCode();
         }
-        if (expirationDate != null){
+        if (expirationDate != null) {
             result = 31 * result + cardNumber.hashCode();
         }
         if (name != null) {

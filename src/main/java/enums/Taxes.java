@@ -7,11 +7,11 @@ public enum Taxes {
 
     private final double percent;
 
-    Taxes(double percent){
+    Taxes(double percent) {
         this.percent = percent;
     }
 
-    double percent(){
+    double percent() {
         return this.percent;
     }
 }

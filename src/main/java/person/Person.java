@@ -32,16 +32,16 @@ public abstract class Person implements IUser {
         return this.emailAddress;
     }
 
-    public static int getCountPerson(){
+    public static int getCountPerson() {
         return countPerson;
     }
 
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (o == this)
             return true;
         if (!(o instanceof Person))
             return false;
-        Person other = (Person)o;
+        Person other = (Person) o;
         boolean balanceEquals = (this.name == null && other.name == null)
                 || (this.name != null && this.name.equals(other.name));
         boolean emailAddressEquals = (this.emailAddress == null && other.emailAddress == null)

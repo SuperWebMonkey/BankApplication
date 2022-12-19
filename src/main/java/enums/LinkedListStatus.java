@@ -8,11 +8,11 @@ public enum LinkedListStatus {
 
     private final String shortName;
 
-    LinkedListStatus(String shortName){
+    LinkedListStatus(String shortName) {
         this.shortName = shortName;
     }
 
-    String getShortName(){
+    String getShortName() {
         return this.shortName;
     }
 }

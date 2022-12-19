@@ -1,4 +1,5 @@
 package account;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,11 +10,11 @@ public class Bank {
     private final int MAX_ACCOUNTS = 7;
     private final static Logger LOGGER = LogManager.getLogger(Bank.class);
 
-    public Bank(ArrayList<Account> accountList){
+    public Bank(ArrayList<Account> accountList) {
         this.accountList = accountList;
     }
 
-    public void openAccount(){
+    public void openAccount() {
         Scanner input = new Scanner(System.in);
 
         LOGGER.info("Opening an account");
@@ -27,13 +28,13 @@ public class Bank {
         accountList.add(account);
     }
 
-    public void closeAccount(int index){
+    public void closeAccount(int index) {
         LOGGER.info("You are closing account " + index);
         accountList.remove(index);
     }
 
-    public boolean isAccountLimit(){
-        if(accountList.size() <= MAX_ACCOUNTS){
+    public boolean isAccountLimit() {
+        if (accountList.size() <= MAX_ACCOUNTS) {
             return false;
         }
         return true;

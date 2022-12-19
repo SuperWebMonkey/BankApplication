@@ -15,8 +15,7 @@ public class Main {
     private final static Logger LOGGER = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws NegativeCardException, NegativeValueException,
-    InvalidMenuException
-    {
+            InvalidMenuException {
 
         // Testing accounts
         List<Account> accountList = new ArrayList<Account>();
@@ -66,8 +65,7 @@ public class Main {
     }
 
     public static void menu(List<Account> accountList, List<Card> cardList) throws NegativeCardException,
-            NegativeValueException, InvalidMenuException
-    {
+            NegativeValueException, InvalidMenuException {
         Transaction transaction = new Transaction(accountList);
         int input;
         Map<String, List<Account>> hashMap = new HashMap<>();
@@ -228,7 +226,7 @@ public class Main {
                             LOGGER.error(e);
                         }
                     } else {
-                       LOGGER.info("You must have at least one card.");
+                        LOGGER.info("You must have at least one card.");
                     }
                     break;
                 case 3:
@@ -332,12 +330,13 @@ public class Main {
         LOGGER.info("Your payment for each month is " + NumberFormat.getCurrencyInstance().format(monthlyLoan) + "\n");
     }
 
-    public static List<Customer> removeDuplicates(List<Customer> customerList){
+    public static List<Customer> removeDuplicates(List<Customer> customerList) {
         HashSet<Customer> customerSet = new HashSet<>(customerList);
         List<Customer> customerList2 = new Vector<Customer>(customerSet);
         return customerList2;
     }
-    public static void wordFrequency(){
+
+    public static void wordFrequency() {
         try {
             File file = new File("src/main/resources/lorem-ipsum.txt");
             String outPath = "src/main/resources/output.txt";
@@ -345,19 +344,19 @@ public class Main {
             List<String> lines = FileUtils.readLines(file, "UTF-8");
             String[] words = StringUtils.split(lines.get(0));
 
-            for (int i = 0; i < words.length; i++){
+            for (int i = 0; i < words.length; i++) {
                 // System.out.println("index " + i + ":" + lines.get(i));
                 String word = words[i].toLowerCase()
-                              .replace(",","")
-                              .replace(".","")
-                              .replace(":", "");
+                        .replace(",", "")
+                        .replace(".", "")
+                        .replace(":", "");
                 wordCount.add(word);
             }
 
             String message = "The total number of unique words is ";
             LOGGER.info(message + wordCount.size());
             FileUtils.write(new File(outPath), message + wordCount.size(), "UTF-8");
-        } catch(Exception e){
+        } catch (Exception e) {
             LOGGER.error(e);
         }
     }

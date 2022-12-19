@@ -10,11 +10,11 @@ public enum Cents {
 
     private final double number;
 
-    Cents(double number){
+    Cents(double number) {
         this.number = number;
     }
 
-    double number(){
+    double number() {
         return this.number;
     }
 }

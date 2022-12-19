@@ -7,11 +7,11 @@ public enum EmployeeSalary {
 
     private final double salary;
 
-    EmployeeSalary(double salary){
+    EmployeeSalary(double salary) {
         this.salary = salary;
     }
 
-    double getSalary(){
+    double getSalary() {
         return this.salary;
     }
 }

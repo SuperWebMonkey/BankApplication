@@ -1,4 +1,5 @@
 package linkedList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -6,7 +7,8 @@ import java.util.Scanner;
 
 public class LinkedListMain {
     private final static Logger LOGGER = LogManager.getLogger(LinkedListMain.class);
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         LinkedList<Double> list = new LinkedList<Double>();
 
@@ -16,7 +18,7 @@ public class LinkedListMain {
             menu();
             input = scan.nextInt();
 
-            switch(input) {
+            switch (input) {
                 case 0:
                     LOGGER.info("You are quitting the program.");
                     break;
@@ -30,7 +32,7 @@ public class LinkedListMain {
                     LOGGER.info("You are deleting from the linked list.");
                     try {
                         list.remove();
-                    } catch(Exception e){
+                    } catch (Exception e) {
                         LOGGER.info("List is empty");
                     }
                     break;
@@ -40,9 +42,10 @@ public class LinkedListMain {
                 default:
                     LOGGER.info("You have selected an invalid option");
             }
-        } while(input != 0);
+        } while (input != 0);
     }
-    public static void menu(){
+
+    public static void menu() {
         LOGGER.info("0) Quit the menu");
         LOGGER.info("1) Add to node");
         LOGGER.info("2) Delete a node");

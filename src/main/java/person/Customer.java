@@ -1,5 +1,7 @@
 package person;
+
 import account.*;
+
 import java.util.*;
 
 public class Customer extends Person {
@@ -10,7 +12,7 @@ public class Customer extends Person {
         setAccountNumber(account);
     }
 
-    public void setAccountNumber(List<Account> accountNumber){
+    public void setAccountNumber(List<Account> accountNumber) {
         this.account = account;
     }
 

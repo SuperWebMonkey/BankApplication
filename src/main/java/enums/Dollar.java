@@ -11,7 +11,7 @@ public enum Dollar {
 
     private final int number;
 
-    Dollar (int number){
+    Dollar(int number) {
         this.number = number;
     }
 }
