@@ -1,4 +1,4 @@
-package Interfaces;
+package interfaces;
 
 public interface IAccount {
     public void withdraw(double transfer);

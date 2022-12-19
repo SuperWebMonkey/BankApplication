@@ -1,5 +1,5 @@
 package account;
-import Interfaces.IAccount;
+import interfaces.IAccount;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

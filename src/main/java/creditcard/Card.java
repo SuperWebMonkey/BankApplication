@@ -1,5 +1,5 @@
 package creditcard;
-import Interfaces.ICard;
+import interfaces.ICard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

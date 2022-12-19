@@ -1,6 +1,6 @@
 package person;
 
-import Interfaces.IUser;
+import interfaces.IUser;
 
 public abstract class Person implements IUser {
     private String name;

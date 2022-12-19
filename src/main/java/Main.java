@@ -11,8 +11,6 @@ import java.io.File;
 import java.text.NumberFormat;
 import java.util.*;
 
-import Interfaces.*;
-
 public class Main {
     private final static Logger LOGGER = LogManager.getLogger(Main.class);
 
@@ -341,8 +339,8 @@ public class Main {
     }
     public static void wordFrequency(){
         try {
-            File file = new File("src/main/java/lorem-ipsum.txt");
-            String outPath = "src/main/java/output.txt";
+            File file = new File("src/main/resources/lorem-ipsum.txt");
+            String outPath = "src/main/resources/output.txt";
             Set<String> wordCount = new HashSet<>();
             List<String> lines = FileUtils.readLines(file, "UTF-8");
             String[] words = StringUtils.split(lines.get(0));

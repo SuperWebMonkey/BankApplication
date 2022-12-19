@@ -1,4 +1,4 @@
-package Interfaces;
+package interfaces;
 
 public interface ILoan {
     public void addLoan(double loan);

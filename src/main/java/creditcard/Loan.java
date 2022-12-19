@@ -1,5 +1,5 @@
 package creditcard;
-import Interfaces.ILoan;
+import interfaces.ILoan;
 
 public class Loan implements ILoan {
     private static double loan;

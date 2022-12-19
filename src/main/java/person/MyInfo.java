@@ -1,5 +1,5 @@
 package person;
-import Interfaces.IMyInfo;
+import interfaces.IMyInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

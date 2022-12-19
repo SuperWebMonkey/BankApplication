@@ -1,4 +1,4 @@
-package LinkedList;
+package linkedList;
 
 public class LinkedList<T> {
     private Node<T> head;
