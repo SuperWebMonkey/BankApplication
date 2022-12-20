@@ -12,7 +12,7 @@ public enum LinkedListStatus {
         this.shortName = shortName;
     }
 
-    String getShortName() {
+    public String getShortName() {
         return this.shortName;
     }
 }

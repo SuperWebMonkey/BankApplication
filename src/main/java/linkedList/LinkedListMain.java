@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Scanner;
 
+import enums.LinkedListStatus;
+
 public class LinkedListMain {
     private final static Logger LOGGER = LogManager.getLogger(LinkedListMain.class);
 
@@ -15,7 +17,7 @@ public class LinkedListMain {
         int input;
 
         do {
-            menu();
+            showMenu();
             input = scan.nextInt();
 
             switch (input) {
@@ -45,7 +47,7 @@ public class LinkedListMain {
         } while (input != 0);
     }
 
-    public static void menu() {
+    public static void showMenu() {
         LOGGER.info("0) Quit the menu");
         LOGGER.info("1) Add to node");
         LOGGER.info("2) Delete a node");

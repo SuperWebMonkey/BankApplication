@@ -1,17 +1,14 @@
 package enums;
 
 public enum Taxes {
-    Sales(10),
-    Income(15),
-    Property(1.25);
-
+    SALES(0.10),
+    INCOME(0.15),
+    PROPERTY(0.0125);
     private final double percent;
-
     Taxes(double percent) {
         this.percent = percent;
     }
-
-    double percent() {
+    public double getPercent() {
         return this.percent;
     }
 }

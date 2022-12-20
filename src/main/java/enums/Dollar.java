@@ -14,4 +14,8 @@ public enum Dollar {
     Dollar(int number) {
         this.number = number;
     }
+
+    public double getNumber() {
+        return this.number;
+    }
 }

@@ -22,13 +22,13 @@ public class LambdaMain {
         Employee alice = new Employee("Alice", "alice@msn.com", 25.50);
         employeeList.add(alice);
 
-        IGetInfo info = p -> {
-            LOGGER.info(p);
-        };
-
         IPrintable print = () -> {
             LOGGER.info("This is the lambda main class");
         };
+
+        print.print();
+
+        Employee[] employeeArray = new Employee[]{bob, john, alice};
 
         ISummable sum = (a) -> {
             double total = 0;
@@ -38,9 +38,13 @@ public class LambdaMain {
             LOGGER.info("Total salary of employees is " + total);
         };
 
+        sum.sum(employeeArray);
+
         employeeList.forEach((n) -> LOGGER.info(n));
 
         Predicate<Employee> checkSalary = s -> s.getSalary() > 15.0;
+
+        LOGGER.info(checkSalary.test(bob));
 
     }
 }

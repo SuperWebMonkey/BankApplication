@@ -14,7 +14,7 @@ public enum Cents {
         this.number = number;
     }
 
-    double number() {
+    public double number() {
         return this.number;
     }
 }

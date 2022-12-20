@@ -1,4 +1,5 @@
 import creditcard.*;
+import enums.Taxes;
 import org.apache.logging.log4j.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -6,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import person.*;
 import account.*;
 import exceptions.*;
+import lambda.*;
 
 import java.io.File;
 import java.text.NumberFormat;
@@ -45,8 +47,14 @@ public class Main {
         customerVector = removeDuplicates(customerVector);
         LOGGER.info(customerVector);
 
-        wordFrequency();
+        IGetInfo info = p -> {
+            LOGGER.info(p);
+        };
 
+        info.getInfo(sam);
+
+        wordFrequency();
+        taxes(Taxes.PROPERTY, 100000);
         menu(accountList, cardList);
 
     }
@@ -164,7 +172,6 @@ public class Main {
 
             LOGGER.info("Enter your account number:");
             String accountNumber = scan.nextLine();
-
 
             account = new Account(amount, accountNumber);
             arrayList.add(account);
@@ -359,5 +366,11 @@ public class Main {
         } catch (Exception e) {
             LOGGER.error(e);
         }
+    }
+
+    public static void taxes(Taxes taxes, double amount) {
+        double total;
+        total = amount * taxes.getPercent();
+        LOGGER.info("Amount is " + total);
     }
 }

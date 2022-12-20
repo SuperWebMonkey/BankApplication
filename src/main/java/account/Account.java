@@ -11,7 +11,6 @@ public class Account implements IAccount {
     private String accountType;
     private final static Logger LOGGER = LogManager.getLogger(Account.class);
 
-
     public Account(double balance, String accountNumber) {
         setBalance(balance);
         setAccountNumber(accountNumber);

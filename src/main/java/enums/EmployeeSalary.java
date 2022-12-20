@@ -11,7 +11,7 @@ public enum EmployeeSalary {
         this.salary = salary;
     }
 
-    double getSalary() {
+    public double getSalary() {
         return this.salary;
     }
 }
