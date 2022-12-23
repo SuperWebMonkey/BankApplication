@@ -12,6 +12,7 @@ import lambda.*;
 import java.io.File;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     private final static Logger LOGGER = LogManager.getLogger(Main.class);
@@ -56,7 +57,6 @@ public class Main {
         wordFrequency();
         taxes(Taxes.PROPERTY, 100000);
         menu(accountList, cardList);
-
     }
 
     public static void showMenu() {
@@ -70,6 +70,10 @@ public class Main {
         LOGGER.info("6) Go to card menu");
         LOGGER.info("7) Get a loan");
         LOGGER.info("8) Store info");
+        LOGGER.info("9) Find the max balance");
+        LOGGER.info("10) Find the min balance");
+        LOGGER.info("11) Show Unique Accounts");
+        LOGGER.info("12) Check if account exist in system");
     }
 
     public static void menu(List<Account> accountList, List<Card> cardList) throws NegativeCardException,
@@ -147,6 +151,21 @@ public class Main {
                         LOGGER.info("Please enter your name");
                         String name = scan.nextLine();
                         hashMap.put(name, accountList);
+                        break;
+                    case 9:
+                        findMaxBalance(accountList);
+                        break;
+                    case 10:
+                        findMinBalance(accountList);
+                        break;
+                    case 11:
+                        showUniqueAccounts(accountList);
+                        break;
+                    case 12:
+                        scan.nextLine();
+                        LOGGER.info("Please enter your account number to see if it is in the system:");
+                        String accountNumber = scan.nextLine();
+                        accountExist(accountNumber, accountList);
                         break;
                     default:
                         String message = "You have chosen an invalid option";
@@ -372,5 +391,39 @@ public class Main {
         double total;
         total = amount * taxes.getPercent();
         LOGGER.info("Amount is " + total);
+    }
+
+    public static List<Account> filter(List<Account> accountList) {
+        return accountList.stream().filter(account -> account.getBalance() > 5000)
+                .collect(Collectors.toList());
+    }
+
+    public static void accountExist(String accountNumber, List<Account> accountList) {
+        boolean match = accountList.stream().anyMatch(account -> account.getAccountNumber().equals(accountNumber));
+
+        if (match) {
+            LOGGER.info("You're account exist");
+        } else {
+            LOGGER.info("You're account doesn't exist");
+        }
+    }
+
+    public static void findMaxBalance(List<Account> accountList) {
+        LOGGER.info("Max balance is " + accountList.stream().max(Comparator.comparing(Account::getBalance)));
+    }
+
+    public static void findMinBalance(List<Account> accountList) {
+        LOGGER.info("Min balance is " + accountList.stream().min(Comparator.comparing(Account::getBalance)));
+    }
+
+    public static void showEmailAddresses(List<Person> personList) {
+        List<String> emailsList = personList.stream().map(persons -> persons.getEmailAddress())
+                .collect(Collectors.toList());
+        LOGGER.info(emailsList);
+    }
+
+    public static void showUniqueAccounts(List<Account> accountLists) {
+        List<Account> uniqueList = accountLists.stream().distinct().collect(Collectors.toList());
+        LOGGER.info(uniqueList);
     }
 }
