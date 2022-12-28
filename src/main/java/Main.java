@@ -1,15 +1,11 @@
 import creditcard.*;
-import enums.Taxes;
+import enums.Tax;
 import org.apache.logging.log4j.*;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import person.*;
 import account.*;
 import exceptions.*;
-import lambda.*;
 
-import java.io.File;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,24 +34,7 @@ public class Main {
         Card card = new CreditCard("800165", "7/28", "Sam", 0, 0, "Credit Card");
         cardList.add(card);
 
-        // Creating a customer object
-        List<Customer> customerVector = new Vector<Customer>();
-        Customer sam = new Customer("Sam", "sam@yahoo.com", accountList);
-        customerVector.add(sam);
-        Customer sam2 = new Customer("Sam", "sam@yahoo.com", accountList);
-        customerVector.add(sam);
-        LOGGER.info(customerVector);
-        customerVector = removeDuplicates(customerVector);
-        LOGGER.info(customerVector);
-
-        IGetInfo info = p -> {
-            LOGGER.info(p);
-        };
-
-        info.getInfo(sam);
-
-        wordFrequency();
-        taxes(Taxes.PROPERTY, 100000);
+        taxes(Tax.PROPERTY, 100000);
         menu(accountList, cardList);
     }
 
@@ -362,32 +341,7 @@ public class Main {
         return customerList2;
     }
 
-    public static void wordFrequency() {
-        try {
-            File file = new File("src/main/resources/lorem-ipsum.txt");
-            String outPath = "src/main/resources/output.txt";
-            Set<String> wordCount = new HashSet<>();
-            List<String> lines = FileUtils.readLines(file, "UTF-8");
-            String[] words = StringUtils.split(lines.get(0));
-
-            for (int i = 0; i < words.length; i++) {
-                // System.out.println("index " + i + ":" + lines.get(i));
-                String word = words[i].toLowerCase()
-                        .replace(",", "")
-                        .replace(".", "")
-                        .replace(":", "");
-                wordCount.add(word);
-            }
-
-            String message = "The total number of unique words is ";
-            LOGGER.info(message + wordCount.size());
-            FileUtils.write(new File(outPath), message + wordCount.size(), "UTF-8");
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
-    }
-
-    public static void taxes(Taxes taxes, double amount) {
+    public static void taxes(Tax taxes, double amount) {
         double total;
         total = amount * taxes.getPercent();
         LOGGER.info("Amount is " + total);

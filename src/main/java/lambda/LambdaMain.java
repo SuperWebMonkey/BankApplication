@@ -26,6 +26,12 @@ public class LambdaMain {
             LOGGER.info("This is the lambda main class");
         };
 
+        IGetInfo info = p -> {
+            LOGGER.info(p);
+        };
+
+        info.getInfo(alice);
+
         print.print();
 
         Employee[] employeeArray = new Employee[]{bob, john, alice};
