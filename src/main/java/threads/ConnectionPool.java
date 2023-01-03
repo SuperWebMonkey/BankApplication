@@ -32,7 +32,15 @@ public class ConnectionPool {
         }
     }
 
+    public int getCapacity() {
+        return this.capacity;
+    }
+
     public void getConnection() {
         LOGGER.info("Connection is ready");
+    }
+
+    public void releaseConnection() {
+        LOGGER.info("Releasing connection");
     }
 }

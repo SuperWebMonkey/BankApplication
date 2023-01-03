@@ -8,7 +8,6 @@ public class ThreadInherit extends Thread {
 
     @Override
     public void run() {
-
         synchronized (ThreadsMain.lock1) {
             LOGGER.info(Thread.currentThread().getName() + " locked ");
 
