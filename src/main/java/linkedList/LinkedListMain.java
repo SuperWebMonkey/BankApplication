@@ -32,17 +32,34 @@ public class LinkedListMain {
                     break;
                 case 2:
                     LOGGER.info("You are deleting from the linked list.");
+
                     try {
                         list.remove();
                     } catch (Exception e) {
                         LOGGER.info("List is empty");
                     }
+
                     break;
                 case 3:
                     list.print();
                     break;
+                case 4:
+                    LOGGER.info("Enter in the value:");
+                    double addValue = scan.nextDouble();
+                    LOGGER.info("Enter the position:");
+                    int addPos = scan.nextInt();
+
+                    list.addInPos(addValue, addPos);
+                    break;
+                case 5:
+                    LOGGER.info("Enter the position you want to delete:");
+                    int delPos = scan.nextInt();
+
+                    list.removeInPos(delPos);
+                    break;
                 default:
                     LOGGER.info("You have selected an invalid option");
+                    break;
             }
         } while (input != 0);
     }
@@ -52,5 +69,7 @@ public class LinkedListMain {
         LOGGER.info("1) Add to node");
         LOGGER.info("2) Delete a node");
         LOGGER.info("3) Print the linked list");
+        LOGGER.info("4) Add node at index");
+        LOGGER.info("5) Delete node at index");
     }
 }
