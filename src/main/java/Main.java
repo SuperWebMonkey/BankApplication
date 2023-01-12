@@ -16,7 +16,6 @@ public class Main {
     public static void main(String[] args) throws NegativeCardException, NegativeValueException,
             InvalidMenuException {
 
-        // Testing accounts
         List<Account> accountList = new ArrayList<Account>();
         List<Card> cardList = new LinkedList<Card>();
 
