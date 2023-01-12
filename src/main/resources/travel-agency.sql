@@ -78,16 +78,16 @@ SET country_name = "Argentina"
 WHERE country_id = 2;
 
 /* Delete Statements*/
-Delete FROM Customers WHERE first_name="Sam" && customer_id=4;
-DELETE FROM Customers WHERE customer_id=5;
-DELETE FROM Customers WHERE customer_id=6;
-Delete FROM Customers WHERE first_name="Bob" && customer_id=9;
-Delete FROM Customers WHERE first_name="Bob" && customer_id=10;
-Delete FROM Customers WHERE first_name="Sam" && customer_id=11;
-Delete FROM Customers WHERE last_name="Masterson" && customer_id=12;
-Delete FROM Customers WHERE last_name="Masterson" && customer_id=12;
-Delete FROM Customers WHERE last_name="Liddel" && customer_id=13;
-Delete FROM Customers WHERE last_Name ="Bates" && customer_id=14;
+Delete FROM customers WHERE first_name="Sam" && customer_id=4;
+DELETE FROM customers WHERE customer_id=5;
+DELETE FROM customers WHERE customer_id=6;
+Delete FROM customers WHERE first_name="Bob" && customer_id=9;
+Delete FROM customers WHERE first_name="Bob" && customer_id=10;
+Delete FROM customers WHERE first_name="Sam" && customer_id=11;
+Delete FROM customers WHERE last_name="Masterson" && customer_id=12;
+Delete FROM customers WHERE last_name="Masterson" && customer_id=12;
+Delete FROM customers WHERE last_name="Liddel" && customer_id=13;
+Delete FROM customers WHERE last_Name ="Bates" && customer_id=14;
 
 /* Alter Table */
 ALTER TABLE staff
