@@ -42,8 +42,8 @@ public class DBMain {
 //        List<Cities> cityList = cityDao.getAllEntities();
 //        LOGGER.info(cityList);
 
-        CountriesDao countryDao = new CountriesDao();
-        List<Countries> countryList = countryDao.getAllEntities();
+        CountryDao countryDao = new CountryDao();
+        List<Country> countryList = countryDao.getAllEntities();
         LOGGER.info(countryList);
     }
 }

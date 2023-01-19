@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
 import db.ConnectionPool.ConnectionPool;
-import db.dao.IStaffDAO;
-import db.models.Staff;
+import db.dao.IHotelDAO;
+import db.models.Hotel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,25 +12,27 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffDao implements IStaffDAO {
-    private static final Logger LOGGER = LogManager.getLogger(StaffDao.class);
+public class HotelDao implements IHotelDAO {
+    private static final Logger LOGGER = LogManager.getLogger(HotelDao.class);
 
-    public List<Staff> getAllEntities(){
-        List<Staff> staffList = new ArrayList<Staff>();
-        String sql = "SELECT * FROM staff";
+    public List<Hotel> getAllEntities(){
+        List<Hotel>  hotelList = new ArrayList<>();
+        String sql = "SELECT * FROM hotels";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try {
+
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Staff staff = new Staff();
-                staff.setStaffId(rs.getInt(1));
-                staff.setFirstName(rs.getString(2));
-                staff.setLastName(rs.getString(3));
+                Hotel hotel = new Hotel();
+                hotel.setHotelId(rs.getInt(1));
+                hotel.setHotelName(rs.getString(2));
+                hotel.setPrice(rs.getDouble(3));
+                hotel.setCityId(rs.getInt(4));
 
-                staffList.add(staff);
+                hotelList.add(hotel);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -44,24 +46,25 @@ public class StaffDao implements IStaffDAO {
             }
         }
 
-        return staffList;
+        return hotelList;
     }
 
-    public Staff getEntityById(int id) {
-        Staff staff = null;
+    public Hotel getEntityById(int id) {
+        Hotel hotel = null;
         Connection con = ConnectionPool.getInstance().getConnection();
-        String sql = "SELECT * FROM staff WHERE staff_id = (?)";
+        String sql = "SELECT * FROM hotels WHERE hotel_id = (?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql);) {
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                int customerId = rs.getInt("staff_id");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
+                int hotelId = rs.getInt("hotel_id");
+                String hotelName = rs.getString("hotel_name");
+                double price = rs.getDouble("price");
+                int cityId = rs.getInt("city_id");
 
-                staff = new Staff(customerId, firstName, lastName);
+                hotel = new Hotel(hotelId, hotelName, price, cityId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -75,17 +78,18 @@ public class StaffDao implements IStaffDAO {
             }
         }
 
-        return staff;
+        return hotel;
     }
 
-    public Staff createEntity(Staff staff) {
+    public Hotel createEntity(Hotel hotel) {
         Connection con = ConnectionPool.getInstance().getConnection();
-        String sql = "INSERT INTO staff (staff_id, first_name, last_name) VALUES (?,?,?)";
+        String sql = "INSERT INTO hotels (hotel_id, hotel_name, price, city_id) VALUES (?,?,?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, staff.getStaffId());
-            ps.setString(2, staff.getFirstName());
-            ps.setString(3, staff.getLastName());
+            ps.setInt(1, hotel.getHotelId());
+            ps.setString(2, hotel.getHotelName());
+            ps.setDouble(3, hotel.getPrice());
+            ps.setInt(4, hotel.getCityId());
             ps.executeUpdate();
 
             LOGGER.info("Insertion was successful");
@@ -104,17 +108,19 @@ public class StaffDao implements IStaffDAO {
         return null;
     }
 
-    public void updateEntity(Staff staff) {
-        String sql = "UPDATE staff SET first_name = ?, last_name = ? WHERE customer_id = ?";
+    public void updateEntity(Hotel hotel) {
+        String sql = "UPDATE hotels SET hotel_name = (?), price = (?), city_id = (?), " +
+                "WHERE hotel_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update staff: " + staff);
+            LOGGER.info("in update customer: " + hotel);
 
-            ps.setString(1, staff.getFirstName());
-            ps.setString(2, staff.getLastName());
-            ps.setInt(3, staff.getStaffId());
-            ps.executeUpdate();
+            ps.setString(1, hotel.getHotelName());
+            ps.setDouble(2, hotel.getPrice());
+            ps.setInt(3, hotel.getCityId());
+            ps.setInt(4, hotel.getCityId());
+            ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
         } finally {
@@ -129,11 +135,10 @@ public class StaffDao implements IStaffDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM staff WHERE staff_id = (?)";
+        String sql = "Delete FROM hotels WHERE hotel_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
-        try (PreparedStatement ps = con.prepareStatement(sql);){
-
+        try (PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);
             ps.executeUpdate();
 

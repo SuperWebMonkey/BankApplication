@@ -1,9 +1,8 @@
 package db.dao.mysql;
 
 import db.ConnectionPool.ConnectionPool;
-import db.dao.IPaymentDao;
-import db.models.OrderStatus;
-import db.models.Payments;
+import db.dao.IPaymentDAO;
+import db.models.Payment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,12 +12,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaymentDao implements IPaymentDao {
+public class PaymentDao implements IPaymentDAO {
     private static final Logger LOGGER = LogManager.getLogger(PaymentDao.class);
 
-    public List<Payments> getAllEntities(){
-
-        List<Payments>  paymentList = new ArrayList<>();
+    public List<Payment> getAllEntities(){
+        List<Payment>  paymentList = new ArrayList<>();
         String sql = "SELECT * FROM payments";
         Connection con = ConnectionPool.getInstance().getConnection();
 
@@ -28,7 +26,7 @@ public class PaymentDao implements IPaymentDao {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Payments payment = new Payments();
+                Payment payment = new Payment();
                 payment.setPaymentId(rs.getInt(1));
                 payment.setAmount(rs.getDouble(2));
                 payment.setPaymentTypeId(rs.getInt(1));
@@ -50,9 +48,8 @@ public class PaymentDao implements IPaymentDao {
         return paymentList;
     }
 
-    public Payments getEntityById(int id) {
-
-        Payments payment = null;
+    public Payment getEntityById(int id) {
+        Payment payment = null;
         Connection con = ConnectionPool.getInstance().getConnection();
         String sql = "SELECT * FROM payments WHERE payment_id = (?)";
 
@@ -65,7 +62,7 @@ public class PaymentDao implements IPaymentDao {
                 double amount = rs.getDouble("amount");
                 int paymentType = rs.getInt("payment_type_id");
 
-                payment = new Payments(paymentId, amount, paymentType);
+                payment = new Payment(paymentId, amount, paymentType);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -82,13 +79,12 @@ public class PaymentDao implements IPaymentDao {
         return payment;
     }
 
-    public Payments createEntity(Payments payment) {
+    public Payment createEntity(Payment payment) {
         Connection con = ConnectionPool.getInstance().getConnection();
         String sql = "INSERT INTO payments (payment_id, amount, payment_type_id) " +
                 "VALUES (?,?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setInt(1, payment.getPaymentId());
             ps.setDouble(2, payment.getAmount());
             ps.setInt(3, payment.getPaymentTypeId());
@@ -110,18 +106,16 @@ public class PaymentDao implements IPaymentDao {
         return null;
     }
 
-    public void updateEntity(Payments payment) {
+    public void updateEntity(Payment payment) {
         String sql = "UPDATE payments SET amount = (?), payment_type_id = (?) WHERE payment_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-
             LOGGER.info("in update customer: " + payment);
 
             ps.setDouble(1, payment.getAmount());
             ps.setInt(2, payment.getPaymentTypeId());
             ps.setInt(3, payment.getPaymentId());
-
             ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
@@ -141,7 +135,6 @@ public class PaymentDao implements IPaymentDao {
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try (PreparedStatement ps = con.prepareStatement(sql)){
-
             ps.setInt(1, id);
             ps.executeUpdate();
 

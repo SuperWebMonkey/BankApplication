@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
 import db.ConnectionPool.ConnectionPool;
-import db.dao.IStaffDAO;
-import db.models.Staff;
+import db.dao.IBaseAirlineCompanyDAO;
+import db.models.AirlineCompany;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,12 +12,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffDao implements IStaffDAO {
-    private static final Logger LOGGER = LogManager.getLogger(StaffDao.class);
+public class AirlineCompanyDao implements IBaseAirlineCompanyDAO {
+    private static final Logger LOGGER = LogManager.getLogger(AirlineCompanyDao.class);
 
-    public List<Staff> getAllEntities(){
-        List<Staff> staffList = new ArrayList<Staff>();
-        String sql = "SELECT * FROM staff";
+    public List<AirlineCompany> getAllEntities(){
+        List<AirlineCompany> acList = new ArrayList<>();
+        String sql = "SELECT company_id, company_name FROM airline_companies";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try {
@@ -25,12 +25,11 @@ public class StaffDao implements IStaffDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Staff staff = new Staff();
-                staff.setStaffId(rs.getInt(1));
-                staff.setFirstName(rs.getString(2));
-                staff.setLastName(rs.getString(3));
+                AirlineCompany ac = new AirlineCompany();
+                ac.setCompanyId(rs.getInt(1));
+                ac.setCompanyName(rs.getString(2));
 
-                staffList.add(staff);
+                acList.add(ac);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -44,24 +43,23 @@ public class StaffDao implements IStaffDAO {
             }
         }
 
-        return staffList;
+        return acList;
     }
 
-    public Staff getEntityById(int id) {
-        Staff staff = null;
+    public AirlineCompany getEntityById(int id) {
+        AirlineCompany ac = null;
         Connection con = ConnectionPool.getInstance().getConnection();
-        String sql = "SELECT * FROM staff WHERE staff_id = (?)";
+        String sql = "SELECT * FROM airline_companies WHERE company_id = (?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql);) {
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                int customerId = rs.getInt("staff_id");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
+                int acId = rs.getInt("company_id");
+                String companyName = rs.getString("company_name");
 
-                staff = new Staff(customerId, firstName, lastName);
+                ac = new AirlineCompany(acId, companyName);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -75,17 +73,48 @@ public class StaffDao implements IStaffDAO {
             }
         }
 
-        return staff;
+        return ac;
     }
 
-    public Staff createEntity(Staff staff) {
+    public AirlineCompany getEntityByName(String name) {
+        AirlineCompany ac = null;
         Connection con = ConnectionPool.getInstance().getConnection();
-        String sql = "INSERT INTO staff (staff_id, first_name, last_name) VALUES (?,?,?)";
+        String sql = "SELECT * FROM airline_companies WHERE company_name = (?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, staff.getStaffId());
-            ps.setString(2, staff.getFirstName());
-            ps.setString(3, staff.getLastName());
+            ps.setString(2, name);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int acId = rs.getInt("company_id");
+                String companyName = rs.getString("company_name");
+
+                ac = new AirlineCompany(acId, companyName);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    ConnectionPool.getInstance().releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+
+        return ac;
+    }
+
+    public AirlineCompany createEntity(AirlineCompany ac) {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        String sql = "INSERT INTO airline_companies (company_id, company_name) VALUES (?,?)";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, ac.getCompanyId());
+            ps.setString(2, ac.getCompanyName());
+
             ps.executeUpdate();
 
             LOGGER.info("Insertion was successful");
@@ -104,17 +133,17 @@ public class StaffDao implements IStaffDAO {
         return null;
     }
 
-    public void updateEntity(Staff staff) {
-        String sql = "UPDATE staff SET first_name = ?, last_name = ? WHERE customer_id = ?";
+    public void updateEntity(AirlineCompany ac) {
+        String sql = "UPDATE airline_companies SET company_name = (?) WHERE company_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update staff: " + staff);
 
-            ps.setString(1, staff.getFirstName());
-            ps.setString(2, staff.getLastName());
-            ps.setInt(3, staff.getStaffId());
-            ps.executeUpdate();
+            LOGGER.info("in update customer: " + ac);
+
+            ps.setString(1, ac.getCompanyName());
+            ps.setInt(2, ac.getCompanyId());
+            ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
         } finally {
@@ -129,10 +158,10 @@ public class StaffDao implements IStaffDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM staff WHERE staff_id = (?)";
+        String sql = "Delete FROM airline_companies WHERE company_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
-        try (PreparedStatement ps = con.prepareStatement(sql);){
+        try (PreparedStatement ps = con.prepareStatement(sql)){
 
             ps.setInt(1, id);
             ps.executeUpdate();

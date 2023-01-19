@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
 import db.ConnectionPool.ConnectionPool;
-import db.dao.IStaffDAO;
-import db.models.Staff;
+import db.dao.IToursDAO;
+import db.models.Tour;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,12 +12,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffDao implements IStaffDAO {
-    private static final Logger LOGGER = LogManager.getLogger(StaffDao.class);
+public class TourDao implements IToursDAO {
+    private static final Logger LOGGER = LogManager.getLogger(TourDao.class);
 
-    public List<Staff> getAllEntities(){
-        List<Staff> staffList = new ArrayList<Staff>();
-        String sql = "SELECT * FROM staff";
+    public List<Tour> getAllEntities(){
+        List<Tour>  tourList = new ArrayList<>();
+        String sql = "SELECT * FROM tours";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try {
@@ -25,12 +25,14 @@ public class StaffDao implements IStaffDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Staff staff = new Staff();
-                staff.setStaffId(rs.getInt(1));
-                staff.setFirstName(rs.getString(2));
-                staff.setLastName(rs.getString(3));
+                Tour tour = new Tour();
+                tour.setTourId(rs.getInt(1));
+                tour.setTourName(rs.getString(2));
+                tour.setHotelId(rs.getInt(3));
+                tour.setFlightToId(rs.getInt(4));
+                tour.setFlightFromId(rs.getInt(5));
 
-                staffList.add(staff);
+                tourList.add(tour);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -44,24 +46,26 @@ public class StaffDao implements IStaffDAO {
             }
         }
 
-        return staffList;
+        return tourList;
     }
 
-    public Staff getEntityById(int id) {
-        Staff staff = null;
+    public Tour getEntityById(int id) {
+        Tour tour = null;
         Connection con = ConnectionPool.getInstance().getConnection();
-        String sql = "SELECT * FROM staff WHERE staff_id = (?)";
+        String sql = "SELECT * FROM tours WHERE tour_id = (?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql);) {
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                int customerId = rs.getInt("staff_id");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
+                int tourId = rs.getInt("tour_id");
+                String tourName = rs.getString("tour_name");
+                int hotelId = rs.getInt("hotel_id");
+                int flightToId = rs.getInt("flight_to_id");
+                int flightFromId = rs.getInt("flight_from_id");
 
-                staff = new Staff(customerId, firstName, lastName);
+                tour = new Tour(tourId, tourName, hotelId,flightToId, flightFromId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -75,17 +79,20 @@ public class StaffDao implements IStaffDAO {
             }
         }
 
-        return staff;
+        return tour;
     }
 
-    public Staff createEntity(Staff staff) {
+    public Tour createEntity(Tour tour) {
         Connection con = ConnectionPool.getInstance().getConnection();
-        String sql = "INSERT INTO staff (staff_id, first_name, last_name) VALUES (?,?,?)";
+        String sql = "INSERT INTO tours (tour_id, tour_name, hotel_id, flight_to_id, flight_from_id) " +
+                "VALUES (?,?,?,?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, staff.getStaffId());
-            ps.setString(2, staff.getFirstName());
-            ps.setString(3, staff.getLastName());
+            ps.setInt(1, tour.getTourId());
+            ps.setString(2, tour.getTourName());
+            ps.setInt(3, tour.getHotelId());
+            ps.setInt(4, tour.getFlightToId());
+            ps.setInt(5, tour.getFlightFromId());
             ps.executeUpdate();
 
             LOGGER.info("Insertion was successful");
@@ -104,17 +111,21 @@ public class StaffDao implements IStaffDAO {
         return null;
     }
 
-    public void updateEntity(Staff staff) {
-        String sql = "UPDATE staff SET first_name = ?, last_name = ? WHERE customer_id = ?";
+    public void updateEntity(Tour tour) {
+        String sql = "UPDATE tours SET tour_name = (?), hotel_id = (?)" +
+                "flight_to_id = (?), flight_from_id = (?) WHERE tour_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update staff: " + staff);
+            LOGGER.info("in update customer: " + tour);
 
-            ps.setString(1, staff.getFirstName());
-            ps.setString(2, staff.getLastName());
-            ps.setInt(3, staff.getStaffId());
-            ps.executeUpdate();
+            ps.setString(1, tour.getTourName());
+            ps.setInt(2, tour.getHotelId());
+            ps.setInt(3, tour.getFlightToId());
+            ps.setInt(4, tour.getFlightFromId());
+            ps.setInt(5, tour.getTourId());
+
+            ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
         } finally {
@@ -129,11 +140,10 @@ public class StaffDao implements IStaffDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM staff WHERE staff_id = (?)";
+        String sql = "Delete FROM tours WHERE tour_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
-        try (PreparedStatement ps = con.prepareStatement(sql);){
-
+        try (PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);
             ps.executeUpdate();
 

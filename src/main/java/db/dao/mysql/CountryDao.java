@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
 import db.ConnectionPool.ConnectionPool;
-import db.dao.IStaffDAO;
-import db.models.Staff;
+import db.dao.ICountryDAO;
+import db.models.Country;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,25 +12,25 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffDao implements IStaffDAO {
-    private static final Logger LOGGER = LogManager.getLogger(StaffDao.class);
+public class CountryDao implements ICountryDAO {
+    private static final Logger LOGGER = LogManager.getLogger(CountryDao.class);
 
-    public List<Staff> getAllEntities(){
-        List<Staff> staffList = new ArrayList<Staff>();
-        String sql = "SELECT * FROM staff";
+    public List<Country> getAllEntities(){
+        List<Country> countryList = new ArrayList<>();
+        String sql = "SELECT * FROM countries";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try {
+
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Staff staff = new Staff();
-                staff.setStaffId(rs.getInt(1));
-                staff.setFirstName(rs.getString(2));
-                staff.setLastName(rs.getString(3));
+                Country country = new Country();
+                country.setCountryId(rs.getInt(1));
+                country.setCountryName(rs.getString(2));
 
-                staffList.add(staff);
+                countryList.add(country);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -44,24 +44,23 @@ public class StaffDao implements IStaffDAO {
             }
         }
 
-        return staffList;
+        return countryList;
     }
 
-    public Staff getEntityById(int id) {
-        Staff staff = null;
+    public Country getEntityById(int id) {
+        Country country = null;
         Connection con = ConnectionPool.getInstance().getConnection();
-        String sql = "SELECT * FROM staff WHERE staff_id = (?)";
+        String sql = "SELECT * FROM countries WHERE country_id = (?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql);) {
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                int customerId = rs.getInt("staff_id");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
+                int countryId = rs.getInt("country_id");
+                String countryName = rs.getString("country_name");
 
-                staff = new Staff(customerId, firstName, lastName);
+                country = new Country(countryId, countryName);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -75,17 +74,17 @@ public class StaffDao implements IStaffDAO {
             }
         }
 
-        return staff;
+        return country;
     }
 
-    public Staff createEntity(Staff staff) {
+    public Country createEntity(Country country) {
         Connection con = ConnectionPool.getInstance().getConnection();
-        String sql = "INSERT INTO staff (staff_id, first_name, last_name) VALUES (?,?,?)";
+        String sql = "INSERT INTO countries (country_id, country_name) VALUES (?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, staff.getStaffId());
-            ps.setString(2, staff.getFirstName());
-            ps.setString(3, staff.getLastName());
+
+            ps.setInt(1, country.getCountryId());
+            ps.setString(2, country.getCountryName());
             ps.executeUpdate();
 
             LOGGER.info("Insertion was successful");
@@ -104,17 +103,17 @@ public class StaffDao implements IStaffDAO {
         return null;
     }
 
-    public void updateEntity(Staff staff) {
-        String sql = "UPDATE staff SET first_name = ?, last_name = ? WHERE customer_id = ?";
+    public void updateEntity(Country country) {
+        String sql = "UPDATE countries SET country_name = (?) WHERE country_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update staff: " + staff);
 
-            ps.setString(1, staff.getFirstName());
-            ps.setString(2, staff.getLastName());
-            ps.setInt(3, staff.getStaffId());
-            ps.executeUpdate();
+            LOGGER.info("in update customer: " + country);
+
+            ps.setString(1, country.getCountryName());
+            ps.setInt(2, country.getCountryId());
+            ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
         } finally {
@@ -129,10 +128,10 @@ public class StaffDao implements IStaffDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM staff WHERE staff_id = (?)";
+        String sql = "Delete FROM countries WHERE country_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
-        try (PreparedStatement ps = con.prepareStatement(sql);){
+        try (PreparedStatement ps = con.prepareStatement(sql)){
 
             ps.setInt(1, id);
             ps.executeUpdate();

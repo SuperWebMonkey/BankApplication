@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
 import db.ConnectionPool.ConnectionPool;
-import db.dao.IStaffDAO;
-import db.models.Staff;
+import db.dao.IFlightDAO;
+import db.models.Flight;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,25 +12,28 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffDao implements IStaffDAO {
-    private static final Logger LOGGER = LogManager.getLogger(StaffDao.class);
+public class FlightDao implements IFlightDAO {
+    private static final Logger LOGGER = LogManager.getLogger(FlightDao.class);
 
-    public List<Staff> getAllEntities(){
-        List<Staff> staffList = new ArrayList<Staff>();
-        String sql = "SELECT * FROM staff";
+    public List<Flight> getAllEntities(){
+        List<Flight>  flightList = new ArrayList<>();
+        String sql = "SELECT * FROM flights";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try {
+
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Staff staff = new Staff();
-                staff.setStaffId(rs.getInt(1));
-                staff.setFirstName(rs.getString(2));
-                staff.setLastName(rs.getString(3));
+                Flight flight = new Flight();
+                flight.setFlightId(rs.getInt(1));
+                flight.setPrice(rs.getDouble(2));
+                flight.setAirlineId(rs.getInt(3));
+                flight.setOriginCityId(rs.getInt(4));
+                flight.setDestinationCityId(rs.getInt(5));
 
-                staffList.add(staff);
+                flightList.add(flight);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -44,24 +47,26 @@ public class StaffDao implements IStaffDAO {
             }
         }
 
-        return staffList;
+        return flightList;
     }
 
-    public Staff getEntityById(int id) {
-        Staff staff = null;
+    public Flight getEntityById(int id) {
+        Flight flight = null;
         Connection con = ConnectionPool.getInstance().getConnection();
-        String sql = "SELECT * FROM staff WHERE staff_id = (?)";
+        String sql = "SELECT * FROM flights WHERE flight_id = (?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql);) {
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                int customerId = rs.getInt("staff_id");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
+                int flightId = rs.getInt("flight_id");
+                double price = rs.getDouble("price");
+                int airlineId = rs.getInt("airline_id");
+                int originCityId = rs.getInt("origin_city_id");
+                int destinationCityId = rs.getInt("destination_city_id");
 
-                staff = new Staff(customerId, firstName, lastName);
+                flight = new Flight(flightId, price, airlineId, originCityId, destinationCityId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -75,17 +80,20 @@ public class StaffDao implements IStaffDAO {
             }
         }
 
-        return staff;
+        return flight;
     }
 
-    public Staff createEntity(Staff staff) {
+    public Flight createEntity(Flight flight) {
         Connection con = ConnectionPool.getInstance().getConnection();
-        String sql = "INSERT INTO staff (staff_id, first_name, last_name) VALUES (?,?,?)";
+        String sql = "INSERT INTO flights (flight_id, price, airline_id, origin_city_id, destination_city_id) VALUES (?,?,?,?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, staff.getStaffId());
-            ps.setString(2, staff.getFirstName());
-            ps.setString(3, staff.getLastName());
+
+            ps.setInt(1, flight.getFlightId());
+            ps.setDouble(2, flight.getPrice());
+            ps.setInt(3, flight.getAirlineId());
+            ps.setInt(4, flight.getOriginCityId());
+            ps.setInt(5, flight.getDestinationCityId());
             ps.executeUpdate();
 
             LOGGER.info("Insertion was successful");
@@ -104,17 +112,21 @@ public class StaffDao implements IStaffDAO {
         return null;
     }
 
-    public void updateEntity(Staff staff) {
-        String sql = "UPDATE staff SET first_name = ?, last_name = ? WHERE customer_id = ?";
+    public void updateEntity(Flight flight) {
+        String sql = "UPDATE flights SET price = (?), airline_id = (?), origin_city_id = (?), " +
+                     "destination_city_id = (?) WHERE flight_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update staff: " + staff);
 
-            ps.setString(1, staff.getFirstName());
-            ps.setString(2, staff.getLastName());
-            ps.setInt(3, staff.getStaffId());
-            ps.executeUpdate();
+            LOGGER.info("in update customer: " + flight);
+
+            ps.setDouble(1, flight.getPrice());
+            ps.setInt(2, flight.getAirlineId());
+            ps.setInt(3, flight.getOriginCityId());
+            ps.setInt(4, flight.getDestinationCityId());
+            ps.setInt(5, flight.getFlightId());
+            ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
         } finally {
@@ -129,10 +141,10 @@ public class StaffDao implements IStaffDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM staff WHERE staff_id = (?)";
+        String sql = "Delete FROM flights WHERE flight_id = (?)";
         Connection con = ConnectionPool.getInstance().getConnection();
 
-        try (PreparedStatement ps = con.prepareStatement(sql);){
+        try (PreparedStatement ps = con.prepareStatement(sql)){
 
             ps.setInt(1, id);
             ps.executeUpdate();
