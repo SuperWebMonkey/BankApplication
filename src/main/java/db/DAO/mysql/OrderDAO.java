@@ -20,8 +20,7 @@ public class OrderDAO implements IOrderDAO {
         List<Order>  orderList = new ArrayList<>();
         String sql = "SELECT * FROM orders";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Order order = new Order();
@@ -55,6 +54,38 @@ public class OrderDAO implements IOrderDAO {
         String sql = "SELECT * FROM orders WHERE order_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int orderId = rs.getInt("order_id");
+                double payment = rs.getDouble("payment");
+                int customerId = rs.getInt("customer_id");
+                int staffId = rs.getInt("staff_id");
+                int toursId = rs.getInt("tours_id");
+                int statusId = rs.getInt("status_id");
+                int paymentId = rs.getInt("payment_id");
+                int drivingId = rs.getInt("driving_id");
+                order = new Order(orderId, payment, customerId, staffId, toursId, statusId, paymentId, drivingId);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return order;
+    }
+
+    public Order getEntityByPayment(int db_payment) {
+        Order order = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM orders WHERE payment = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDouble(1, db_payment);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int orderId = rs.getInt("order_id");

@@ -20,8 +20,7 @@ public class OrderStatusDAO implements IOrderStatusDAO {
         List<OrderStatus>  osList = new ArrayList<>();
         String sql = "SELECT * FROM order_status";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 OrderStatus os = new OrderStatus();
@@ -49,6 +48,32 @@ public class OrderStatusDAO implements IOrderStatusDAO {
         String sql = "SELECT * FROM order_status WHERE status_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int statusId = rs.getInt("status_id");
+                String statusName = rs.getString("status_name");
+                os = new OrderStatus(statusId, statusName);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return os;
+    }
+
+    public OrderStatus getEntityByName(String db_name) {
+        OrderStatus os = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM order_status WHERE status_name = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, db_name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int statusId = rs.getInt("status_id");

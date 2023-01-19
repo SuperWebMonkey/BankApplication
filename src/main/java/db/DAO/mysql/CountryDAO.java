@@ -20,8 +20,7 @@ public class CountryDAO implements ICountryDAO {
         List<Country> countryList = new ArrayList<>();
         String sql = "SELECT * FROM countries";
         Connection con = connectionPool.getConnection();;
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Country country = new Country();
@@ -49,6 +48,32 @@ public class CountryDAO implements ICountryDAO {
         String sql = "SELECT * FROM countries WHERE country_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int countryId = rs.getInt("country_id");
+                String countryName = rs.getString("country_name");
+                country = new Country(countryId, countryName);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return country;
+    }
+
+    public Country getEntityByName(String db_name) {
+        Country country = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM countries WHERE country_name = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, db_name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int countryId = rs.getInt("country_id");

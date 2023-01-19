@@ -20,8 +20,7 @@ public class DrivingCompanyDAO implements IDrivingCompanyDAO {
         List<DrivingCompany>  dcList = new ArrayList<>();
         String sql = "SELECT * FROM driving_companies";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 DrivingCompany dc = new DrivingCompany();
@@ -50,6 +49,33 @@ public class DrivingCompanyDAO implements IDrivingCompanyDAO {
         String sql = "SELECT * FROM driving_companies WHERE driving_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int drivingId = rs.getInt("driving_id");
+                double price = rs.getDouble("price");
+                int cityId = rs.getInt("city_id");
+                dc = new DrivingCompany(drivingId, price, cityId);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return dc;
+    }
+
+    public DrivingCompany getEntityByPrice(double db_price) {
+        DrivingCompany dc = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM driving_companies WHERE price = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDouble(1, db_price);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int drivingId = rs.getInt("driving_id");

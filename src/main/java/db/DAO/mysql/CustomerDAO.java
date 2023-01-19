@@ -21,8 +21,7 @@ public class CustomerDAO implements ICustomerDAO {
         List<Customer> customerList = new ArrayList<>();
         String sql = "SELECT customer_id, first_name, last_name, phone FROM customers";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Customer customer = new Customer();
@@ -53,6 +52,90 @@ public class CustomerDAO implements ICustomerDAO {
         String sql = "SELECT * FROM customers WHERE customer_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int customerId = rs.getInt("customer_id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String phone = rs.getString("phone");
+                customers = new Customer(customerId, firstName, lastName, phone);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return customers;
+    }
+
+    public Customer getEntityByFirstName(String first_name) {
+        Customer customers = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM customers WHERE first_name = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, first_name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int customerId = rs.getInt("customer_id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String phone = rs.getString("phone");
+                customers = new Customer(customerId, firstName, lastName, phone);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return customers;
+    }
+
+    public Customer getEntityByLastName(String last_name) {
+        Customer customers = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM customers WHERE last_name = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, last_name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int customerId = rs.getInt("customer_id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String phone = rs.getString("phone");
+                customers = new Customer(customerId, firstName, lastName, phone);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return customers;
+    }
+
+    public Customer getEntityByPhone(String db_phone) {
+        Customer customers = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM customers WHERE phone = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, db_phone);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("customer_id");

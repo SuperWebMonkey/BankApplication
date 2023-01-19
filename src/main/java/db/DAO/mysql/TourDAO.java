@@ -1,7 +1,7 @@
 package db.DAO.mysql;
 
 import db.ConnectionPool.ConnectionPool;
-import db.DAO.IToursDAO;
+import db.DAO.ITourDAO;
 import db.models.Tour;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TourDAO implements IToursDAO {
+public class TourDAO implements ITourDAO {
     private static final Logger LOGGER = LogManager.getLogger(TourDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -20,8 +20,7 @@ public class TourDAO implements IToursDAO {
         List<Tour>  tourList = new ArrayList<>();
         String sql = "SELECT * FROM tours";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Tour tour = new Tour();
@@ -52,6 +51,35 @@ public class TourDAO implements IToursDAO {
         String sql = "SELECT * FROM tours WHERE tour_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int tourId = rs.getInt("tour_id");
+                String tourName = rs.getString("tour_name");
+                int hotelId = rs.getInt("hotel_id");
+                int flightToId = rs.getInt("flight_to_id");
+                int flightFromId = rs.getInt("flight_from_id");
+                tour = new Tour(tourId, tourName, hotelId,flightToId, flightFromId);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return tour;
+    }
+
+    public Tour getEntityByName(String db_name) {
+        Tour tour = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM tours WHERE tour_name = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, db_name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int tourId = rs.getInt("tour_id");

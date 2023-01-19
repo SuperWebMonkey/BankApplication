@@ -20,8 +20,7 @@ public class PaymentTypeDAO implements IPaymentTypeDAO {
         List<PaymentType>  ptList = new ArrayList<>();
         String sql = "SELECT * FROM payment_types";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 PaymentType pt = new PaymentType();
@@ -49,6 +48,32 @@ public class PaymentTypeDAO implements IPaymentTypeDAO {
         String sql = "SELECT * FROM payment_type WHERE payment_type_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int paymentTypeId = rs.getInt("payment_type_id");
+                String ptName = rs.getString("payment_type_name");
+                pt = new PaymentType(paymentTypeId, ptName);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return pt;
+    }
+
+    public PaymentType getEntityByName(String db_name) {
+        PaymentType pt = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM payment_type WHERE payment_type_name = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, db_name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int paymentTypeId = rs.getInt("payment_type_id");

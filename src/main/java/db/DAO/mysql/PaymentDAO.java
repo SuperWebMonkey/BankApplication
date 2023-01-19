@@ -20,8 +20,7 @@ public class PaymentDAO implements IPaymentDAO {
         List<Payment>  paymentList = new ArrayList<>();
         String sql = "SELECT * FROM payments";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Payment payment = new Payment();
@@ -50,6 +49,33 @@ public class PaymentDAO implements IPaymentDAO {
         String sql = "SELECT * FROM payments WHERE payment_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int paymentId = rs.getInt("payment_id");
+                double amount = rs.getDouble("amount");
+                int paymentType = rs.getInt("payment_type_id");
+                payment = new Payment(paymentId, amount, paymentType);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return payment;
+    }
+
+    public Payment getEntityByAmount(double db_amount) {
+        Payment payment = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM payments WHERE amount = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDouble(1, db_amount);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int paymentId = rs.getInt("payment_id");

@@ -20,8 +20,7 @@ public class StaffDAO implements IStaffDAO {
         List<Staff> staffList = new ArrayList<Staff>();
         String sql = "SELECT * FROM staff";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Staff staff = new Staff();
@@ -48,8 +47,62 @@ public class StaffDAO implements IStaffDAO {
         Staff staff = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM staff WHERE staff_id = (?)";
-        try (PreparedStatement ps = con.prepareStatement(sql);) {
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int customerId = rs.getInt("staff_id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                staff = new Staff(customerId, firstName, lastName);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return staff;
+    }
+
+    public Staff getEntityByFirstName(String first_name) {
+        Staff staff = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM staff WHERE first_name = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, first_name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int customerId = rs.getInt("staff_id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                staff = new Staff(customerId, firstName, lastName);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return staff;
+    }
+
+    public Staff getEntityByLastName(String last_name) {
+        Staff staff = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM staff WHERE last_name = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, last_name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("staff_id");
@@ -119,7 +172,7 @@ public class StaffDAO implements IStaffDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM staff WHERE staff_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql);){
+        try (PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

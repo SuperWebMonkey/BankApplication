@@ -20,8 +20,7 @@ public class CityDAO implements ICityDAO {
         List<City> cityList = new ArrayList<>();
         String sql = "SELECT * FROM cities";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 City city = new City();
@@ -55,7 +54,33 @@ public class CityDAO implements ICityDAO {
                 int cityId = rs.getInt("city_id");
                 String cityName = rs.getString("city_name");
                 int countryId = rs.getInt("country_id");
+                city = new City(cityId, cityName, countryId);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return city;
+    }
 
+    public City getEntityByName(String name) {
+        City city = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM cities WHERE city_name = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int cityId = rs.getInt("city_id");
+                String cityName = rs.getString("city_name");
+                int countryId = rs.getInt("country_id");
                 city = new City(cityId, cityName, countryId);
             }
         } catch (Exception e) {

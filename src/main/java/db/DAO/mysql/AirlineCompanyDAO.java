@@ -20,8 +20,7 @@ public class AirlineCompanyDAO implements IBaseAirlineCompanyDAO {
         List<AirlineCompany> acList = new ArrayList<>();
         String sql = "SELECT company_id, company_name FROM airline_companies";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 AirlineCompany ac = new AirlineCompany();
@@ -69,12 +68,12 @@ public class AirlineCompanyDAO implements IBaseAirlineCompanyDAO {
         return ac;
     }
 
-    public AirlineCompany getEntityByName(String name) {
+    public AirlineCompany getEntityByName(String db_name) {
         AirlineCompany ac = null;
-        Connection con = connectionPool.getConnection();;
+        Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM airline_companies WHERE company_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(2, name);
+            ps.setString(1, db_name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int acId = rs.getInt("company_id");

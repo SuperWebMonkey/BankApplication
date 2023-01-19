@@ -20,8 +20,7 @@ public class FlightDAO implements IFlightDAO {
         List<Flight>  flightList = new ArrayList<>();
         String sql = "SELECT * FROM flights";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Flight flight = new Flight();
@@ -52,6 +51,35 @@ public class FlightDAO implements IFlightDAO {
         String sql = "SELECT * FROM flights WHERE flight_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int flightId = rs.getInt("flight_id");
+                double price = rs.getDouble("price");
+                int airlineId = rs.getInt("airline_id");
+                int originCityId = rs.getInt("origin_city_id");
+                int destinationCityId = rs.getInt("destination_city_id");
+                flight = new Flight(flightId, price, airlineId, originCityId, destinationCityId);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return flight;
+    }
+
+    public Flight getEntityPrice(double db_price) {
+        Flight flight = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM flights WHERE price = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDouble(1, db_price);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int flightId = rs.getInt("flight_id");

@@ -20,8 +20,7 @@ public class HotelDAO implements IHotelDAO {
         List<Hotel>  hotelList = new ArrayList<>();
         String sql = "SELECT * FROM hotels";
         Connection con = connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = con.prepareStatement(sql)){
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Hotel hotel = new Hotel();
@@ -51,6 +50,62 @@ public class HotelDAO implements IHotelDAO {
         String sql = "SELECT * FROM hotels WHERE hotel_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int hotelId = rs.getInt("hotel_id");
+                String hotelName = rs.getString("hotel_name");
+                double price = rs.getDouble("price");
+                int cityId = rs.getInt("city_id");
+                hotel = new Hotel(hotelId, hotelName, price, cityId);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return hotel;
+    }
+
+    public Hotel getEntityByName(String db_name) {
+        Hotel hotel = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM hotels WHERE hotel_name = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, db_name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int hotelId = rs.getInt("hotel_id");
+                String hotelName = rs.getString("hotel_name");
+                double price = rs.getDouble("price");
+                int cityId = rs.getInt("city_id");
+                hotel = new Hotel(hotelId, hotelName, price, cityId);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            if (con != null) {
+                try {
+                    connectionPool.releaseConnection(con);
+                } catch (Exception e) {
+                    LOGGER.info(e);
+                }
+            }
+        }
+        return hotel;
+    }
+
+    public Hotel getEntityByPrice(double db_price) {
+        Hotel hotel = null;
+        Connection con = connectionPool.getConnection();
+        String sql = "SELECT * FROM hotels WHERE price = (?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDouble(1, db_price);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int hotelId = rs.getInt("hotel_id");
