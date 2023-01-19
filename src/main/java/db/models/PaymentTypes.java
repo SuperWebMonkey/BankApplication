@@ -4,6 +4,8 @@ public class PaymentTypes {
     private int paymentType;
     private String paymentTypeName;
 
+    public PaymentTypes() {}
+
     public PaymentTypes(int paymentType, String paymentTypeName) {
         this.paymentType = paymentType;
         this.paymentTypeName = paymentTypeName;
@@ -23,5 +25,9 @@ public class PaymentTypes {
 
     public void setPaymentTypeName(String paymentTypeName) {
         this.paymentTypeName = paymentTypeName;
+    }
+
+    public String toString() {
+        return this.paymentType + " " + paymentTypeName;
     }
 }

@@ -1,6 +1,8 @@
 package db.models;
 
 public class Payments {
+    public Payments() {}
+
     private int paymentId;
     private double amount;
     private int paymentTypeId;
@@ -33,5 +35,9 @@ public class Payments {
 
     public void setPaymentTypeId(int paymentTypeId) {
         this.paymentTypeId = paymentTypeId;
+    }
+
+    public String toString() {
+        return paymentId + " " + amount + " " + paymentTypeId;
     }
 }

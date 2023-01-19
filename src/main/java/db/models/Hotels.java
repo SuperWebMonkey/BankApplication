@@ -6,6 +6,8 @@ public class Hotels {
     private double price;
     private int cityId;
 
+    public Hotels(){}
+
     public Hotels(int hotelId, String hotelName, double price, int cityId) {
         this.hotelId = hotelId;
         this.hotelName = hotelName;
@@ -43,5 +45,9 @@ public class Hotels {
 
     public void setCityId(int cityId) {
         this.cityId = cityId;
+    }
+
+    public String toString() {
+        return this.hotelId + " " + this.hotelName + " " + this.price + " " + this.cityId;
     }
 }

@@ -10,6 +10,8 @@ public class Orders {
     private int paymentId;
     private int drivingCompaniesId;
 
+    public Orders() {}
+
     public Orders(int orderId, double payment, int customerId, int staffId, int toursId, int statusId, int paymentId, int drivingCompaniesId) {
         this.orderId = orderId;
         this.payment = payment;
@@ -83,5 +85,10 @@ public class Orders {
 
     public void setDrivingCompaniesId(int drivingCompaniesId) {
         this.drivingCompaniesId = drivingCompaniesId;
+    }
+
+    public String toString() {
+        return orderId + " " + payment + " " + customerId + " " + staffId + " " + toursId + " " + statusId + " "
+                + paymentId + " " + drivingCompaniesId;
     }
 }

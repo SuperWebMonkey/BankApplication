@@ -4,6 +4,8 @@ public class OrderStatus {
     private int statusId;
     private String statusName;
 
+    public OrderStatus(){}
+
     public OrderStatus(int statusId, String statusName) {
         this.statusId = statusId;
         this.statusName = statusName;
@@ -23,5 +25,9 @@ public class OrderStatus {
 
     public void setStatusName(String statusName) {
         this.statusName = statusName;
+    }
+
+    public String toString() {
+        return statusId + " " + statusName;
     }
 }

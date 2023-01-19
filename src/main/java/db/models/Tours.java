@@ -7,6 +7,8 @@ public class Tours {
     private int flightToId;
     private int flightFromId;
 
+    public Tours() {}
+
     public Tours(int tourId, String tourName, int hotelId, int flightToId, int flightFromId) {
         this.tourId = tourId;
         this.tourName = tourName;
@@ -53,5 +55,9 @@ public class Tours {
 
     public void setFlightFromId(int flightFromId) {
         this.flightFromId = flightFromId;
+    }
+
+    public String toString() {
+        return this.tourId + " " + this.tourName + " " + this.hotelId + " " + this.flightToId + " " + this.flightFromId;
     }
 }
