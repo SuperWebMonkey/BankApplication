@@ -1,6 +1,6 @@
 package db;
 
-import db.dao.mysql.*;
+import db.DAO.mysql.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import db.models.*;
@@ -42,7 +42,7 @@ public class DBMain {
 //        List<Cities> cityList = cityDao.getAllEntities();
 //        LOGGER.info(cityList);
 
-        CountryDao countryDao = new CountryDao();
+        CountryDAO countryDao = new CountryDAO();
         List<Country> countryList = countryDao.getAllEntities();
         LOGGER.info(countryList);
     }

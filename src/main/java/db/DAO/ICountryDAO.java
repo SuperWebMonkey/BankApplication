@@ -1,4 +1,4 @@
-package db.dao;
+package db.DAO;
 
 import db.models.Country;
 
