@@ -1,7 +1,7 @@
-package db.DAO;
+package db.dao;
 
 import db.models.Country;
 
 public interface ICountryDAO extends IBaseDAO<Country> {
-    Country getEntityByName(String name);
+    Country getCountryByName(String name);
 }

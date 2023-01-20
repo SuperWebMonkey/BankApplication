@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.ICustomerDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.ICustomerDAO;
 import db.models.Customer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,12 +74,12 @@ public class CustomerDAO implements ICustomerDAO {
         return customers;
     }
 
-    public Customer getEntityByFirstName(String first_name) {
+    public Customer getCustomerByFirstName(String dbLastName) {
         Customer customers = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM customers WHERE first_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, first_name);
+            ps.setString(1, dbLastName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("customer_id");
@@ -102,12 +102,12 @@ public class CustomerDAO implements ICustomerDAO {
         return customers;
     }
 
-    public Customer getEntityByLastName(String last_name) {
+    public Customer getCustomerByLastName(String dbLastName) {
         Customer customers = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM customers WHERE last_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, last_name);
+            ps.setString(1, dbLastName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("customer_id");
@@ -130,12 +130,12 @@ public class CustomerDAO implements ICustomerDAO {
         return customers;
     }
 
-    public Customer getEntityByPhone(String db_phone) {
+    public Customer getCustomerByPhone(String dbPhone) {
         Customer customers = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM customers WHERE phone = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, db_phone);
+            ps.setString(1, dbPhone);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("customer_id");

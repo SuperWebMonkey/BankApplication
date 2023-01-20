@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.IBaseAirlineCompanyDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.IAirlineCompanyDAO;
 import db.models.AirlineCompany;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AirlineCompanyDAO implements IBaseAirlineCompanyDAO {
+public class AirlineCompanyDAO implements IAirlineCompanyDAO {
     private static final Logger LOGGER = LogManager.getLogger(AirlineCompanyDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -68,12 +68,12 @@ public class AirlineCompanyDAO implements IBaseAirlineCompanyDAO {
         return ac;
     }
 
-    public AirlineCompany getEntityByName(String db_name) {
+    public AirlineCompany getAirlineCompanyByName(String dbName) {
         AirlineCompany ac = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM airline_companies WHERE company_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, db_name);
+            ps.setString(1, dbName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int acId = rs.getInt("company_id");

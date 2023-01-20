@@ -1,7 +1,7 @@
-package db.DAO;
+package db.dao;
 
 import db.models.Flight;
 
 public interface IFlightDAO extends IBaseDAO<Flight> {
-    Flight getEntityPrice(double db_price);
+    Flight getFlightPrice(double db_price);
 }

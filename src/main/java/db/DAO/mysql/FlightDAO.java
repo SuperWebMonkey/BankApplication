@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.IFlightDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.IFlightDAO;
 import db.models.Flight;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,12 +74,12 @@ public class FlightDAO implements IFlightDAO {
         return flight;
     }
 
-    public Flight getEntityPrice(double db_price) {
+    public Flight getFlightPrice(double dbPrice) {
         Flight flight = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM flights WHERE price = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, db_price);
+            ps.setDouble(1, dbPrice);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int flightId = rs.getInt("flight_id");

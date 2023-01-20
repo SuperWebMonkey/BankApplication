@@ -1,7 +1,7 @@
-package db.DAO;
+package db.dao;
 
 import db.models.DrivingCompany;
 
 public interface IDrivingCompanyDAO extends IBaseDAO<DrivingCompany> {
-    DrivingCompany getEntityByPrice(double db_price);
+    DrivingCompany getDrivingCompanyByPrice(double db_price);
 }

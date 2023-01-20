@@ -1,7 +1,7 @@
-package db.DAO;
+package db.dao;
 
 import db.models.Order;
 
 public interface IOrderDAO extends IBaseDAO<Order> {
-    Order getEntityByPayment(int db_payment);
+    Order getOrderByPayment(int db_payment);
 }

@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.IOrderStatusDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.IOrderStatusDAO;
 import db.models.OrderStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,12 +68,12 @@ public class OrderStatusDAO implements IOrderStatusDAO {
         return os;
     }
 
-    public OrderStatus getEntityByName(String db_name) {
+    public OrderStatus getOrderStatusByName(String dbName) {
         OrderStatus os = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM order_status WHERE status_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, db_name);
+            ps.setString(1, dbName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int statusId = rs.getInt("status_id");

@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.ICityDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.ICityDAO;
 import db.models.City;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,7 +70,7 @@ public class CityDAO implements ICityDAO {
         return city;
     }
 
-    public City getEntityByName(String name) {
+    public City getCityByName(String name) {
         City city = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM cities WHERE city_name = (?)";

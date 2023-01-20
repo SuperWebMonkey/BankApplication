@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.IHotelDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.IHotelDAO;
 import db.models.Hotel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -72,12 +72,12 @@ public class HotelDAO implements IHotelDAO {
         return hotel;
     }
 
-    public Hotel getEntityByName(String db_name) {
+    public Hotel getHotelByName(String dbName) {
         Hotel hotel = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM hotels WHERE hotel_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, db_name);
+            ps.setString(1, dbName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int hotelId = rs.getInt("hotel_id");
@@ -100,12 +100,12 @@ public class HotelDAO implements IHotelDAO {
         return hotel;
     }
 
-    public Hotel getEntityByPrice(double db_price) {
+    public Hotel getHotelByPrice(double dbPrice) {
         Hotel hotel = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM hotels WHERE price = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, db_price);
+            ps.setDouble(1, dbPrice);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int hotelId = rs.getInt("hotel_id");

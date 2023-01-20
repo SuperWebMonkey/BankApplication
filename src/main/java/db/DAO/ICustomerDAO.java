@@ -1,9 +1,9 @@
-package db.DAO;
+package db.dao;
 
 import db.models.Customer;
 
 public interface ICustomerDAO extends IBaseDAO<Customer> {
-    Customer getEntityByFirstName(String first_name);
-    Customer getEntityByLastName(String last_name);
-    Customer getEntityByPhone(String db_phone);
+    Customer getCustomerByFirstName(String first_name);
+    Customer getCustomerByLastName(String last_name);
+    Customer getCustomerByPhone(String db_phone);
 }

@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.IStaffDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.IStaffDAO;
 import db.models.Staff;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,12 +70,12 @@ public class StaffDAO implements IStaffDAO {
         return staff;
     }
 
-    public Staff getEntityByFirstName(String first_name) {
+    public Staff getStaffByFirstName(String dbFirstName) {
         Staff staff = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM staff WHERE first_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, first_name);
+            ps.setString(1, dbFirstName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("staff_id");
@@ -97,12 +97,12 @@ public class StaffDAO implements IStaffDAO {
         return staff;
     }
 
-    public Staff getEntityByLastName(String last_name) {
+    public Staff getStaffByLastName(String dbLastName) {
         Staff staff = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM staff WHERE last_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, last_name);
+            ps.setString(1, dbLastName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("staff_id");

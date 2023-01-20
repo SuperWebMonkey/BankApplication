@@ -1,8 +1,8 @@
-package db.DAO;
+package db.dao;
 
 import db.models.Hotel;
 
 public interface IHotelDAO extends IBaseDAO<Hotel> {
-    Hotel getEntityByName(String db_name);
-    Hotel getEntityByPrice(double db_price);
+    Hotel getHotelByName(String db_name);
+    Hotel getHotelByPrice(double db_price);
 }

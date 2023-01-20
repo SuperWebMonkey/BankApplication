@@ -1,8 +1,8 @@
-package db.DAO;
+package db.dao;
 
 
 import db.models.OrderStatus;
 
 public interface IOrderStatusDAO extends IBaseDAO<OrderStatus> {
-    OrderStatus getEntityByName(String db_name);
+    OrderStatus getOrderStatusByName(String db_name);
 }

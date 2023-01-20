@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.IOrderDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.IOrderDAO;
 import db.models.Order;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -80,12 +80,12 @@ public class OrderDAO implements IOrderDAO {
         return order;
     }
 
-    public Order getEntityByPayment(int db_payment) {
+    public Order getOrderByPayment(int dbPayment) {
         Order order = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM orders WHERE payment = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, db_payment);
+            ps.setDouble(1, dbPayment);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int orderId = rs.getInt("order_id");

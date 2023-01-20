@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.IPaymentDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.IPaymentDAO;
 import db.models.Payment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,12 +70,12 @@ public class PaymentDAO implements IPaymentDAO {
         return payment;
     }
 
-    public Payment getEntityByAmount(double db_amount) {
+    public Payment getPaymentByAmount(double dbAmount) {
         Payment payment = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM payments WHERE amount = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, db_amount);
+            ps.setDouble(1, dbAmount);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int paymentId = rs.getInt("payment_id");

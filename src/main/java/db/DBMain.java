@@ -1,6 +1,6 @@
 package db;
 
-import db.DAO.mysql.*;
+import db.dao.mysql.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import db.models.*;
@@ -12,10 +12,6 @@ public class DBMain {
     private static final Logger LOGGER = LogManager.getLogger(DBMain.class);
 
     public static void main(String[] args) {
-        AirlineCompanyDAO acDao = new AirlineCompanyDAO();
-        List<AirlineCompany> acList = acDao.getAllEntities();
-        LOGGER.info(acList);
-
         CityDAO cityDao = new CityDAO();
         List<City> cityList = cityDao.getAllEntities();
         LOGGER.info(cityList);
@@ -24,44 +20,22 @@ public class DBMain {
         List<Country> countryList = countryDao.getAllEntities();
         LOGGER.info(countryList);
 
-        CustomerDAO customerDAO = new CustomerDAO();
-        List<Customer> customerList = customerDAO.getAllEntities();
-        LOGGER.info(customerList);
+        City city = new City(3, "San Francisco", 1);
+        cityDao.createEntity(city);
+        Country country = new Country(8, "France");
+        countryDao.createEntity(country);
 
-        DrivingCompanyDAO dcDAO = new DrivingCompanyDAO();
-        List<DrivingCompany> dcList = dcDAO.getAllEntities();
-        LOGGER.info(dcList);
+        City city2 = new City(3, "San Bernardino", 1);
+        cityDao.updateEntity(city2);
+        Country country2 = new Country(7, "Great Britain");
+        countryDao.updateEntity(country2);
 
-        FlightDAO flightDAO = new FlightDAO();
-        List<Flight> flightList = flightDAO.getAllEntities();
-        LOGGER.info(flightList);
+        cityDao.removeEntity(2);
+        countryDao.removeEntity(5);
 
-        HotelDAO hotelDAO = new HotelDAO();
-        List<Hotel> hotelList = hotelDAO.getAllEntities();
-        LOGGER.info(hotelList);
-
-        OrderDAO orderDAO = new OrderDAO();
-        List<Order> orderList = orderDAO.getAllEntities();
-        LOGGER.info(orderList);
-
-        OrderStatusDAO osDAO = new OrderStatusDAO();
-        List<OrderStatus> osList = osDAO.getAllEntities();
-        LOGGER.info(osList);
-
-        PaymentDAO paymentDAO = new PaymentDAO();
-        List<Payment> paymentList = paymentDAO.getAllEntities();
-        LOGGER.info(paymentList);
-
-        PaymentTypeDAO ptdao = new PaymentTypeDAO();
-        List<PaymentType> ptList = ptdao.getAllEntities();
-        LOGGER.info(ptList);
-
-        StaffDAO staffDao = new StaffDAO();
-        List<Staff> staffList = staffDao.getAllEntities();
-        LOGGER.info(staffList);
-
-        TourDAO tourDAO = new TourDAO();
-        List<Tour> tourList = tourDAO.getAllEntities();
-        LOGGER.info(tourList);
+        City city3 = cityDao.getCityByName("Los Angeles");
+        LOGGER.info(city3);
+        Country country3 = countryDao.getCountryByName("United States");
+        LOGGER.info(country3);
     }
 }

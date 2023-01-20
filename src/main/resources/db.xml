@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<class>
+    <airlineCompanies>
+        <airlineCompany>
+            <companyId>1</companyId>
+            <companyName>Delta</companyName>
+        </airlineCompany>
+    </airlineCompanies>
+    <cities>
+        <city>
+            <cityId>1</cityId>
+            <name>Los Angeles</name>
+            <countryId>1</countryId>
+        </city>
+        <city>
+            <cityId>2</cityId>
+            <name>San Diego</name>
+            <countryId>1</countryId>
+        </city>
+        <city>
+            <cityId>3</cityId>
+            <name>San Bernardino</name>
+            <countryId>1</countryId>
+        </city>
+    </cities>
+    <countries>
+        <country>
+            <countryId>1</countryId>
+            <name>United States</name>
+        </country>
+        <country>
+            <countryId>2</countryId>
+            <name>Brazil</name>
+        </country>
+    </countries>
+    <customers>
+        <customer>
+            <customerId>1</customerId>
+            <firstName>Larry</firstName>
+            <lastName>Page</lastName>
+            <phone>420-829-1011</phone>
+        </customer>
+    </customers>
+    <hotels>
+        <hotel>
+            <hotelId>1</hotelId>
+            <name>Caesar Palace</name>
+            <price>100</price>
+            <cityId>1</cityId>
+        </hotel>
+        <hotel>
+            <hotelId>2</hotelId>
+            <name>Circus Circus</name>
+            <price>50</price>
+            <cityId>1</cityId>
+        </hotel>
+        <hotel>
+            <hotelId>4</hotelId>
+            <name>Holiday Inn</name>
+            <price>45</price>
+            <cityId>2</cityId>
+        </hotel>
+    </hotels>
+</class>

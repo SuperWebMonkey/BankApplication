@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.ICountryDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.ICountryDAO;
 import db.models.Country;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,12 +68,12 @@ public class CountryDAO implements ICountryDAO {
         return country;
     }
 
-    public Country getEntityByName(String db_name) {
+    public Country getCountryByName(String dbName) {
         Country country = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM countries WHERE country_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, db_name);
+            ps.setString(1, dbName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int countryId = rs.getInt("country_id");

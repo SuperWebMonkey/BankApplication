@@ -1,7 +1,7 @@
-package db.DAO;
+package db.dao;
 
 import db.models.Tour;
 
 public interface ITourDAO extends IBaseDAO<Tour> {
-    Tour getEntityByName(String db_name);
+    Tour getTourByName(String db_name);
 }

@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.IPaymentTypeDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.IPaymentTypeDAO;
 import db.models.PaymentType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,12 +68,12 @@ public class PaymentTypeDAO implements IPaymentTypeDAO {
         return pt;
     }
 
-    public PaymentType getEntityByName(String db_name) {
+    public PaymentType getPaymentTypeByName(String dbName) {
         PaymentType pt = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM payment_type WHERE payment_type_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, db_name);
+            ps.setString(1, dbName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int paymentTypeId = rs.getInt("payment_type_id");

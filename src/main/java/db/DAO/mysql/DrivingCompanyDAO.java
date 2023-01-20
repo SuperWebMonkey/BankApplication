@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.IDrivingCompanyDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.IDrivingCompanyDAO;
 import db.models.DrivingCompany;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,12 +70,12 @@ public class DrivingCompanyDAO implements IDrivingCompanyDAO {
         return dc;
     }
 
-    public DrivingCompany getEntityByPrice(double db_price) {
+    public DrivingCompany getDrivingCompanyByPrice(double dbPrice) {
         DrivingCompany dc = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM driving_companies WHERE price = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, db_price);
+            ps.setDouble(1, dbPrice);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int drivingId = rs.getInt("driving_id");

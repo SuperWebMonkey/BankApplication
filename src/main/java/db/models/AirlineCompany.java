@@ -6,13 +6,13 @@ public class AirlineCompany {
 
     public AirlineCompany(){}
 
-    public AirlineCompany(int company_id, String company_name){
-        this.companyId = company_id;
-        this.companyName = company_name;
+    public AirlineCompany(int companyId, String companyName){
+        this.companyId = companyId;
+        this.companyName = companyName;
     }
 
-    public void setCompanyId(int company_id){
-        this.companyId = company_id;
+    public void setCompanyId(int companyId){
+        this.companyId = companyId;
     }
 
     public void setCompanyName(String companyName){

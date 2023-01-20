@@ -1,7 +1,7 @@
-package db.DAO.mysql;
+package db.dao.mysql;
 
-import db.ConnectionPool.ConnectionPool;
-import db.DAO.ITourDAO;
+import db.connectionPool.ConnectionPool;
+import db.dao.ITourDAO;
 import db.models.Tour;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,12 +74,12 @@ public class TourDAO implements ITourDAO {
         return tour;
     }
 
-    public Tour getEntityByName(String db_name) {
+    public Tour getTourByName(String dbName) {
         Tour tour = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM tours WHERE tour_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, db_name);
+            ps.setString(1, dbName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int tourId = rs.getInt("tour_id");
