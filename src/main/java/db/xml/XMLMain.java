@@ -28,7 +28,6 @@ public class XMLMain {
         try {
             builder = documentBuilderFactory.newDocumentBuilder();
             document = builder.parse(new File(System.getProperty("user.dir") + "/src/main/resources/db.xml"));
-            LOGGER.info(document);
         } catch (Exception e) {
             LOGGER.info(e);
         }
@@ -60,26 +59,26 @@ public class XMLMain {
             switch (entity) {
                 case "airlineCompany":
                     AirlineCompany ac = new AirlineCompany();
-                    ac.setCompanyId(Integer.parseInt(attributes.getNamedItem("companyId").getNodeValue()));
+                    ac.setCompanyId(Integer.parseInt(element.getElementsByTagName("companyId").item(0).getTextContent()));
                     ac.setCompanyName(element.getElementsByTagName("companyName").item(0).getTextContent());
                     airlineCompanies.add(ac);
                     break;
                 case "city":
                     City city = new City();
-                    city.setCityId(Integer.parseInt(attributes.getNamedItem("cityId").getNodeValue()));
+                    city.setCityId(Integer.parseInt(element.getElementsByTagName("cityId").item(0).getTextContent()));
                     city.setCityName(element.getElementsByTagName("name").item(0).getTextContent());
-                    city.setCountryId(Integer.parseInt(attributes.getNamedItem("countryId").getNodeValue()));
+                    city.setCountryId(Integer.parseInt(element.getElementsByTagName("countryId").item(0).getTextContent()));
                     cities.add(city);
                     break;
                 case "country":
                     Country country = new Country();
-                    country.setCountryId(Integer.parseInt(attributes.getNamedItem("countryId").getNodeValue()));
+                    country.setCountryId(Integer.parseInt(element.getElementsByTagName("countryId").item(0).getTextContent()));
                     country.setCountryName(element.getElementsByTagName("name").item(0).getTextContent());
                     countries.add(country);
                     break;
                 case "customer":
                     Customer customer = new Customer();
-                    customer.setCustomerId(Integer.parseInt(attributes.getNamedItem("customerId").getNodeValue()));
+                    customer.setCustomerId(Integer.parseInt(element.getElementsByTagName("customerId").item(0).getTextContent()));
                     customer.setFirstName(element.getElementsByTagName("firstName").item(0).getTextContent());
                     customer.setLastName(element.getElementsByTagName("lastName").item(0).getTextContent());
                     customer.setPhone(element.getElementsByTagName("phone").item(0).getTextContent());
@@ -87,10 +86,10 @@ public class XMLMain {
                     break;
                 case "hotel":
                     Hotel hotel = new Hotel();
-                    hotel.setHotelId(Integer.parseInt(attributes.getNamedItem("hotelId").getNodeValue()));
+                    hotel.setHotelId(Integer.parseInt(element.getElementsByTagName("hotelId").item(0).getTextContent()));
                     hotel.setHotelName(element.getElementsByTagName("name").item(0).getTextContent());
-                    hotel.setPrice(Double.parseDouble(attributes.getNamedItem("price").getNodeValue()));
-                    hotel.setCityId(Integer.parseInt(attributes.getNamedItem("cityId").getNodeValue()));
+                    hotel.setPrice(Double.parseDouble(element.getElementsByTagName("price").item(0).getTextContent()));
+                    hotel.setCityId(Integer.parseInt(element.getElementsByTagName("cityId").item(0).getTextContent()));
                     hotels.add(hotel);
                     break;
             }

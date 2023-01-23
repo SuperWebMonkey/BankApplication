@@ -1,6 +1,6 @@
 package db.dao.mysql;
 
-import db.connectionPool.ConnectionPool;
+import db.connectionpoolm.ConnectionPool;
 import db.dao.IPaymentDAO;
 import db.models.Payment;
 import org.apache.logging.log4j.LogManager;

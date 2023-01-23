@@ -1,6 +1,6 @@
 package db.dao.mysql;
 
-import db.connectionPool.ConnectionPool;
+import db.connectionpoolm.ConnectionPool;
 import db.dao.IHotelDAO;
 import db.models.Hotel;
 import org.apache.logging.log4j.LogManager;

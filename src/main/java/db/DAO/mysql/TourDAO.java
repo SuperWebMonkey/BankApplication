@@ -1,6 +1,6 @@
 package db.dao.mysql;
 
-import db.connectionPool.ConnectionPool;
+import db.connectionpoolm.ConnectionPool;
 import db.dao.ITourDAO;
 import db.models.Tour;
 import org.apache.logging.log4j.LogManager;
