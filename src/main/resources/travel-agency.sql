@@ -1,6 +1,10 @@
 USE mydb;
 SHOW tables;
 
+SELECT * FROM customers;
+SELECT * FROM customers WHERE customer_id = 27;
+SELECT * FROM staff;
+
 /* Insert Statements */
 INSERT INTO customers (first_name, last_name, phone)
 VALUES ("Sam", "Peterson", "757-180-8001");
@@ -31,6 +35,27 @@ VALUES("United States");
 
 INSERT INTO countries(country_name)
 VALUES("Canada");
+
+INSERT INTO cities (city_name, country_id)
+VALUES ("Los Angeles", 1);
+
+INSERT INTO cities (city_name, country_id)
+VALUES ("San Francisco", 1);
+
+INSERT INTO hotels (hotel_name, price, city_id)
+VALUES ("Morongo", 15.00, 1);
+
+INSERT INTO airline_companies (company_name)
+VALUES ("Delta");
+
+INSERT INTO flights (price, airline_id, origin_city_id, destination_city_id)
+VALUES (50.00, 1, 1, 2);
+
+INSERT INTO tours (tour_name, hotel_id, flight_to_id, flight_from_id)
+VALUES ("Disney Land", 1, 1, 1);
+
+INSERT INTO orders(payment, customer_id, staff_id, tours_id, status_id, payment_Id, driving_companies_driving_id)
+VALUES (20.0, 1,1,1,1,1,1);
 
 /* Update Statements */
 UPDATE customers
@@ -108,10 +133,10 @@ DROP COLUMN zip_code;
 SELECT *
 FROM orders as o
 LEFT JOIN order_status as o_s ON o.status_id = o_s.status_id
-LEFT JOIN staff as s ON s.staff_id = o.staff_id
+RIGHT JOIN staff as s ON s.staff_id = o.staff_id
 LEFT JOIN payments as pay ON pay.payment_id = o.payment_id
 LEFT JOIN payment_types as pay_type ON pay.payment_type_id = pay_type.payment_type_id
-LEFT JOIN customers as c ON o.customer_id = c.customer_id
+RIGHT JOIN customers as c ON o.customer_id = c.customer_id
 LEFT JOIN driving_companies as d_comp ON o.driving_companies_driving_id = d_comp.driving_id
 LEFT JOIN tours as t ON t.tour_id = o.tours_id
 LEFT JOIN hotels as h ON h.hotel_id = t.hotel_id
@@ -163,11 +188,11 @@ GROUP BY (payment_type_id);
 
 SELECT flight_id, SUM(price)
 FROM flights
-GROUP by (origin_city_id);
+GROUP BY (origin_city_id);
 
 SELECT flight_id, COUNT(price)
 FROM flights
-GROUP by (destination_city_id);
+GROUP BY (destination_city_id);
 
 SELECT hotel_id, hotel_name, MAX(price)
 FROM hotels
@@ -191,17 +216,17 @@ HAVING c_price >= 5 && c_price <= 15;
 
 SELECT flight_id, COUNT(price) as c_price
 FROM flights
-GROUP by (destination_city_id)
+GROUP BY (destination_city_id)
 HAVING c_price <> 0;
 
 SELECT driving_id, AVG(price) as p 
-GROUP by (cities_city_id)
+GROUP BY (cities_city_id)
 HAVING p <= 20 or p >= 10;
 
 SELECT driving_id, SUM(price) as s
-GROUP by (cities_city_id)
+GROUP BY (cities_city_id)
 HAVING s <= 100 and s >= 0;
 
 SELECT driving_id, MIN(price) as m
-GROUP by (cities_city_id)
+GROUP BY (cities_city_id)
 HAVING m < 20 and m >= 0;
