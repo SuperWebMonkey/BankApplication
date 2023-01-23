@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
-import db.connectionpoolm.ConnectionPool;
-import db.dao.IStaffDAO;
-import db.models.Staff;
+import db.connectionpool.ConnectionPool;
+import db.dao.IOrderStatusDAO;
+import db.models.OrderStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,22 +12,21 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffDAO implements IStaffDAO {
-    private static final Logger LOGGER = LogManager.getLogger(StaffDAO.class);
+public class OrderStatusDAO implements IOrderStatusDAO {
+    private static final Logger LOGGER = LogManager.getLogger(OrderStatusDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Staff> getAllEntities(){
-        List<Staff> staffList = new ArrayList<Staff>();
-        String sql = "SELECT * FROM staff";
+    public List<OrderStatus> getAllEntities(){
+        List<OrderStatus>  osList = new ArrayList<>();
+        String sql = "SELECT * FROM order_status";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Staff staff = new Staff();
-                staff.setStaffId(rs.getInt(1));
-                staff.setFirstName(rs.getString(2));
-                staff.setLastName(rs.getString(3));
-                staffList.add(staff);
+                OrderStatus os = new OrderStatus();
+                os.setStatusId(rs.getInt(1));
+                os.setStatusName(rs.getString(2));
+                osList.add(os);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -40,21 +39,20 @@ public class StaffDAO implements IStaffDAO {
                 }
             }
         }
-        return staffList;
+        return osList;
     }
 
-    public Staff getEntityById(int id) {
-        Staff staff = null;
+    public OrderStatus getEntityById(int id) {
+        OrderStatus os = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM staff WHERE staff_id = (?)";
+        String sql = "SELECT * FROM order_status WHERE status_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int customerId = rs.getInt("staff_id");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
-                staff = new Staff(customerId, firstName, lastName);
+                int statusId = rs.getInt("status_id");
+                String statusName = rs.getString("status_name");
+                os = new OrderStatus(statusId, statusName);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -67,21 +65,20 @@ public class StaffDAO implements IStaffDAO {
                 }
             }
         }
-        return staff;
+        return os;
     }
 
-    public Staff getStaffByFirstName(String dbFirstName) {
-        Staff staff = null;
+    public OrderStatus getOrderStatusByName(String dbName) {
+        OrderStatus os = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM staff WHERE first_name = (?)";
+        String sql = "SELECT * FROM order_status WHERE status_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbFirstName);
+            ps.setString(1, dbName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int customerId = rs.getInt("staff_id");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
-                staff = new Staff(customerId, firstName, lastName);
+                int statusId = rs.getInt("status_id");
+                String statusName = rs.getString("status_name");
+                os = new OrderStatus(statusId, statusName);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -94,43 +91,16 @@ public class StaffDAO implements IStaffDAO {
                 }
             }
         }
-        return staff;
+        return os;
     }
 
-    public Staff getStaffByLastName(String dbLastName) {
-        Staff staff = null;
+    public OrderStatus createEntity(OrderStatus os) {
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM staff WHERE last_name = (?)";
+        String sql = "INSERT INTO order_status (status_id, status_name) " +
+                "VALUES (?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbLastName);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                int customerId = rs.getInt("staff_id");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
-                staff = new Staff(customerId, firstName, lastName);
-            }
-        } catch (Exception e) {
-            LOGGER.error(e);
-        } finally {
-            if (con != null) {
-                try {
-                    connectionPool.releaseConnection(con);
-                } catch (Exception e) {
-                    LOGGER.info(e);
-                }
-            }
-        }
-        return staff;
-    }
-
-    public Staff createEntity(Staff staff) {
-        Connection con = connectionPool.getConnection();
-        String sql = "INSERT INTO staff (staff_id, first_name, last_name) VALUES (?,?,?)";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, staff.getStaffId());
-            ps.setString(2, staff.getFirstName());
-            ps.setString(3, staff.getLastName());
+            ps.setInt(1, os.getStatusId());
+            ps.setString(2, os.getStatusName());
             ps.executeUpdate();
             LOGGER.info("Insertion was successful");
         } catch (Exception e) {
@@ -147,15 +117,14 @@ public class StaffDAO implements IStaffDAO {
         return null;
     }
 
-    public void updateEntity(Staff staff) {
-        String sql = "UPDATE staff SET first_name = ?, last_name = ? WHERE customer_id = ?";
+    public void updateEntity(OrderStatus os) {
+        String sql = "UPDATE order_status SET status_name = (?) WHERE status_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update staff: " + staff);
-            ps.setString(1, staff.getFirstName());
-            ps.setString(2, staff.getLastName());
-            ps.setInt(3, staff.getStaffId());
-            ps.executeUpdate();
+            LOGGER.info("in update customer: " + os);
+            ps.setString(1, os.getStatusName());
+            ps.setInt(2, os.getStatusId());
+            ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
         } finally {
@@ -170,7 +139,7 @@ public class StaffDAO implements IStaffDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM staff WHERE staff_id = (?)";
+        String sql = "Delete FROM order_status WHERE status_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);

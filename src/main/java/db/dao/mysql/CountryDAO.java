@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
-import db.connectionpoolm.ConnectionPool;
-import db.dao.IAirlineCompanyDAO;
-import db.models.AirlineCompany;
+import db.connectionpool.ConnectionPool;
+import db.dao.ICountryDAO;
+import db.models.Country;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,21 +12,21 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AirlineCompanyDAO implements IAirlineCompanyDAO {
-    private static final Logger LOGGER = LogManager.getLogger(AirlineCompanyDAO.class);
+public class CountryDAO implements ICountryDAO {
+    private static final Logger LOGGER = LogManager.getLogger(CountryDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<AirlineCompany> getAllEntities(){
-        List<AirlineCompany> acList = new ArrayList<>();
-        String sql = "SELECT company_id, company_name FROM airline_companies";
-        Connection con = connectionPool.getConnection();
+    public List<Country> getAllEntities(){
+        List<Country> countryList = new ArrayList<>();
+        String sql = "SELECT * FROM countries";
+        Connection con = connectionPool.getConnection();;
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                AirlineCompany ac = new AirlineCompany();
-                ac.setCompanyId(rs.getInt(1));
-                ac.setCompanyName(rs.getString(2));
-                acList.add(ac);
+                Country country = new Country();
+                country.setCountryId(rs.getInt(1));
+                country.setCountryName(rs.getString(2));
+                countryList.add(country);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -39,20 +39,20 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
                 }
             }
         }
-        return acList;
+        return countryList;
     }
 
-    public AirlineCompany getEntityById(int id) {
-        AirlineCompany ac = null;
+    public Country getEntityById(int id) {
+        Country country = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM airline_companies WHERE company_id = (?)";
+        String sql = "SELECT * FROM countries WHERE country_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int acId = rs.getInt("company_id");
-                String companyName = rs.getString("company_name");
-                ac = new AirlineCompany(acId, companyName);
+                int countryId = rs.getInt("country_id");
+                String countryName = rs.getString("country_name");
+                country = new Country(countryId, countryName);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -65,20 +65,20 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
                 }
             }
         }
-        return ac;
+        return country;
     }
 
-    public AirlineCompany getAirlineCompanyByName(String dbName) {
-        AirlineCompany ac = null;
+    public Country getCountryByName(String dbName) {
+        Country country = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM airline_companies WHERE company_name = (?)";
+        String sql = "SELECT * FROM countries WHERE country_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, dbName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int acId = rs.getInt("company_id");
-                String companyName = rs.getString("company_name");
-                ac = new AirlineCompany(acId, companyName);
+                int countryId = rs.getInt("country_id");
+                String countryName = rs.getString("country_name");
+                country = new Country(countryId, countryName);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -91,15 +91,15 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
                 }
             }
         }
-        return ac;
+        return country;
     }
 
-    public AirlineCompany createEntity(AirlineCompany ac) {
+    public Country createEntity(Country country) {
         Connection con = connectionPool.getConnection();
-        String sql = "INSERT INTO airline_companies (company_id, company_name) VALUES (?,?)";
+        String sql = "INSERT INTO countries (country_id, country_name) VALUES (?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, ac.getCompanyId());
-            ps.setString(2, ac.getCompanyName());
+            ps.setInt(1, country.getCountryId());
+            ps.setString(2, country.getCountryName());
             ps.executeUpdate();
             LOGGER.info("Insertion was successful");
         } catch (Exception e) {
@@ -116,13 +116,13 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
         return null;
     }
 
-    public void updateEntity(AirlineCompany ac) {
-        String sql = "UPDATE airline_companies SET company_name = (?) WHERE company_id = (?)";
+    public void updateEntity(Country country) {
+        String sql = "UPDATE countries SET country_name = (?) WHERE country_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update customer: " + ac);
-            ps.setString(1, ac.getCompanyName());
-            ps.setInt(2, ac.getCompanyId());
+            LOGGER.info("in update customer: " + country);
+            ps.setString(1, country.getCountryName());
+            ps.setInt(2, country.getCountryId());
             ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
@@ -138,7 +138,7 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM airline_companies WHERE company_id = (?)";
+        String sql = "Delete FROM countries WHERE country_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);

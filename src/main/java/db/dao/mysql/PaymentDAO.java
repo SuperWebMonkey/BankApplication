@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
-import db.connectionpoolm.ConnectionPool;
-import db.dao.IOrderStatusDAO;
-import db.models.OrderStatus;
+import db.connectionpool.ConnectionPool;
+import db.dao.IPaymentDAO;
+import db.models.Payment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,21 +12,22 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderStatusDAO implements IOrderStatusDAO {
-    private static final Logger LOGGER = LogManager.getLogger(OrderStatusDAO.class);
+public class PaymentDAO implements IPaymentDAO {
+    private static final Logger LOGGER = LogManager.getLogger(PaymentDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<OrderStatus> getAllEntities(){
-        List<OrderStatus>  osList = new ArrayList<>();
-        String sql = "SELECT * FROM order_status";
+    public List<Payment> getAllEntities(){
+        List<Payment>  paymentList = new ArrayList<>();
+        String sql = "SELECT * FROM payments";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                OrderStatus os = new OrderStatus();
-                os.setStatusId(rs.getInt(1));
-                os.setStatusName(rs.getString(2));
-                osList.add(os);
+                Payment payment = new Payment();
+                payment.setPaymentId(rs.getInt(1));
+                payment.setAmount(rs.getDouble(2));
+                payment.setPaymentTypeId(rs.getInt(1));
+                paymentList.add(payment);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -39,20 +40,21 @@ public class OrderStatusDAO implements IOrderStatusDAO {
                 }
             }
         }
-        return osList;
+        return paymentList;
     }
 
-    public OrderStatus getEntityById(int id) {
-        OrderStatus os = null;
+    public Payment getEntityById(int id) {
+        Payment payment = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM order_status WHERE status_id = (?)";
+        String sql = "SELECT * FROM payments WHERE payment_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int statusId = rs.getInt("status_id");
-                String statusName = rs.getString("status_name");
-                os = new OrderStatus(statusId, statusName);
+                int paymentId = rs.getInt("payment_id");
+                double amount = rs.getDouble("amount");
+                int paymentType = rs.getInt("payment_type_id");
+                payment = new Payment(paymentId, amount, paymentType);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -65,20 +67,21 @@ public class OrderStatusDAO implements IOrderStatusDAO {
                 }
             }
         }
-        return os;
+        return payment;
     }
 
-    public OrderStatus getOrderStatusByName(String dbName) {
-        OrderStatus os = null;
+    public Payment getPaymentByAmount(double dbAmount) {
+        Payment payment = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM order_status WHERE status_name = (?)";
+        String sql = "SELECT * FROM payments WHERE amount = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbName);
+            ps.setDouble(1, dbAmount);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int statusId = rs.getInt("status_id");
-                String statusName = rs.getString("status_name");
-                os = new OrderStatus(statusId, statusName);
+                int paymentId = rs.getInt("payment_id");
+                double amount = rs.getDouble("amount");
+                int paymentType = rs.getInt("payment_type_id");
+                payment = new Payment(paymentId, amount, paymentType);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -91,16 +94,17 @@ public class OrderStatusDAO implements IOrderStatusDAO {
                 }
             }
         }
-        return os;
+        return payment;
     }
 
-    public OrderStatus createEntity(OrderStatus os) {
+    public Payment createEntity(Payment payment) {
         Connection con = connectionPool.getConnection();
-        String sql = "INSERT INTO order_status (status_id, status_name) " +
-                "VALUES (?,?)";
+        String sql = "INSERT INTO payments (payment_id, amount, payment_type_id) " +
+                "VALUES (?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, os.getStatusId());
-            ps.setString(2, os.getStatusName());
+            ps.setInt(1, payment.getPaymentId());
+            ps.setDouble(2, payment.getAmount());
+            ps.setInt(3, payment.getPaymentTypeId());
             ps.executeUpdate();
             LOGGER.info("Insertion was successful");
         } catch (Exception e) {
@@ -117,13 +121,14 @@ public class OrderStatusDAO implements IOrderStatusDAO {
         return null;
     }
 
-    public void updateEntity(OrderStatus os) {
-        String sql = "UPDATE order_status SET status_name = (?) WHERE status_id = (?)";
+    public void updateEntity(Payment payment) {
+        String sql = "UPDATE payments SET amount = (?), payment_type_id = (?) WHERE payment_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update customer: " + os);
-            ps.setString(1, os.getStatusName());
-            ps.setInt(2, os.getStatusId());
+            LOGGER.info("in update customer: " + payment);
+            ps.setDouble(1, payment.getAmount());
+            ps.setInt(2, payment.getPaymentTypeId());
+            ps.setInt(3, payment.getPaymentId());
             ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
@@ -139,7 +144,7 @@ public class OrderStatusDAO implements IOrderStatusDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM order_status WHERE status_id = (?)";
+        String sql = "Delete FROM payments WHERE payment_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);

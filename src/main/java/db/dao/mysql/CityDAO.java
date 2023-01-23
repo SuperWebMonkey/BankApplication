@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
-import db.connectionpoolm.ConnectionPool;
-import db.dao.IHotelDAO;
-import db.models.Hotel;
+import db.connectionpool.ConnectionPool;
+import db.dao.ICityDAO;
+import db.models.City;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,23 +12,22 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HotelDAO implements IHotelDAO {
-    private static final Logger LOGGER = LogManager.getLogger(HotelDAO.class);
+public class CityDAO implements ICityDAO {
+    private static final Logger LOGGER = LogManager.getLogger(CityDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Hotel> getAllEntities(){
-        List<Hotel>  hotelList = new ArrayList<>();
-        String sql = "SELECT * FROM hotels";
+    public List<City> getAllEntities(){
+        List<City> cityList = new ArrayList<>();
+        String sql = "SELECT * FROM cities";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Hotel hotel = new Hotel();
-                hotel.setHotelId(rs.getInt(1));
-                hotel.setHotelName(rs.getString(2));
-                hotel.setPrice(rs.getDouble(3));
-                hotel.setCityId(rs.getInt(4));
-                hotelList.add(hotel);
+                City city = new City();
+                city.setCityId(rs.getInt(1));
+                city.setCityName(rs.getString(2));
+                city.setCountryId(rs.getInt(3));
+                cityList.add(city);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -41,22 +40,21 @@ public class HotelDAO implements IHotelDAO {
                 }
             }
         }
-        return hotelList;
+        return cityList;
     }
 
-    public Hotel getEntityById(int id) {
-        Hotel hotel = null;
+    public City getEntityById(int id) {
+        City city = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM hotels WHERE hotel_id = (?)";
+        String sql = "SELECT * FROM cities WHERE company_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int hotelId = rs.getInt("hotel_id");
-                String hotelName = rs.getString("hotel_name");
-                double price = rs.getDouble("price");
                 int cityId = rs.getInt("city_id");
-                hotel = new Hotel(hotelId, hotelName, price, cityId);
+                String cityName = rs.getString("city_name");
+                int countryId = rs.getInt("country_id");
+                city = new City(cityId, cityName, countryId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -69,22 +67,21 @@ public class HotelDAO implements IHotelDAO {
                 }
             }
         }
-        return hotel;
+        return city;
     }
 
-    public Hotel getHotelByName(String dbName) {
-        Hotel hotel = null;
+    public City getCityByName(String name) {
+        City city = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM hotels WHERE hotel_name = (?)";
+        String sql = "SELECT * FROM cities WHERE city_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbName);
+            ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int hotelId = rs.getInt("hotel_id");
-                String hotelName = rs.getString("hotel_name");
-                double price = rs.getDouble("price");
                 int cityId = rs.getInt("city_id");
-                hotel = new Hotel(hotelId, hotelName, price, cityId);
+                String cityName = rs.getString("city_name");
+                int countryId = rs.getInt("country_id");
+                city = new City(cityId, cityName, countryId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -97,45 +94,16 @@ public class HotelDAO implements IHotelDAO {
                 }
             }
         }
-        return hotel;
+        return city;
     }
 
-    public Hotel getHotelByPrice(double dbPrice) {
-        Hotel hotel = null;
-        Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM hotels WHERE price = (?)";
+    public City createEntity(City city) {
+        Connection con = connectionPool.getConnection();;
+        String sql = "INSERT INTO cities (city_id, city_name, country_id) VALUES (?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, dbPrice);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                int hotelId = rs.getInt("hotel_id");
-                String hotelName = rs.getString("hotel_name");
-                double price = rs.getDouble("price");
-                int cityId = rs.getInt("city_id");
-                hotel = new Hotel(hotelId, hotelName, price, cityId);
-            }
-        } catch (Exception e) {
-            LOGGER.error(e);
-        } finally {
-            if (con != null) {
-                try {
-                    connectionPool.releaseConnection(con);
-                } catch (Exception e) {
-                    LOGGER.info(e);
-                }
-            }
-        }
-        return hotel;
-    }
-
-    public Hotel createEntity(Hotel hotel) {
-        Connection con = connectionPool.getConnection();
-        String sql = "INSERT INTO hotels (hotel_id, hotel_name, price, city_id) VALUES (?,?,?,?)";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, hotel.getHotelId());
-            ps.setString(2, hotel.getHotelName());
-            ps.setDouble(3, hotel.getPrice());
-            ps.setInt(4, hotel.getCityId());
+            ps.setInt(1, city.getCityId());
+            ps.setString(2, city.getCityName());
+            ps.setInt(3, city.getCountryId());
             ps.executeUpdate();
             LOGGER.info("Insertion was successful");
         } catch (Exception e) {
@@ -152,16 +120,14 @@ public class HotelDAO implements IHotelDAO {
         return null;
     }
 
-    public void updateEntity(Hotel hotel) {
-        String sql = "UPDATE hotels SET hotel_name = (?), price = (?), city_id = (?), " +
-                "WHERE hotel_id = (?)";
+    public void updateEntity(City city) {
+        String sql = "UPDATE cities SET city_name = (?), country_id = (?) WHERE city_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update customer: " + hotel);
-            ps.setString(1, hotel.getHotelName());
-            ps.setDouble(2, hotel.getPrice());
-            ps.setInt(3, hotel.getCityId());
-            ps.setInt(4, hotel.getCityId());
+            LOGGER.info("in update customer: " + city);
+            ps.setString(1, city.getCityName());
+            ps.setInt(2, city.getCountryId());
+            ps.setInt(3, city.getCityId());
             ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
@@ -177,7 +143,7 @@ public class HotelDAO implements IHotelDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM hotels WHERE hotel_id = (?)";
+        String sql = "Delete FROM cities WHERE city_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);

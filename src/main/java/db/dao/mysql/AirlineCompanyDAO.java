@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
-import db.connectionpoolm.ConnectionPool;
-import db.dao.IPaymentDAO;
-import db.models.Payment;
+import db.connectionpool.ConnectionPool;
+import db.dao.IAirlineCompanyDAO;
+import db.models.AirlineCompany;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,22 +12,21 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaymentDAO implements IPaymentDAO {
-    private static final Logger LOGGER = LogManager.getLogger(PaymentDAO.class);
+public class AirlineCompanyDAO implements IAirlineCompanyDAO {
+    private static final Logger LOGGER = LogManager.getLogger(AirlineCompanyDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Payment> getAllEntities(){
-        List<Payment>  paymentList = new ArrayList<>();
-        String sql = "SELECT * FROM payments";
+    public List<AirlineCompany> getAllEntities(){
+        List<AirlineCompany> acList = new ArrayList<>();
+        String sql = "SELECT company_id, company_name FROM airline_companies";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Payment payment = new Payment();
-                payment.setPaymentId(rs.getInt(1));
-                payment.setAmount(rs.getDouble(2));
-                payment.setPaymentTypeId(rs.getInt(1));
-                paymentList.add(payment);
+                AirlineCompany ac = new AirlineCompany();
+                ac.setCompanyId(rs.getInt(1));
+                ac.setCompanyName(rs.getString(2));
+                acList.add(ac);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -40,21 +39,20 @@ public class PaymentDAO implements IPaymentDAO {
                 }
             }
         }
-        return paymentList;
+        return acList;
     }
 
-    public Payment getEntityById(int id) {
-        Payment payment = null;
+    public AirlineCompany getEntityById(int id) {
+        AirlineCompany ac = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM payments WHERE payment_id = (?)";
+        String sql = "SELECT * FROM airline_companies WHERE company_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int paymentId = rs.getInt("payment_id");
-                double amount = rs.getDouble("amount");
-                int paymentType = rs.getInt("payment_type_id");
-                payment = new Payment(paymentId, amount, paymentType);
+                int acId = rs.getInt("company_id");
+                String companyName = rs.getString("company_name");
+                ac = new AirlineCompany(acId, companyName);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -67,21 +65,20 @@ public class PaymentDAO implements IPaymentDAO {
                 }
             }
         }
-        return payment;
+        return ac;
     }
 
-    public Payment getPaymentByAmount(double dbAmount) {
-        Payment payment = null;
+    public AirlineCompany getAirlineCompanyByName(String dbName) {
+        AirlineCompany ac = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM payments WHERE amount = (?)";
+        String sql = "SELECT * FROM airline_companies WHERE company_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, dbAmount);
+            ps.setString(1, dbName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int paymentId = rs.getInt("payment_id");
-                double amount = rs.getDouble("amount");
-                int paymentType = rs.getInt("payment_type_id");
-                payment = new Payment(paymentId, amount, paymentType);
+                int acId = rs.getInt("company_id");
+                String companyName = rs.getString("company_name");
+                ac = new AirlineCompany(acId, companyName);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -94,17 +91,15 @@ public class PaymentDAO implements IPaymentDAO {
                 }
             }
         }
-        return payment;
+        return ac;
     }
 
-    public Payment createEntity(Payment payment) {
+    public AirlineCompany createEntity(AirlineCompany ac) {
         Connection con = connectionPool.getConnection();
-        String sql = "INSERT INTO payments (payment_id, amount, payment_type_id) " +
-                "VALUES (?,?,?)";
+        String sql = "INSERT INTO airline_companies (company_id, company_name) VALUES (?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, payment.getPaymentId());
-            ps.setDouble(2, payment.getAmount());
-            ps.setInt(3, payment.getPaymentTypeId());
+            ps.setInt(1, ac.getCompanyId());
+            ps.setString(2, ac.getCompanyName());
             ps.executeUpdate();
             LOGGER.info("Insertion was successful");
         } catch (Exception e) {
@@ -121,14 +116,13 @@ public class PaymentDAO implements IPaymentDAO {
         return null;
     }
 
-    public void updateEntity(Payment payment) {
-        String sql = "UPDATE payments SET amount = (?), payment_type_id = (?) WHERE payment_id = (?)";
+    public void updateEntity(AirlineCompany ac) {
+        String sql = "UPDATE airline_companies SET company_name = (?) WHERE company_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update customer: " + payment);
-            ps.setDouble(1, payment.getAmount());
-            ps.setInt(2, payment.getPaymentTypeId());
-            ps.setInt(3, payment.getPaymentId());
+            LOGGER.info("in update customer: " + ac);
+            ps.setString(1, ac.getCompanyName());
+            ps.setInt(2, ac.getCompanyId());
             ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
@@ -144,7 +138,7 @@ public class PaymentDAO implements IPaymentDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM payments WHERE payment_id = (?)";
+        String sql = "Delete FROM airline_companies WHERE company_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);

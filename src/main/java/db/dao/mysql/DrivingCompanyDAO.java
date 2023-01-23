@@ -1,8 +1,8 @@
 package db.dao.mysql;
 
-import db.connectionpoolm.ConnectionPool;
-import db.dao.ICityDAO;
-import db.models.City;
+import db.connectionpool.ConnectionPool;
+import db.dao.IDrivingCompanyDAO;
+import db.models.DrivingCompany;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,22 +12,22 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CityDAO implements ICityDAO {
-    private static final Logger LOGGER = LogManager.getLogger(CityDAO.class);
+public class DrivingCompanyDAO implements IDrivingCompanyDAO {
+    private static final Logger LOGGER = LogManager.getLogger(DrivingCompanyDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<City> getAllEntities(){
-        List<City> cityList = new ArrayList<>();
-        String sql = "SELECT * FROM cities";
+    public List<DrivingCompany> getAllEntities(){
+        List<DrivingCompany>  dcList = new ArrayList<>();
+        String sql = "SELECT * FROM driving_companies";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                City city = new City();
-                city.setCityId(rs.getInt(1));
-                city.setCityName(rs.getString(2));
-                city.setCountryId(rs.getInt(3));
-                cityList.add(city);
+                DrivingCompany dc = new DrivingCompany();
+                dc.setDrivingId(rs.getInt(1));
+                dc.setPrice(rs.getDouble(2));
+                dc.setCityId(rs.getInt(3));
+                dcList.add(dc);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -40,21 +40,21 @@ public class CityDAO implements ICityDAO {
                 }
             }
         }
-        return cityList;
+        return dcList;
     }
 
-    public City getEntityById(int id) {
-        City city = null;
+    public DrivingCompany getEntityById(int id) {
+        DrivingCompany dc = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM cities WHERE company_id = (?)";
+        String sql = "SELECT * FROM driving_companies WHERE driving_id = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
+                int drivingId = rs.getInt("driving_id");
+                double price = rs.getDouble("price");
                 int cityId = rs.getInt("city_id");
-                String cityName = rs.getString("city_name");
-                int countryId = rs.getInt("country_id");
-                city = new City(cityId, cityName, countryId);
+                dc = new DrivingCompany(drivingId, price, cityId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -67,21 +67,21 @@ public class CityDAO implements ICityDAO {
                 }
             }
         }
-        return city;
+        return dc;
     }
 
-    public City getCityByName(String name) {
-        City city = null;
+    public DrivingCompany getDrivingCompanyByPrice(double dbPrice) {
+        DrivingCompany dc = null;
         Connection con = connectionPool.getConnection();
-        String sql = "SELECT * FROM cities WHERE city_name = (?)";
+        String sql = "SELECT * FROM driving_companies WHERE price = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, name);
+            ps.setDouble(1, dbPrice);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
+                int drivingId = rs.getInt("driving_id");
+                double price = rs.getDouble("price");
                 int cityId = rs.getInt("city_id");
-                String cityName = rs.getString("city_name");
-                int countryId = rs.getInt("country_id");
-                city = new City(cityId, cityName, countryId);
+                dc = new DrivingCompany(drivingId, price, cityId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -94,16 +94,16 @@ public class CityDAO implements ICityDAO {
                 }
             }
         }
-        return city;
+        return dc;
     }
 
-    public City createEntity(City city) {
-        Connection con = connectionPool.getConnection();;
-        String sql = "INSERT INTO cities (city_id, city_name, country_id) VALUES (?,?,?)";
+    public DrivingCompany createEntity(DrivingCompany dc) {
+        Connection con = connectionPool.getConnection();
+        String sql = "INSERT INTO driving_companies (driving_id, price, city_id) VALUES (?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, city.getCityId());
-            ps.setString(2, city.getCityName());
-            ps.setInt(3, city.getCountryId());
+            ps.setInt(1, dc.getDrivingId());
+            ps.setDouble(2, dc.getPrice());
+            ps.setInt(3, dc.getCityId());
             ps.executeUpdate();
             LOGGER.info("Insertion was successful");
         } catch (Exception e) {
@@ -120,14 +120,14 @@ public class CityDAO implements ICityDAO {
         return null;
     }
 
-    public void updateEntity(City city) {
-        String sql = "UPDATE cities SET city_name = (?), country_id = (?) WHERE city_id = (?)";
+    public void updateEntity(DrivingCompany dc) {
+        String sql = "UPDATE driving_companies SET price = (?), city_id = (?) WHERE driving_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            LOGGER.info("in update customer: " + city);
-            ps.setString(1, city.getCityName());
-            ps.setInt(2, city.getCountryId());
-            ps.setInt(3, city.getCityId());
+            LOGGER.info("in update customer: " + dc);
+            ps.setDouble(1, dc.getPrice());
+            ps.setInt(2, dc.getCityId());
+            ps.setInt(3, dc.getDrivingId());
             ps.execute();
         } catch(Exception e) {
             LOGGER.error(e);
@@ -143,7 +143,7 @@ public class CityDAO implements ICityDAO {
     }
 
     public void removeEntity(int id) {
-        String sql = "Delete FROM cities WHERE city_id = (?)";
+        String sql = "Delete FROM driving_companies WHERE driving_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);
