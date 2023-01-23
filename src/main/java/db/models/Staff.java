@@ -5,7 +5,8 @@ public class Staff {
     private String firstName;
     private String lastName;
 
-    public Staff() {}
+    public Staff() {
+    }
 
     public Staff(int staffId, String firstName, String lastName) {
         this.staffId = staffId;

@@ -16,11 +16,11 @@ public class HotelDAO implements IHotelDAO {
     private static final Logger LOGGER = LogManager.getLogger(HotelDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Hotel> getAllEntities(){
-        List<Hotel>  hotelList = new ArrayList<>();
+    public List<Hotel> getAllEntities() {
+        List<Hotel> hotelList = new ArrayList<>();
         String sql = "SELECT * FROM hotels";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Hotel hotel = new Hotel();
@@ -163,7 +163,7 @@ public class HotelDAO implements IHotelDAO {
             ps.setInt(3, hotel.getCityId());
             ps.setInt(4, hotel.getCityId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -179,7 +179,7 @@ public class HotelDAO implements IHotelDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM hotels WHERE hotel_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

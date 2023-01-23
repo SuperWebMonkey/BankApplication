@@ -17,7 +17,7 @@ public class CustomerDAO implements ICustomerDAO {
     private static final Logger LOGGER = LogManager.getLogger(CustomerDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Customer> getAllEntities(){
+    public List<Customer> getAllEntities() {
         List<Customer> customerList = new ArrayList<>();
         String sql = "SELECT customer_id, first_name, last_name, phone FROM customers";
         Connection con = connectionPool.getConnection();
@@ -46,7 +46,7 @@ public class CustomerDAO implements ICustomerDAO {
         return customerList;
     }
 
-   public Customer getEntityById(int id) {
+    public Customer getEntityById(int id) {
         Customer customers = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM customers WHERE customer_id = (?)";
@@ -192,7 +192,7 @@ public class CustomerDAO implements ICustomerDAO {
             ps.setString(3, customers.getPhone());
             ps.setInt(4, customers.getCustomerId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -208,7 +208,7 @@ public class CustomerDAO implements ICustomerDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM customers WHERE customer_id = ?";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

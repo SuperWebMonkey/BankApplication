@@ -7,7 +7,8 @@ public class Tour {
     private int flightToId;
     private int flightFromId;
 
-    public Tour() {}
+    public Tour() {
+    }
 
     public Tour(int tourId, String tourName, int hotelId, int flightToId, int flightFromId) {
         this.tourId = tourId;

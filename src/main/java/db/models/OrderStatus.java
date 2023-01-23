@@ -4,7 +4,8 @@ public class OrderStatus {
     private int statusId;
     private String statusName;
 
-    public OrderStatus(){}
+    public OrderStatus() {
+    }
 
     public OrderStatus(int statusId, String statusName) {
         this.statusId = statusId;

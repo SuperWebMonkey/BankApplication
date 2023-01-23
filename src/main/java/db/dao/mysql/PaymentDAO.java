@@ -16,8 +16,8 @@ public class PaymentDAO implements IPaymentDAO {
     private static final Logger LOGGER = LogManager.getLogger(PaymentDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Payment> getAllEntities(){
-        List<Payment>  paymentList = new ArrayList<>();
+    public List<Payment> getAllEntities() {
+        List<Payment> paymentList = new ArrayList<>();
         String sql = "SELECT * FROM payments";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -130,7 +130,7 @@ public class PaymentDAO implements IPaymentDAO {
             ps.setInt(2, payment.getPaymentTypeId());
             ps.setInt(3, payment.getPaymentId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -146,7 +146,7 @@ public class PaymentDAO implements IPaymentDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM payments WHERE payment_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

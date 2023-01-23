@@ -16,8 +16,8 @@ public class TourDAO implements ITourDAO {
     private static final Logger LOGGER = LogManager.getLogger(TourDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Tour> getAllEntities(){
-        List<Tour>  tourList = new ArrayList<>();
+    public List<Tour> getAllEntities() {
+        List<Tour> tourList = new ArrayList<>();
         String sql = "SELECT * FROM tours";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -58,7 +58,7 @@ public class TourDAO implements ITourDAO {
                 int hotelId = rs.getInt("hotel_id");
                 int flightToId = rs.getInt("flight_to_id");
                 int flightFromId = rs.getInt("flight_from_id");
-                tour = new Tour(tourId, tourName, hotelId,flightToId, flightFromId);
+                tour = new Tour(tourId, tourName, hotelId, flightToId, flightFromId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -87,7 +87,7 @@ public class TourDAO implements ITourDAO {
                 int hotelId = rs.getInt("hotel_id");
                 int flightToId = rs.getInt("flight_to_id");
                 int flightFromId = rs.getInt("flight_from_id");
-                tour = new Tour(tourId, tourName, hotelId,flightToId, flightFromId);
+                tour = new Tour(tourId, tourName, hotelId, flightToId, flightFromId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -141,7 +141,7 @@ public class TourDAO implements ITourDAO {
             ps.setInt(4, tour.getFlightFromId());
             ps.setInt(5, tour.getTourId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -157,7 +157,7 @@ public class TourDAO implements ITourDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM tours WHERE tour_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

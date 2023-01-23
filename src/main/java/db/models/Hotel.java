@@ -6,7 +6,8 @@ public class Hotel {
     private double price;
     private int cityId;
 
-    public Hotel(){}
+    public Hotel() {
+    }
 
     public Hotel(int hotelId, String hotelName, double price, int cityId) {
         this.hotelId = hotelId;

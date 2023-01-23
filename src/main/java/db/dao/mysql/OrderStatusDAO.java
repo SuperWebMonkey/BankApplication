@@ -16,8 +16,8 @@ public class OrderStatusDAO implements IOrderStatusDAO {
     private static final Logger LOGGER = LogManager.getLogger(OrderStatusDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<OrderStatus> getAllEntities(){
-        List<OrderStatus>  osList = new ArrayList<>();
+    public List<OrderStatus> getAllEntities() {
+        List<OrderStatus> osList = new ArrayList<>();
         String sql = "SELECT * FROM order_status";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -125,7 +125,7 @@ public class OrderStatusDAO implements IOrderStatusDAO {
             ps.setString(1, os.getStatusName());
             ps.setInt(2, os.getStatusId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -141,7 +141,7 @@ public class OrderStatusDAO implements IOrderStatusDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM order_status WHERE status_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

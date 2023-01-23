@@ -16,7 +16,7 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
     private static final Logger LOGGER = LogManager.getLogger(AirlineCompanyDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<AirlineCompany> getAllEntities(){
+    public List<AirlineCompany> getAllEntities() {
         List<AirlineCompany> acList = new ArrayList<>();
         String sql = "SELECT company_id, company_name FROM airline_companies";
         Connection con = connectionPool.getConnection();
@@ -124,7 +124,7 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
             ps.setString(1, ac.getCompanyName());
             ps.setInt(2, ac.getCompanyId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -140,7 +140,7 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM airline_companies WHERE company_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

@@ -4,7 +4,8 @@ public class PaymentType {
     private int paymentType;
     private String paymentTypeName;
 
-    public PaymentType() {}
+    public PaymentType() {
+    }
 
     public PaymentType(int paymentType, String paymentTypeName) {
         this.paymentType = paymentType;

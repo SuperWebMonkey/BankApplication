@@ -16,7 +16,7 @@ public class CityDAO implements ICityDAO {
     private static final Logger LOGGER = LogManager.getLogger(CityDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<City> getAllEntities(){
+    public List<City> getAllEntities() {
         List<City> cityList = new ArrayList<>();
         String sql = "SELECT * FROM cities";
         Connection con = connectionPool.getConnection();
@@ -98,7 +98,8 @@ public class CityDAO implements ICityDAO {
     }
 
     public City createEntity(City city) {
-        Connection con = connectionPool.getConnection();;
+        Connection con = connectionPool.getConnection();
+        ;
         String sql = "INSERT INTO cities (city_id, city_name, country_id) VALUES (?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, city.getCityId());
@@ -129,7 +130,7 @@ public class CityDAO implements ICityDAO {
             ps.setInt(2, city.getCountryId());
             ps.setInt(3, city.getCityId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -145,7 +146,7 @@ public class CityDAO implements ICityDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM cities WHERE city_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

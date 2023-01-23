@@ -10,7 +10,8 @@ public class Order {
     private int paymentId;
     private int drivingCompaniesId;
 
-    public Order() {}
+    public Order() {
+    }
 
     public Order(int orderId, double payment, int customerId, int staffId, int toursId, int statusId, int paymentId, int drivingCompaniesId) {
         this.orderId = orderId;

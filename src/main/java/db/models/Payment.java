@@ -1,7 +1,8 @@
 package db.models;
 
 public class Payment {
-    public Payment() {}
+    public Payment() {
+    }
 
     private int paymentId;
     private double amount;

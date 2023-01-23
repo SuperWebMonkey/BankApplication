@@ -16,10 +16,11 @@ public class CountryDAO implements ICountryDAO {
     private static final Logger LOGGER = LogManager.getLogger(CountryDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Country> getAllEntities(){
+    public List<Country> getAllEntities() {
         List<Country> countryList = new ArrayList<>();
         String sql = "SELECT * FROM countries";
-        Connection con = connectionPool.getConnection();;
+        Connection con = connectionPool.getConnection();
+        ;
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -124,7 +125,7 @@ public class CountryDAO implements ICountryDAO {
             ps.setString(1, country.getCountryName());
             ps.setInt(2, country.getCountryId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -140,7 +141,7 @@ public class CountryDAO implements ICountryDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM countries WHERE country_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

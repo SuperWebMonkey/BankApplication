@@ -16,8 +16,8 @@ public class FlightDAO implements IFlightDAO {
     private static final Logger LOGGER = LogManager.getLogger(FlightDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Flight> getAllEntities(){
-        List<Flight>  flightList = new ArrayList<>();
+    public List<Flight> getAllEntities() {
+        List<Flight> flightList = new ArrayList<>();
         String sql = "SELECT * FROM flights";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -130,7 +130,7 @@ public class FlightDAO implements IFlightDAO {
 
     public void updateEntity(Flight flight) {
         String sql = "UPDATE flights SET price = (?), airline_id = (?), origin_city_id = (?), " +
-                     "destination_city_id = (?) WHERE flight_id = (?)";
+                "destination_city_id = (?) WHERE flight_id = (?)";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             LOGGER.info("in update customer: " + flight);
@@ -140,7 +140,7 @@ public class FlightDAO implements IFlightDAO {
             ps.setInt(4, flight.getDestinationCityId());
             ps.setInt(5, flight.getFlightId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -156,7 +156,7 @@ public class FlightDAO implements IFlightDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM flights WHERE flight_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

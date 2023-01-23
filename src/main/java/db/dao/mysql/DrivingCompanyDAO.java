@@ -16,8 +16,8 @@ public class DrivingCompanyDAO implements IDrivingCompanyDAO {
     private static final Logger LOGGER = LogManager.getLogger(DrivingCompanyDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<DrivingCompany> getAllEntities(){
-        List<DrivingCompany>  dcList = new ArrayList<>();
+    public List<DrivingCompany> getAllEntities() {
+        List<DrivingCompany> dcList = new ArrayList<>();
         String sql = "SELECT * FROM driving_companies";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -129,7 +129,7 @@ public class DrivingCompanyDAO implements IDrivingCompanyDAO {
             ps.setInt(2, dc.getCityId());
             ps.setInt(3, dc.getDrivingId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -145,7 +145,7 @@ public class DrivingCompanyDAO implements IDrivingCompanyDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM driving_companies WHERE driving_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

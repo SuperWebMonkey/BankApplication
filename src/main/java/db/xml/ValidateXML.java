@@ -21,25 +21,25 @@ public class ValidateXML {
     public static void main(String[] args) {
         boolean isValid = validateXMLSchema("src/main/resources/db.xsd", "src/main/resources/db.xml");
 
-        if(isValid){
-            LOGGER.info("db.xml" + " is valid against " +"db.xsd");
+        if (isValid) {
+            LOGGER.info("db.xml" + " is valid against " + "db.xsd");
         } else {
             LOGGER.info("db.xml" + " is not valid against " + "db.xsd");
         }
     }
 
-    public static boolean validateXMLSchema(String xsdPath, String xmlPath){
+    public static boolean validateXMLSchema(String xsdPath, String xmlPath) {
         try {
             SchemaFactory factory =
                     SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Schema schema = factory.newSchema(new File(xsdPath));
             Validator validator = schema.newValidator();
             validator.validate(new StreamSource(new File(xmlPath)));
-        } catch (IOException e){
-            System.out.println("Exception: "+e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Exception: " + e.getMessage());
             return false;
-        }catch(SAXException e1){
-            System.out.println("SAX Exception: "+e1.getMessage());
+        } catch (SAXException e1) {
+            System.out.println("SAX Exception: " + e1.getMessage());
             return false;
         }
 

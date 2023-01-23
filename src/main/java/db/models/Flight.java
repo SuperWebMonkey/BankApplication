@@ -7,7 +7,8 @@ public class Flight {
     private int originCityId;
     private int destinationCityId;
 
-    public Flight(){}
+    public Flight() {
+    }
 
     public Flight(int flightId, double price, int airlineId, int originCityId, int destinationCityId) {
         this.flightId = flightId;

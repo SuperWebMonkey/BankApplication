@@ -16,8 +16,8 @@ public class OrderDAO implements IOrderDAO {
     private static final Logger LOGGER = LogManager.getLogger(OrderDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Order> getAllEntities(){
-        List<Order>  orderList = new ArrayList<>();
+    public List<Order> getAllEntities() {
+        List<Order> orderList = new ArrayList<>();
         String sql = "SELECT * FROM orders";
         Connection con = connectionPool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -115,7 +115,7 @@ public class OrderDAO implements IOrderDAO {
     public Order createEntity(Order order) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO hotels (order_id, payment, customer_id, staff_id, tours_id, status_id, payment_id, driving_Id) " +
-                     "VALUES (?,?,?,?,?,?,?,?)";
+                "VALUES (?,?,?,?,?,?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, order.getOrderId());
             ps.setDouble(2, order.getPayment());
@@ -156,7 +156,7 @@ public class OrderDAO implements IOrderDAO {
             ps.setInt(7, order.getDrivingCompaniesId());
             ps.setInt(8, order.getOrderId());
             ps.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -172,7 +172,7 @@ public class OrderDAO implements IOrderDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM orders WHERE order_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");

@@ -5,7 +5,8 @@ public class DrivingCompany {
     private double price;
     private int cityId;
 
-    public DrivingCompany() {}
+    public DrivingCompany() {
+    }
 
     public DrivingCompany(int drivingId, double price, int cityId) {
         this.drivingId = drivingId;

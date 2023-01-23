@@ -16,7 +16,7 @@ public class StaffDAO implements IStaffDAO {
     private static final Logger LOGGER = LogManager.getLogger(StaffDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    public List<Staff> getAllEntities(){
+    public List<Staff> getAllEntities() {
         List<Staff> staffList = new ArrayList<Staff>();
         String sql = "SELECT * FROM staff";
         Connection con = connectionPool.getConnection();
@@ -156,7 +156,7 @@ public class StaffDAO implements IStaffDAO {
             ps.setString(2, staff.getLastName());
             ps.setInt(3, staff.getStaffId());
             ps.executeUpdate();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
         } finally {
             if (con != null) {
@@ -172,7 +172,7 @@ public class StaffDAO implements IStaffDAO {
     public void removeEntity(int id) {
         String sql = "Delete FROM staff WHERE staff_id = (?)";
         Connection con = connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             LOGGER.info("Removal was successful");
