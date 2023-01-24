@@ -1,5 +1,11 @@
 package db.models;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlRootElement(name = "country")
+@XmlType(propOrder = {"countryId", "countryName"})
 public class Country {
     private int countryId;
     private String countryName;
@@ -16,6 +22,7 @@ public class Country {
         return countryId;
     }
 
+    @XmlElement(name = "countryId")
     public void setCountryId(int countryId) {
         this.countryId = countryId;
     }
@@ -24,6 +31,7 @@ public class Country {
         return countryName;
     }
 
+    @XmlElement(name = "countryName")
     public void setCountryName(String countryName) {
         this.countryName = countryName;
     }

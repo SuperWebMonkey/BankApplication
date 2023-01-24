@@ -1,5 +1,11 @@
 package db.models;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlRootElement(name = "customer")
+@XmlType(propOrder = {"customerId", "firstName", "lastName", "phone"})
 public class Customer {
     private int customerId;
     private String firstName;
@@ -20,6 +26,7 @@ public class Customer {
         return this.customerId;
     }
 
+    @XmlElement(name = "customerId")
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
@@ -28,6 +35,7 @@ public class Customer {
         return this.firstName;
     }
 
+    @XmlElement(name = "firstName")
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -36,6 +44,7 @@ public class Customer {
         return this.lastName;
     }
 
+    @XmlElement(name = "lastName")
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -44,6 +53,7 @@ public class Customer {
         return this.phone;
     }
 
+    @XmlElement(name = "phone")
     public void setPhone(String phone) {
         this.phone = phone;
     }
