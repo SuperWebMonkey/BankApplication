@@ -1,0 +1,63 @@
+{
+  "AirlineCompany": [
+    {
+      "id": 1,
+      "name": "delta"
+    }
+  ],
+  "cities": [
+    {
+      "id": 1,
+      "name": "los angeles",
+      "countryId": 1
+    },
+    {
+      "id": 2,
+      "name": "San Diego",
+      "countryId": 1
+    },
+    {
+      "id": 3,
+      "name": "San Bernardino",
+      "countryId": 1
+    }
+  ],
+  "countries": [
+    {
+      "id": 1,
+      "name": "United States"
+    },
+    {
+      "id": 2,
+      "name": "Brazil"
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "firstName": "Larry",
+      "lastName": "Page",
+      "phone": "420-829-1011"
+    }
+  ],
+  "hotels": [
+    {
+      "id": 1,
+      "name": "Caesar Palace",
+      "price": 100,
+      "cityId": 1
+    },
+    {
+      "id": 2,
+      "name": "Circus Circus",
+      "price": 50,
+      "cityId": 1
+    },
+    {
+      "id": 3,
+      "name": "Holiday Inn",
+      "price": 45,
+      "cityId": 2
+    }
+  ]
+}

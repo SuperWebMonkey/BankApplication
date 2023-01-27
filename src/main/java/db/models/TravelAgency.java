@@ -1,5 +1,7 @@
 package db.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -10,10 +12,15 @@ import java.util.List;
 @XmlRootElement(name = "travel_agency")
 @XmlType(propOrder = {"acList", "cityList", "countryList", "customerList", "hotelList"})
 public class TravelAgency {
+    @JsonProperty("AirlineCompanies")
     private List<AirlineCompany> acList = new ArrayList<>();
+    @JsonProperty("cities")
     private List<City> cityList = new ArrayList<>();
+    @JsonProperty("countries")
     private List<Country> countryList = new ArrayList<>();
+    @JsonProperty("customers")
     private List<Customer> customerList = new ArrayList<>();
+    @JsonProperty("hotels")
     private List<Hotel> hotelList = new ArrayList<>();
 
     public TravelAgency() {}
