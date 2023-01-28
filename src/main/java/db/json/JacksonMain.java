@@ -25,26 +25,36 @@ public class JacksonMain {
         airlineCompanies.add(ac1);
         AirlineCompany ac2 = new AirlineCompany(2, "Alpha");
         airlineCompanies.add(ac2);
+        AirlineCompany ac3 = new AirlineCompany(3, "Beta");
+        airlineCompanies.add(ac2);
+        airlineCompanies.add(ac3);
 
-        City city1 = new City(1, "Los Angeles", 1);
+        City city1 = new City(1, "San Bernardino", 1);
         cities.add(city1);
-        City city2 = new City(2, "San Diego", 1);
+        City city2 = new City(2, "San Francisco", 1);
         cities.add(city2);
+        City city3 = new City(3, "Bakersfield", 1);
+        cities.add(city3);
 
-        Country country1 = new Country(1, "United States");
+        Country country1 = new Country(1, "United Kingdom");
         countries.add(country1);
-        Country country2 = new Country(2, "Brazil");
+        Country country2 = new Country(2, "United States");
         countries.add(country2);
+        Country country3 = new Country(3, "Germany");
 
         Customer customer1 = new Customer(1,"Larry","Page","420-829-1011");
         customers.add(customer1);
         Customer customer2 = new Customer(2, "Bob", "Page", "808-254-5289");
         customers.add(customer2);
+        Customer customer3 = new Customer(3, "Will", "Adams", "545-802-9999");
+        customers.add(customer3);
 
-        Hotel hotel1 = new Hotel(1, "Caesar Palace", 100, 1);
+        Hotel hotel1 = new Hotel(1, "Holiday Inn", 100, 1);
         hotels.add(hotel1);
-        Hotel hotel2 = new Hotel(2, "Circus Circus", 50, 1);
+        Hotel hotel2 = new Hotel(2, "Flamenco", 50, 1);
         hotels.add(hotel2);
+        Hotel hotel3 = new Hotel(3, "Hilton Hotel", 70, 1);
+        hotels.add(hotel3);
 
         TravelAgency travelAgency = new TravelAgency(airlineCompanies, cities, countries, customers, hotels);
 
