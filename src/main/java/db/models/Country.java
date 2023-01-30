@@ -1,5 +1,7 @@
 package db.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -7,7 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "country")
 @XmlType(propOrder = {"countryId", "countryName"})
 public class Country {
+    @JsonProperty("id")
     private int countryId;
+    @JsonProperty("name")
     private String countryName;
 
     public Country() {
