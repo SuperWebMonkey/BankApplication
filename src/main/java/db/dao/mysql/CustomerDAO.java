@@ -158,7 +158,7 @@ public class CustomerDAO implements ICustomerDAO {
         return customers;
     }
 
-    public Customer createEntity(Customer customers) {
+    public void createEntity(Customer customers) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO customers (customer_id, first_name, last_name, phone) VALUES (?,?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -179,7 +179,6 @@ public class CustomerDAO implements ICustomerDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Customer customers) {

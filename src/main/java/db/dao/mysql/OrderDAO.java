@@ -112,7 +112,7 @@ public class OrderDAO implements IOrderDAO {
         return order;
     }
 
-    public Order createEntity(Order order) {
+    public void createEntity(Order order) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO hotels (order_id, payment, customer_id, staff_id, tours_id, status_id, payment_id, driving_Id) " +
                 "VALUES (?,?,?,?,?,?,?,?)";
@@ -138,7 +138,6 @@ public class OrderDAO implements IOrderDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Order order) {

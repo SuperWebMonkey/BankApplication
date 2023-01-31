@@ -103,7 +103,7 @@ public class TourDAO implements ITourDAO {
         return tour;
     }
 
-    public Tour createEntity(Tour tour) {
+    public void createEntity(Tour tour) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO tours (tour_id, tour_name, hotel_id, flight_to_id, flight_from_id) " +
                 "VALUES (?,?,?,?,?)";
@@ -126,7 +126,6 @@ public class TourDAO implements ITourDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Tour tour) {

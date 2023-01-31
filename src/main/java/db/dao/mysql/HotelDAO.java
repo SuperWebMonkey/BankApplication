@@ -128,7 +128,7 @@ public class HotelDAO implements IHotelDAO {
         return hotel;
     }
 
-    public Hotel createEntity(Hotel hotel) {
+    public void createEntity(Hotel hotel) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO hotels (hotel_id, hotel_name, price, city_id) VALUES (?,?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -149,7 +149,6 @@ public class HotelDAO implements IHotelDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Hotel hotel) {

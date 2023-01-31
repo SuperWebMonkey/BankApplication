@@ -97,7 +97,7 @@ public class PaymentDAO implements IPaymentDAO {
         return payment;
     }
 
-    public Payment createEntity(Payment payment) {
+    public void createEntity(Payment payment) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO payments (payment_id, amount, payment_type_id) " +
                 "VALUES (?,?,?)";
@@ -118,7 +118,6 @@ public class PaymentDAO implements IPaymentDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Payment payment) {

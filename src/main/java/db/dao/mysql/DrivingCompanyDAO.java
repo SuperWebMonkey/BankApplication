@@ -97,7 +97,7 @@ public class DrivingCompanyDAO implements IDrivingCompanyDAO {
         return dc;
     }
 
-    public DrivingCompany createEntity(DrivingCompany dc) {
+    public void createEntity(DrivingCompany dc) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO driving_companies (driving_id, price, city_id) VALUES (?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -117,7 +117,6 @@ public class DrivingCompanyDAO implements IDrivingCompanyDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(DrivingCompany dc) {

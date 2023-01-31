@@ -94,7 +94,7 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
         return ac;
     }
 
-    public AirlineCompany createEntity(AirlineCompany ac) {
+    public void createEntity(AirlineCompany ac) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO airline_companies (company_id, company_name) VALUES (?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -113,7 +113,6 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(AirlineCompany ac) {

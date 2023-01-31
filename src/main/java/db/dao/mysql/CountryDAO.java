@@ -95,7 +95,7 @@ public class CountryDAO implements ICountryDAO {
         return country;
     }
 
-    public Country createEntity(Country country) {
+    public void createEntity(Country country) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO countries (country_id, country_name) VALUES (?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -114,7 +114,6 @@ public class CountryDAO implements ICountryDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Country country) {

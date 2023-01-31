@@ -1,0 +1,45 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="db.dao.IOrderDAO">
+    <resultMap type="Order" id="OrderResultMap" autoMapping="false">
+        <result property="orderId" column="order_id"/>
+        <result property="payment" column="payment"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="staffId" column="staff_id"/>
+        <result property="tourId" column="tours_id"/>
+        <result property="statusId" column="status_id"/>
+        <result property="paymentId" column="payment_id"/>
+        <result property="drivingId" column="driving_id"/>
+    </resultMap>
+    <insert id="createEntity" keyProperty="order_id">
+        INSERT INTO orders (order_id, payment, customer_id, staff_id, tours_id, status_id, payment_id, driving_id)
+        VALUES (#{orderId}, #{payment}, #{customerId}, #{staffId}, #{tourId}, #{statusId}, #{paymentId}, #{drivingId});
+    </insert>
+    <update id="updateEntity" parameterType = "Order">
+        UPDATE orders SET
+        payment = #{payment},
+        customer_id = #{customerId},
+        staff_id = #{staffId},
+        tours_id = #{tourId},
+        status_id = #{statusId},
+        payment_id = #{paymentId},
+        driving_id = #{drivingId}
+        WHERE order_id = #{orderId};
+    </update>
+    <delete id = "removeEntity" parameterType = "int">
+        DELETE from orders WHERE order_id = #{id};
+    </delete>
+    <select id = "getEntityById" parameterType = "int" resultMap = "OrderResultMap">
+        SELECT * FROM orders WHERE order_id = #{id};
+    </select>
+    <select id = "getAllEntities" resultMap = "OrderResultMap">
+        SELECT * FROM orders;
+    </select>
+    <select id = "getOrderByPayment" parameterType = "String" resultMap = "OrderResultMap">
+        SELECT * FROM orders WHERE payment = #{payment};
+    </select>
+</mapper>

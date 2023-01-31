@@ -94,7 +94,7 @@ public class PaymentTypeDAO implements IPaymentTypeDAO {
         return pt;
     }
 
-    public PaymentType createEntity(PaymentType pt) {
+    public void createEntity(PaymentType pt) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO payment_types (payment_type_id, payment_type_name) " +
                 "VALUES (?,?)";
@@ -114,7 +114,6 @@ public class PaymentTypeDAO implements IPaymentTypeDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(PaymentType pt) {

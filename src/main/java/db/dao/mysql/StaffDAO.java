@@ -124,7 +124,7 @@ public class StaffDAO implements IStaffDAO {
         return staff;
     }
 
-    public Staff createEntity(Staff staff) {
+    public void createEntity(Staff staff) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO staff (staff_id, first_name, last_name) VALUES (?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -144,7 +144,6 @@ public class StaffDAO implements IStaffDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Staff staff) {

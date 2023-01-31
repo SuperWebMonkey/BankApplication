@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="db.dao.IFlightDAO">
+    <resultMap type="Flight" id="FlightResultMap" autoMapping="false">
+        <result property="flightId" column="flight_id"/>
+        <result property="price" column="price"/>
+        <result property="airlineId" column="airline_id"/>
+        <result property="originCityId" column="origin_city_id"/>
+        <result property="destinationCityId" column="destination_city_id"/>
+    </resultMap>
+    <insert id="createEntity" keyProperty="flight_id">
+        INSERT INTO flights (flight_id, price, airline_id, origin_city_id, destination_city_id)
+        VALUES (#{flightId}, #{price}, #{airlineId}, #{originCityId}, #{destinationCityId});
+    </insert>
+    <update id="updateEntity" parameterType = "Flight">
+        UPDATE flights SET
+        price = #{price},
+        airline_id = #{airlineId},
+        origin_city_id = #{originCityId},
+        destination_city_id = #{destinationCityId}
+        WHERE flight_id = #{flightId};
+    </update>
+    <delete id = "removeEntity" parameterType = "int">
+        DELETE from flights WHERE flight_id = #{id};
+    </delete>
+    <select id = "getEntityById" parameterType = "int" resultMap = "FlightResultMap">
+        SELECT * FROM flights WHERE flight_id = #{id};
+    </select>
+    <select id = "getAllEntities" resultMap = "FlightResultMap">
+        SELECT * FROM flights;
+    </select>
+    <select id = "getFlightByPrice" parameterType = "String" resultMap = "FlightResultMap">
+        SELECT * FROM flights WHERE price = #{price};
+    </select>
+</mapper>

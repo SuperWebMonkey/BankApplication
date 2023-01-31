@@ -94,7 +94,7 @@ public class OrderStatusDAO implements IOrderStatusDAO {
         return os;
     }
 
-    public OrderStatus createEntity(OrderStatus os) {
+    public void createEntity(OrderStatus os) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO order_status (status_id, status_name) " +
                 "VALUES (?,?)";
@@ -114,7 +114,6 @@ public class OrderStatusDAO implements IOrderStatusDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(OrderStatus os) {

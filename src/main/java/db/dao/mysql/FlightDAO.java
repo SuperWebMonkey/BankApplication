@@ -103,7 +103,7 @@ public class FlightDAO implements IFlightDAO {
         return flight;
     }
 
-    public Flight createEntity(Flight flight) {
+    public void createEntity(Flight flight) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO flights (flight_id, price, airline_id, origin_city_id, destination_city_id) VALUES (?,?,?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -125,7 +125,6 @@ public class FlightDAO implements IFlightDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Flight flight) {
