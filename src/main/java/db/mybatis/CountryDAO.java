@@ -1,8 +1,6 @@
 package db.mybatis;
 
-import db.dao.ICityDAO;
 import db.dao.ICountryDAO;
-import db.models.City;
 import db.models.Country;
 import db.utils.MyBatisSqlFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -36,7 +34,7 @@ public class CountryDAO implements ICountryDAO {
 
     @Override
     public void removeEntity(int id) {
-        try (SqlSession sqlSession =sqlSessionFactory.openSession()) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             ICountryDAO countryDAO = sqlSession.getMapper(ICountryDAO.class);
             countryDAO.removeEntity(id);
             sqlSession.commit();

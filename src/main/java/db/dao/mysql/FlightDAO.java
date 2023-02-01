@@ -74,7 +74,7 @@ public class FlightDAO implements IFlightDAO {
         return flight;
     }
 
-    public Flight getFlightPrice(double dbPrice) {
+    public Flight getFlightByPrice(double dbPrice) {
         Flight flight = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM flights WHERE price = (?)";

@@ -8,7 +8,7 @@
     <resultMap type="City" id="CityResultMap" autoMapping="false">
         <result property="cityId" column="city_id"/>
         <result property="cityName" column="city_name"/>
-        <result property="countryName" column="country_name"/>
+        <result property="countryId" column="country_id"/>
     </resultMap>
     <insert id="createEntity" keyProperty="city_id">
         INSERT INTO cities (city_id, city_name, country_id)

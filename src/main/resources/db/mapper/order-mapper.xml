@@ -39,7 +39,7 @@
     <select id = "getAllEntities" resultMap = "OrderResultMap">
         SELECT * FROM orders;
     </select>
-    <select id = "getOrderByPayment" parameterType = "String" resultMap = "OrderResultMap">
+    <select id = "getOrderByPayment" parameterType = "double" resultMap = "OrderResultMap">
         SELECT * FROM orders WHERE payment = #{payment};
     </select>
 </mapper>

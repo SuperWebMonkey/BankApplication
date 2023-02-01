@@ -80,7 +80,7 @@ public class OrderDAO implements IOrderDAO {
         return order;
     }
 
-    public Order getOrderByPayment(int dbPayment) {
+    public Order getOrderByPayment(double dbPayment) {
         Order order = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM orders WHERE payment = (?)";

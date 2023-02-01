@@ -34,7 +34,7 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
 
     @Override
     public void removeEntity(int id) {
-        try (SqlSession sqlSession =sqlSessionFactory.openSession()) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             IAirlineCompanyDAO airlineCompanyDAO = sqlSession.getMapper(IAirlineCompanyDAO.class);
             airlineCompanyDAO.removeEntity(id);
             sqlSession.commit();

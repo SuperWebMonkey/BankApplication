@@ -29,7 +29,7 @@
     <select id = "getAllEntities" resultMap = "DrivingCompanyResultMap">
         SELECT * FROM driving_companies;
     </select>
-    <select id = "getDrivingCompanyByPrice" parameterType = "String" resultMap = "DrivingCompanyResultMap">
+    <select id = "getDrivingCompanyByPrice" parameterType = "double" resultMap = "DrivingCompanyResultMap">
         SELECT * FROM driving_companies WHERE price = #{price};
     </select>
 </mapper>

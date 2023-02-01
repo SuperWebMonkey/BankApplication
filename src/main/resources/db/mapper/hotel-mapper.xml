@@ -34,7 +34,7 @@
     <select id = "getHotelByName" parameterType = "String" resultMap = "HotelResultMap">
         SELECT * FROM hotels WHERE hotel_name = #{name};
     </select>
-    <select id = "getHotelByPrice" parameterType = "String" resultMap = "HotelResultMap">
+    <select id = "getHotelByPrice" parameterType = "double" resultMap = "HotelResultMap">
         SELECT * FROM hotels WHERE price = #{price};
     </select>
 </mapper>

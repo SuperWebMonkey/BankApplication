@@ -33,7 +33,7 @@
     <select id = "getAllEntities" resultMap = "FlightResultMap">
         SELECT * FROM flights;
     </select>
-    <select id = "getFlightByPrice" parameterType = "String" resultMap = "FlightResultMap">
+    <select id = "getFlightByPrice" parameterType = "double" resultMap = "FlightResultMap">
         SELECT * FROM flights WHERE price = #{price};
     </select>
 </mapper>

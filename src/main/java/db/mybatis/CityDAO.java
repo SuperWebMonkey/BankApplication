@@ -1,8 +1,6 @@
 package db.mybatis;
 
-import db.dao.IAirlineCompanyDAO;
 import db.dao.ICityDAO;
-import db.models.AirlineCompany;
 import db.models.City;
 import db.utils.MyBatisSqlFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -36,7 +34,7 @@ public class CityDAO implements ICityDAO {
 
     @Override
     public void removeEntity(int id) {
-        try (SqlSession sqlSession =sqlSessionFactory.openSession()) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             ICityDAO cityDAO = sqlSession.getMapper(ICityDAO.class);
             cityDAO.removeEntity(id);
             sqlSession.commit();
