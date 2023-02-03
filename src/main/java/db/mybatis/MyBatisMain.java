@@ -17,19 +17,19 @@ public class MyBatisMain {
         DrivingCompanyDAO dcDAO = new DrivingCompanyDAO();
 
         // Insert
-         AirlineCompany airlineCompany1 = new AirlineCompany(2, "Beta");
-         airlineCompanyDAO.createEntity(airlineCompany1);
-         City city1 = new City(4,"Pomona", 1);
-         cityDAO.createEntity(city1);
-         Country country1 = new Country(9, "Brazil");
-         countryDAO.createEntity(country1);
-         Customer customer1 = new Customer(4, "Bob", "Billard", "789-914-0880");
-         customerDAO.createEntity(customer1);
+//         AirlineCompany airlineCompany1 = new AirlineCompany(2, "Beta");
+//         airlineCompanyDAO.createEntity(airlineCompany1);
+//         City city1 = new City(4,"Pomona", 1);
+//         cityDAO.createEntity(city1);
+//         Country country1 = new Country(9, "Brazil");
+//         countryDAO.createEntity(country1);
+//         Customer customer1 = new Customer(4, "Bob", "Billard", "789-914-0880");
+//         customerDAO.createEntity(customer1);
 
         // Remove
-         airlineCompanyDAO.removeEntity(2);
-         cityDAO.removeEntity(4);
-         countryDAO.removeEntity(9);
+//         airlineCompanyDAO.removeEntity(2);
+//         cityDAO.removeEntity(4);
+//         countryDAO.removeEntity(9);
 
         // Update
         AirlineCompany updateAC = new AirlineCompany(1, "Alpha");

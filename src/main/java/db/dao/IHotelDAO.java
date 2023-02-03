@@ -3,7 +3,7 @@ package db.dao;
 import db.models.Hotel;
 
 public interface IHotelDAO extends IBaseDAO<Hotel> {
-    Hotel getHotelByName(String db_name);
+    Hotel getHotelByName(String name);
 
-    Hotel getHotelByPrice(double db_price);
+    Hotel getHotelByPrice(double price);
 }

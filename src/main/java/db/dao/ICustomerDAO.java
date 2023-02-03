@@ -7,5 +7,5 @@ public interface ICustomerDAO extends IBaseDAO<Customer> {
 
     Customer getCustomerByLastName(String last_name);
 
-    Customer getCustomerByPhone(String db_phone);
+    Customer getCustomerByPhone(String phone);
 }
