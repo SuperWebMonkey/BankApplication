@@ -74,19 +74,19 @@ public class CustomerDAO implements ICustomerDAO {
         return customers;
     }
 
-    public Customer getCustomerByFirstName(String dbLastName) {
+    public Customer getCustomerByFirstName(String firstName) {
         Customer customers = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM customers WHERE first_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbLastName);
+            ps.setString(1, firstName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("customer_id");
-                String firstName = rs.getString("first_name");
+                String firstName2 = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String phone = rs.getString("phone");
-                customers = new Customer(customerId, firstName, lastName, phone);
+                customers = new Customer(customerId, firstName2, lastName, phone);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -102,19 +102,19 @@ public class CustomerDAO implements ICustomerDAO {
         return customers;
     }
 
-    public Customer getCustomerByLastName(String dbLastName) {
+    public Customer getCustomerByLastName(String lastName) {
         Customer customers = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM customers WHERE last_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbLastName);
+            ps.setString(1, lastName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("customer_id");
                 String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
+                String lastName2 = rs.getString("last_name");
                 String phone = rs.getString("phone");
-                customers = new Customer(customerId, firstName, lastName, phone);
+                customers = new Customer(customerId, firstName, lastName2, phone);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -130,19 +130,19 @@ public class CustomerDAO implements ICustomerDAO {
         return customers;
     }
 
-    public Customer getCustomerByPhone(String dbPhone) {
+    public Customer getCustomerByPhone(String phone) {
         Customer customers = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM customers WHERE phone = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbPhone);
+            ps.setString(1, phone);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("customer_id");
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
-                String phone = rs.getString("phone");
-                customers = new Customer(customerId, firstName, lastName, phone);
+                String phone2 = rs.getString("phone");
+                customers = new Customer(customerId, firstName, lastName, phone2);
             }
         } catch (Exception e) {
             LOGGER.error(e);

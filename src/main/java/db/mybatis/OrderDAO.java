@@ -1,8 +1,6 @@
 package db.mybatis;
 
-import db.dao.IHotelDAO;
 import db.dao.IOrderDAO;
-import db.models.Hotel;
 import db.models.Order;
 import db.utils.MyBatisSqlFactory;
 import org.apache.ibatis.session.SqlSession;

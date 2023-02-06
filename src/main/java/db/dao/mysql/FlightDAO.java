@@ -74,20 +74,20 @@ public class FlightDAO implements IFlightDAO {
         return flight;
     }
 
-    public Flight getFlightByPrice(double dbPrice) {
+    public Flight getFlightByPrice(double price) {
         Flight flight = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM flights WHERE price = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, dbPrice);
+            ps.setDouble(1, price);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int flightId = rs.getInt("flight_id");
-                double price = rs.getDouble("price");
+                double fPrice = rs.getDouble("price");
                 int airlineId = rs.getInt("airline_id");
                 int originCityId = rs.getInt("origin_city_id");
                 int destinationCityId = rs.getInt("destination_city_id");
-                flight = new Flight(flightId, price, airlineId, originCityId, destinationCityId);
+                flight = new Flight(flightId, fPrice, airlineId, originCityId, destinationCityId);
             }
         } catch (Exception e) {
             LOGGER.error(e);

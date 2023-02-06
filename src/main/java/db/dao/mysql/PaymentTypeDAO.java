@@ -68,12 +68,12 @@ public class PaymentTypeDAO implements IPaymentTypeDAO {
         return pt;
     }
 
-    public PaymentType getPaymentTypeByName(String dbName) {
+    public PaymentType getPaymentTypeByName(String name) {
         PaymentType pt = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM payment_type WHERE payment_type_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbName);
+            ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int paymentTypeId = rs.getInt("payment_type_id");

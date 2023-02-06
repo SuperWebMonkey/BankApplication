@@ -70,18 +70,18 @@ public class DrivingCompanyDAO implements IDrivingCompanyDAO {
         return dc;
     }
 
-    public DrivingCompany getDrivingCompanyByPrice(double dbPrice) {
+    public DrivingCompany getDrivingCompanyByPrice(double price) {
         DrivingCompany dc = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM driving_companies WHERE price = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, dbPrice);
+            ps.setDouble(1, price);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int drivingId = rs.getInt("driving_id");
-                double price = rs.getDouble("price");
+                double dcPrice = rs.getDouble("price");
                 int cityId = rs.getInt("city_id");
-                dc = new DrivingCompany(drivingId, price, cityId);
+                dc = new DrivingCompany(drivingId, dcPrice, cityId);
             }
         } catch (Exception e) {
             LOGGER.error(e);

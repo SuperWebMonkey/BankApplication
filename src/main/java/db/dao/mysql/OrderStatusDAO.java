@@ -68,12 +68,12 @@ public class OrderStatusDAO implements IOrderStatusDAO {
         return os;
     }
 
-    public OrderStatus getOrderStatusByName(String dbName) {
+    public OrderStatus getOrderStatusByName(String name) {
         OrderStatus os = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM order_status WHERE status_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbName);
+            ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int statusId = rs.getInt("status_id");
