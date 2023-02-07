@@ -8,22 +8,22 @@ public class CustomerBuilder {
     private String lastName;
     private String phone;
 
-    public CustomerBuilder customerId(int customerId) {
+    public CustomerBuilder withCustomerId(int customerId) {
         this.customerId = customerId;
         return this;
     }
 
-    public CustomerBuilder firstName(String firstName) {
+    public CustomerBuilder withFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
 
-    public CustomerBuilder lastName(String lastName) {
+    public CustomerBuilder withLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
 
-    public CustomerBuilder phone(String phone) {
+    public CustomerBuilder withPhone(String phone) {
         this.phone = phone;
         return this;
     }
