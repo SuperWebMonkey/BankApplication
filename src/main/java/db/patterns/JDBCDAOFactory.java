@@ -33,7 +33,7 @@ public class JDBCDAOFactory implements AbstractFactory {
             case "Tour":
                 return new TourDAO();
             default:
-                throw new UnknownDatabaseTypeException("Unknown database type exception.");
+                throw new UnknownDatabaseTypeException("Unknown model provided.");
         }
     }
 }

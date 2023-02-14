@@ -13,7 +13,7 @@ public class DatabaseProvider {
         else if (type == DatabaseConnectionType.MYBATIS)
             return new MyBatisDAOFactory();
         else {
-            throw new UnknownDatabaseTypeException("Unknown database type exception.");
+            throw new UnknownDatabaseTypeException("Unknown model provided.");
         }
     }
 }
