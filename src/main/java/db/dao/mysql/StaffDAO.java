@@ -70,18 +70,18 @@ public class StaffDAO implements IStaffDAO {
         return staff;
     }
 
-    public Staff getStaffByFirstName(String dbFirstName) {
+    public Staff getStaffByFirstName(String firstName) {
         Staff staff = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM staff WHERE first_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbFirstName);
+            ps.setString(1, firstName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("staff_id");
-                String firstName = rs.getString("first_name");
+                String sFirstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
-                staff = new Staff(customerId, firstName, lastName);
+                staff = new Staff(customerId, sFirstName, lastName);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -97,18 +97,18 @@ public class StaffDAO implements IStaffDAO {
         return staff;
     }
 
-    public Staff getStaffByLastName(String dbLastName) {
+    public Staff getStaffByLastName(String lastName) {
         Staff staff = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM staff WHERE last_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbLastName);
+            ps.setString(1, lastName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int customerId = rs.getInt("staff_id");
                 String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
-                staff = new Staff(customerId, firstName, lastName);
+                String sLastName = rs.getString("last_name");
+                staff = new Staff(customerId, firstName, sLastName);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -124,7 +124,7 @@ public class StaffDAO implements IStaffDAO {
         return staff;
     }
 
-    public Staff createEntity(Staff staff) {
+    public void createEntity(Staff staff) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO staff (staff_id, first_name, last_name) VALUES (?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -144,7 +144,6 @@ public class StaffDAO implements IStaffDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Staff staff) {

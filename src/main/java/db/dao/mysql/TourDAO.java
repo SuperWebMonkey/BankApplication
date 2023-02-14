@@ -74,12 +74,12 @@ public class TourDAO implements ITourDAO {
         return tour;
     }
 
-    public Tour getTourByName(String dbName) {
+    public Tour getTourByName(String name) {
         Tour tour = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM tours WHERE tour_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbName);
+            ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int tourId = rs.getInt("tour_id");
@@ -103,7 +103,7 @@ public class TourDAO implements ITourDAO {
         return tour;
     }
 
-    public Tour createEntity(Tour tour) {
+    public void createEntity(Tour tour) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO tours (tour_id, tour_name, hotel_id, flight_to_id, flight_from_id) " +
                 "VALUES (?,?,?,?,?)";
@@ -126,7 +126,6 @@ public class TourDAO implements ITourDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Tour tour) {

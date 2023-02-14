@@ -80,23 +80,23 @@ public class OrderDAO implements IOrderDAO {
         return order;
     }
 
-    public Order getOrderByPayment(int dbPayment) {
+    public Order getOrderByPayment(double payment) {
         Order order = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM orders WHERE payment = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, dbPayment);
+            ps.setDouble(1, payment);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int orderId = rs.getInt("order_id");
-                double payment = rs.getDouble("payment");
+                double oPayment = rs.getDouble("payment");
                 int customerId = rs.getInt("customer_id");
                 int staffId = rs.getInt("staff_id");
                 int toursId = rs.getInt("tours_id");
                 int statusId = rs.getInt("status_id");
                 int paymentId = rs.getInt("payment_id");
                 int drivingId = rs.getInt("driving_id");
-                order = new Order(orderId, payment, customerId, staffId, toursId, statusId, paymentId, drivingId);
+                order = new Order(orderId, oPayment, customerId, staffId, toursId, statusId, paymentId, drivingId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -112,7 +112,7 @@ public class OrderDAO implements IOrderDAO {
         return order;
     }
 
-    public Order createEntity(Order order) {
+    public void createEntity(Order order) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO hotels (order_id, payment, customer_id, staff_id, tours_id, status_id, payment_id, driving_Id) " +
                 "VALUES (?,?,?,?,?,?,?,?)";
@@ -138,7 +138,6 @@ public class OrderDAO implements IOrderDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Order order) {

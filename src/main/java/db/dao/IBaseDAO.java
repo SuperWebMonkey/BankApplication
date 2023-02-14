@@ -9,7 +9,7 @@ public interface IBaseDAO<T> {
 
     void updateEntity(T entity);
 
-    T createEntity(T entity);
+    void createEntity(T entity);
 
     void removeEntity(int id);
 }

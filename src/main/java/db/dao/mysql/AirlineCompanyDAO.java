@@ -68,12 +68,12 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
         return ac;
     }
 
-    public AirlineCompany getAirlineCompanyByName(String dbName) {
+    public AirlineCompany getAirlineCompanyByName(String name) {
         AirlineCompany ac = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM airline_companies WHERE company_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbName);
+            ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int acId = rs.getInt("company_id");
@@ -94,7 +94,7 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
         return ac;
     }
 
-    public AirlineCompany createEntity(AirlineCompany ac) {
+    public void createEntity(AirlineCompany ac) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO airline_companies (company_id, company_name) VALUES (?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -113,7 +113,6 @@ public class AirlineCompanyDAO implements IAirlineCompanyDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(AirlineCompany ac) {

@@ -69,12 +69,12 @@ public class CountryDAO implements ICountryDAO {
         return country;
     }
 
-    public Country getCountryByName(String dbName) {
+    public Country getCountryByName(String name) {
         Country country = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM countries WHERE country_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbName);
+            ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int countryId = rs.getInt("country_id");
@@ -95,7 +95,7 @@ public class CountryDAO implements ICountryDAO {
         return country;
     }
 
-    public Country createEntity(Country country) {
+    public void createEntity(Country country) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO countries (country_id, country_name) VALUES (?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -114,7 +114,6 @@ public class CountryDAO implements ICountryDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Country country) {

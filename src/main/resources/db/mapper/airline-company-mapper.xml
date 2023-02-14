@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="db.dao.IAirlineCompanyDAO">
+    <resultMap type="AirlineCompany" id="AirlineCompanyResultMap" autoMapping="false">
+        <result property="companyId" column="company_id"/>
+        <result property="companyName" column="company_name"/>
+    </resultMap>
+    <insert id="createEntity" keyProperty="company_id">
+        INSERT INTO airline_companies (company_id, company_name)
+        VALUES (#{companyId}, #{companyName});
+    </insert>
+    <update id="updateEntity" parameterType = "AirlineCompany">
+        UPDATE airline_companies SET
+        company_name = #{companyName}
+        WHERE company_id = #{companyId};
+    </update>
+    <delete id = "removeEntity" parameterType = "int">
+        DELETE from airline_companies WHERE company_id = #{id};
+    </delete>
+    <select id = "getEntityById" parameterType = "int" resultMap = "AirlineCompanyResultMap">
+        SELECT * FROM airline_companies WHERE company_id = #{id};
+    </select>
+    <select id = "getAllEntities" resultMap = "AirlineCompanyResultMap">
+        SELECT * FROM airline_companies;
+    </select>
+    <select id = "getAirlineCompanyByName" parameterType = "String" resultMap = "AirlineCompanyResultMap">
+        SELECT * FROM airline_companies WHERE company_name = #{companyName};
+    </select>
+</mapper>

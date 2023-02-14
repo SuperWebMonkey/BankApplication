@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="db.dao.ICustomerDAO">
+    <resultMap type="Customer" id="CustomerResultMap" autoMapping="false">
+        <result property="customerId" column="customer_id"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="phone" column="phone"/>
+    </resultMap>
+    <insert id="createEntity" keyProperty="customer_id">
+        INSERT INTO customers (customer_id, first_name, last_name, phone)
+        VALUES (#{customerId}, #{firstName}, #{lastName}, #{phone});
+    </insert>
+    <update id="updateEntity" parameterType = "Customer">
+        UPDATE customers SET
+        first_name = #{firstName},
+        last_name = #{lastName},
+        phone = #{phone}
+        WHERE customer_id = #{customerId};
+    </update>
+    <delete id = "removeEntity" parameterType = "int">
+        DELETE from customers WHERE customer_id = #{id};
+    </delete>
+    <select id = "getEntityById" parameterType = "int" resultMap = "CustomerResultMap">
+        SELECT * FROM customers WHERE customer_id = #{id};
+    </select>
+    <select id = "getAllEntities" resultMap = "CustomerResultMap">
+        SELECT * FROM customers;
+    </select>
+    <select id = "getCustomerByFirstName" parameterType = "String" resultMap = "CustomerResultMap">
+        SELECT * FROM customers WHERE first_name = #{firstName};
+    </select>
+    <select id = "getCustomerByLastName" parameterType = "String" resultMap = "CustomerResultMap">
+        SELECT * FROM customers WHERE last_name = #{lastName};
+    </select>
+    <select id = "getCustomerByPhone" parameterType = "String" resultMap = "CustomerResultMap">
+        SELECT * FROM customers WHERE phone = #{phone};
+    </select>
+</mapper>

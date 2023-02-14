@@ -1,0 +1,40 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="db.dao.IHotelDAO">
+    <resultMap type="Hotel" id="HotelResultMap" autoMapping="false">
+        <result property="hotelId" column="hotel_id"/>
+        <result property="hotelName" column="hotel_name"/>
+        <result property="price" column="price"/>
+        <result property="cityId" column="city_id"/>
+    </resultMap>
+    <insert id="createEntity" keyProperty="hotel_id">
+        INSERT INTO hotels (hotel_id, hotel_name, price, city_id)
+        VALUES (#{hotelId}, #{hotelName}, #{price}, #{cityId});
+    </insert>
+    <update id="updateEntity" parameterType = "Flight">
+        UPDATE hotels SET
+        hotel_name = #{hotelName},
+        price = #{price},
+        city_id = #{cityId}
+        WHERE hotel_id = #{hotelId};
+    </update>
+    <delete id = "removeEntity" parameterType = "int">
+        DELETE from hotels WHERE hotel_id = #{id};
+    </delete>
+    <select id = "getEntityById" parameterType = "int" resultMap = "HotelResultMap">
+        SELECT * FROM hotels WHERE hotel_id = #{id};
+    </select>
+    <select id = "getAllEntities" resultMap = "HotelResultMap">
+        SELECT * FROM hotels;
+    </select>
+    <select id = "getHotelByName" parameterType = "String" resultMap = "HotelResultMap">
+        SELECT * FROM hotels WHERE hotel_name = #{name};
+    </select>
+    <select id = "getHotelByPrice" parameterType = "double" resultMap = "HotelResultMap">
+        SELECT * FROM hotels WHERE price = #{price};
+    </select>
+</mapper>

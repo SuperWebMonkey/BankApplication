@@ -72,12 +72,12 @@ public class HotelDAO implements IHotelDAO {
         return hotel;
     }
 
-    public Hotel getHotelByName(String dbName) {
+    public Hotel getHotelByName(String name) {
         Hotel hotel = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM hotels WHERE hotel_name = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, dbName);
+            ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int hotelId = rs.getInt("hotel_id");
@@ -100,19 +100,19 @@ public class HotelDAO implements IHotelDAO {
         return hotel;
     }
 
-    public Hotel getHotelByPrice(double dbPrice) {
+    public Hotel getHotelByPrice(double price) {
         Hotel hotel = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM hotels WHERE price = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, dbPrice);
+            ps.setDouble(1, price);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int hotelId = rs.getInt("hotel_id");
                 String hotelName = rs.getString("hotel_name");
-                double price = rs.getDouble("price");
+                double hPrice = rs.getDouble("price");
                 int cityId = rs.getInt("city_id");
-                hotel = new Hotel(hotelId, hotelName, price, cityId);
+                hotel = new Hotel(hotelId, hotelName, hPrice, cityId);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -128,7 +128,7 @@ public class HotelDAO implements IHotelDAO {
         return hotel;
     }
 
-    public Hotel createEntity(Hotel hotel) {
+    public void createEntity(Hotel hotel) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO hotels (hotel_id, hotel_name, price, city_id) VALUES (?,?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -149,7 +149,6 @@ public class HotelDAO implements IHotelDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Hotel hotel) {

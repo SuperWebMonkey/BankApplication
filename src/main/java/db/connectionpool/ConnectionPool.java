@@ -1,5 +1,6 @@
 package db.connectionpool;
 
+import db.patterns.IDatabaseType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Vector;
 
-public class ConnectionPool {
+public class ConnectionPool implements IDatabaseType {
 
     private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
 
@@ -76,5 +77,9 @@ public class ConnectionPool {
             LOGGER.error(e.getMessage());
         }
         return null;
+    }
+
+    public void type() {
+        LOGGER.info("You are using the connection pool");
     }
 }

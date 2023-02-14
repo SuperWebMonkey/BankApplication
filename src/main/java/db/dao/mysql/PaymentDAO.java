@@ -70,18 +70,18 @@ public class PaymentDAO implements IPaymentDAO {
         return payment;
     }
 
-    public Payment getPaymentByAmount(double dbAmount) {
+    public Payment getPaymentByAmount(double amount) {
         Payment payment = null;
         Connection con = connectionPool.getConnection();
         String sql = "SELECT * FROM payments WHERE amount = (?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDouble(1, dbAmount);
+            ps.setDouble(1, amount);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int paymentId = rs.getInt("payment_id");
-                double amount = rs.getDouble("amount");
+                double pAmount = rs.getDouble("amount");
                 int paymentType = rs.getInt("payment_type_id");
-                payment = new Payment(paymentId, amount, paymentType);
+                payment = new Payment(paymentId, pAmount, paymentType);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -97,7 +97,7 @@ public class PaymentDAO implements IPaymentDAO {
         return payment;
     }
 
-    public Payment createEntity(Payment payment) {
+    public void createEntity(Payment payment) {
         Connection con = connectionPool.getConnection();
         String sql = "INSERT INTO payments (payment_id, amount, payment_type_id) " +
                 "VALUES (?,?,?)";
@@ -118,7 +118,6 @@ public class PaymentDAO implements IPaymentDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(Payment payment) {

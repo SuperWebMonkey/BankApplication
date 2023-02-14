@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="db.dao.ICityDAO">
+    <resultMap type="City" id="CityResultMap" autoMapping="false">
+        <result property="cityId" column="city_id"/>
+        <result property="cityName" column="city_name"/>
+        <result property="countryId" column="country_id"/>
+    </resultMap>
+    <insert id="createEntity" keyProperty="city_id">
+        INSERT INTO cities (city_id, city_name, country_id)
+        VALUES (#{cityId}, #{cityName}, #{countryId});
+    </insert>
+    <update id="updateEntity" parameterType = "City">
+        UPDATE cities SET
+        city_name = #{cityName},
+        country_id = #{countryId}
+        WHERE city_id = #{cityId};
+    </update>
+    <delete id = "removeEntity" parameterType = "int">
+        DELETE from cities WHERE city_id = #{id};
+    </delete>
+    <select id = "getEntityById" parameterType = "int" resultMap = "CityResultMap">
+        SELECT * FROM cities WHERE city_id = #{id};
+    </select>
+    <select id = "getAllEntities" resultMap = "CityResultMap">
+        SELECT * FROM cities;
+    </select>
+    <select id = "getCityByName" parameterType = "String" resultMap = "CityResultMap">
+        SELECT * FROM cities WHERE city_name = #{cityName};
+    </select>
+</mapper>

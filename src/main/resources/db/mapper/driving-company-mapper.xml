@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="db.dao.IDrivingCompanyDAO">
+    <resultMap type="DrivingCompany" id="DrivingCompanyResultMap" autoMapping="false">
+        <result property="drivingId" column="driving_id"/>
+        <result property="price" column="price"/>
+        <result property="cityId" column="city_id"/>
+    </resultMap>
+    <insert id="createEntity" keyProperty="driving_id">
+        INSERT INTO driving_companies (driving_id, price, city_id)
+        VALUES (#{drivingId}, #{price}, #{cityId});
+    </insert>
+    <update id="updateEntity" parameterType = "DrivingCompany">
+        UPDATE driving_companies SET
+        price = #{price},
+        city_id = #{cityId}
+        WHERE driving_id = #{drivingId};
+    </update>
+    <delete id = "removeEntity" parameterType = "int">
+        DELETE from driving_companies WHERE driving_id = #{id};
+    </delete>
+    <select id = "getEntityById" parameterType = "int" resultMap = "DrivingCompanyResultMap">
+        SELECT * FROM driving_companies WHERE driving_id = #{id};
+    </select>
+    <select id = "getAllEntities" resultMap = "DrivingCompanyResultMap">
+        SELECT * FROM driving_companies;
+    </select>
+    <select id = "getDrivingCompanyByPrice" parameterType = "double" resultMap = "DrivingCompanyResultMap">
+        SELECT * FROM driving_companies WHERE price = #{price};
+    </select>
+</mapper>

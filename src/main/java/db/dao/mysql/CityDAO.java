@@ -97,7 +97,7 @@ public class CityDAO implements ICityDAO {
         return city;
     }
 
-    public City createEntity(City city) {
+    public void createEntity(City city) {
         Connection con = connectionPool.getConnection();
         ;
         String sql = "INSERT INTO cities (city_id, city_name, country_id) VALUES (?,?,?)";
@@ -118,7 +118,6 @@ public class CityDAO implements ICityDAO {
                 }
             }
         }
-        return null;
     }
 
     public void updateEntity(City city) {

@@ -1,0 +1,42 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="db.properties"/>
+    <typeAliases>
+        <typeAlias alias="AirlineCompany" type="db.models.AirlineCompany"/>
+        <typeAlias alias="City" type="db.models.City"/>
+        <typeAlias alias="Country" type="db.models.Country"/>
+        <typeAlias alias="Customer" type="db.models.Customer"/>
+        <typeAlias alias="DrivingCompany" type="db.models.DrivingCompany"/>
+        <typeAlias alias="Flight" type="db.models.Flight"/>
+        <typeAlias alias="Hotel" type="db.models.Hotel"/>
+        <typeAlias alias="Order" type="db.models.Order"/>
+    </typeAliases>
+    <environments default = "development">
+        <environment id = "development">
+            <transactionManager type = "JDBC"/>
+
+            <dataSource type = "POOLED">
+                <property name = "driver" value = "${driver}"/>
+                <property name = "url" value = "${url}"/>
+                <property name = "username" value = "${user}"/>
+                <property name = "password" value = "${password}"/>
+            </dataSource>
+
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="db/mapper/airline-company-mapper.xml"/>
+        <mapper resource="db/mapper/city-mapper.xml"/>
+        <mapper resource="db/mapper/country-mapper.xml"/>
+        <mapper resource="db/mapper/customer-mapper.xml"/>
+        <mapper resource="db/mapper/driving-company-mapper.xml"/>
+        <mapper resource="db/mapper/flight-mapper.xml"/>
+        <mapper resource="db/mapper/hotel-mapper.xml"/>
+        <mapper resource="db/mapper/order-mapper.xml"/>
+    </mappers>
+
+</configuration>
